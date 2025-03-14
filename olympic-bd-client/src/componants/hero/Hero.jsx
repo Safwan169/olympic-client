@@ -13,7 +13,7 @@ import { Navigation, Autoplay } from "swiper/modules";
 
 // Import images
 import slide1 from './slide1.png';
-import slide2 from './slide1.png';
+import slide2 from './slide2.png';
 import slide3 from './slide1.png';
 
 export default function Hero() {
