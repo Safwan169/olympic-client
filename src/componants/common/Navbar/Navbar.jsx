@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useRef, useEffect } from "react";
+import { faBars, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faBars } from "@fortawesome/free-solid-svg-icons";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
 import "./Navbar.css";
 
 // const navbarStyles = `
@@ -214,12 +214,12 @@ const Navbar = () => {
   };
 
   return (
-    <>
+    <div className="">
       {/* <style>{navbarStyles}</style> */}
 
       <nav
-        className={`navbar text-white ${
-          scrolled ? "navbar-solid" : "navbar-transparent"
+        className={`navbar text-white  ${
+          scrolled ? "navbar-solid " : "navbar-transparent"
         }`}
         ref={menuRef}
       >
@@ -383,7 +383,7 @@ const Navbar = () => {
           </button>
         </div>
       </nav>
-    </>
+    </div>
   );
 };
 

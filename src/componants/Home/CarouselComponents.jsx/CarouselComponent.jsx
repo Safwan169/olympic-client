@@ -1,9 +1,9 @@
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import { Swiper, SwiperSlide } from "swiper/react";
 
-import image1 from "../assets/innovation.jpg";
-import image2 from "../assets/distribution.png";
-import image3 from "../assets/quality.jpg";
+import image2 from "../../../assets/distribution.png";
+import image1 from "../../../assets/innovation.jpg";
+import image3 from "../../../assets/quality.jpg";
 
 const CarouselComponent = () => {
   const slides = [

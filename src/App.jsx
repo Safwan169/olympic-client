@@ -1,19 +1,18 @@
-import "./App.css";
-import CarouselComponent from "./componants/CarouselComponent";
-import Footer from "./componants/Footer";
-import Navbar from "./componants/Navbar/Navbar";
-import Hero from "./componants/hero/Hero";
-import DelightsSection from "./pages/Home/DelightsSection";
-import DesiredBrands from "./pages/Home/DesiredBrands";
+import { Outlet, ScrollRestoration } from "react-router-dom";
+import Navbar from "./componants/common/Navbar/Navbar";
+import Footer from "./componants/common/Footer/Footer";
+
 function App() {
   return (
     <>
-      <Navbar />
-      <Hero />
-      <CarouselComponent />
-      <DesiredBrands />
-      <DelightsSection />
-      <Footer />
+      <div className="flex flex-col min-h-screen font-poppins">
+        <Navbar />
+        <main className="flex-grow">
+          <ScrollRestoration />
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
     </>
   );
 }
