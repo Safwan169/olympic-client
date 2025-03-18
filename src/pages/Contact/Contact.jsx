@@ -1,29 +1,30 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Send, Paperclip, CheckCircle } from 'lucide-react';
+/* eslint-disable no-unused-vars */
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Send, Paperclip, CheckCircle } from "lucide-react";
 
 const ContactUsPage = () => {
-  const [selectedDepartment, setSelectedDepartment] = useState('');
+  const [selectedDepartment, setSelectedDepartment] = useState("");
   const [file, setFile] = useState(null);
-  const [message, setMessage] = useState('');
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState("");
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [subject, setSubject] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [feedbackType, setFeedbackType] = useState('');
+  const [feedbackType, setFeedbackType] = useState("");
 
   const departments = [
-    { name: 'Customer Service', email: 'customerservice@company.com' },
-    { name: 'Sales', email: 'sales@company.com' },
-    { name: 'Marketing', email: 'marketing@company.com' },
-    { name: 'Technical Support', email: 'techsupport@company.com' },
-    { name: 'General Inquiries', email: 'info@company.com' },
+    { name: "Customer Service", email: "customerservice@company.com" },
+    { name: "Sales", email: "sales@company.com" },
+    { name: "Marketing", email: "marketing@company.com" },
+    { name: "Technical Support", email: "techsupport@company.com" },
+    { name: "General Inquiries", email: "info@company.com" },
   ];
 
   const feedbackOptions = [
-    { value: 'product', label: 'Product Feedback' },
-    { value: 'service', label: 'Service Feedback' },
-    { value: 'both', label: 'Both Product & Service' },
+    { value: "product", label: "Product Feedback" },
+    { value: "service", label: "Service Feedback" },
+    { value: "both", label: "Both Product & Service" },
   ];
 
   const handleFileChange = (e) => {
@@ -34,7 +35,7 @@ const ContactUsPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     // Here you would typically send the form data to your backend
     console.log({
       name,
@@ -45,38 +46,38 @@ const ContactUsPage = () => {
       feedbackType,
       file,
     });
-    
+
     // Show success message
     setSubmitted(true);
-    
+
     // Reset form after 3 seconds
     setTimeout(() => {
       setSubmitted(false);
-      setName('');
-      setEmail('');
-      setSubject('');
-      setMessage('');
-      setSelectedDepartment('');
-      setFeedbackType('');
+      setName("");
+      setEmail("");
+      setSubject("");
+      setMessage("");
+      setSelectedDepartment("");
+      setFeedbackType("");
       setFile(null);
     }, 3000);
   };
 
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
-      <motion.div 
+      <motion.div
         initial="hidden"
         animate="visible"
         variants={fadeIn}
         className="max-w-4xl mx-auto"
       >
         <div className="text-center mb-12">
-          <motion.h1 
+          <motion.h1
             className="text-4xl font-bold text-indigo-800 mb-4"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -84,34 +85,38 @@ const ContactUsPage = () => {
           >
             Contact Us
           </motion.h1>
-          <motion.p 
+          <motion.p
             className="text-gray-600 max-w-2xl mx-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.3 }}
           >
-            We're here to help! Reach out to our team with any questions, feedback, or concerns.
+            We're here to help! Reach out to our team with any questions,
+            feedback, or concerns.
           </motion.p>
         </div>
 
         {submitted ? (
-          <motion.div 
+          <motion.div
             className="bg-white rounded-lg shadow-xl p-8 text-center"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
             <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">Thank You!</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-2">
+              Thank You!
+            </h2>
             <p className="text-gray-600 mb-4">
-              Your message has been sent successfully to our {selectedDepartment} department.
+              Your message has been sent successfully to our{" "}
+              {selectedDepartment} department.
             </p>
             <p className="text-gray-500 text-sm">
               We'll get back to you as soon as possible.
             </p>
           </motion.div>
         ) : (
-          <motion.form 
+          <motion.form
             onSubmit={handleSubmit}
             className="bg-white rounded-lg shadow-xl overflow-hidden"
             initial={{ opacity: 0, y: 20 }}
@@ -120,11 +125,11 @@ const ContactUsPage = () => {
           >
             <div className="p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <motion.div 
-                  variants={fadeIn}
-                  transition={{ delay: 0.3 }}
-                >
-                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="name">
+                <motion.div variants={fadeIn} transition={{ delay: 0.3 }}>
+                  <label
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                    htmlFor="name"
+                  >
                     Your Name
                   </label>
                   <input
@@ -136,12 +141,12 @@ const ContactUsPage = () => {
                     required
                   />
                 </motion.div>
-                
-                <motion.div 
-                  variants={fadeIn}
-                  transition={{ delay: 0.4 }}
-                >
-                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="email">
+
+                <motion.div variants={fadeIn} transition={{ delay: 0.4 }}>
+                  <label
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                    htmlFor="email"
+                  >
                     Your Email
                   </label>
                   <input
@@ -155,12 +160,15 @@ const ContactUsPage = () => {
                 </motion.div>
               </div>
 
-              <motion.div 
+              <motion.div
                 className="mb-6"
                 variants={fadeIn}
                 transition={{ delay: 0.5 }}
               >
-                <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="department">
+                <label
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                  htmlFor="department"
+                >
                   Department
                 </label>
                 <select
@@ -170,7 +178,9 @@ const ContactUsPage = () => {
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
                   required
                 >
-                  <option value="" disabled>Select a department</option>
+                  <option value="" disabled>
+                    Select a department
+                  </option>
                   {departments.map((dept) => (
                     <option key={dept.name} value={dept.name}>
                       {dept.name}
@@ -179,12 +189,15 @@ const ContactUsPage = () => {
                 </select>
               </motion.div>
 
-              <motion.div 
+              <motion.div
                 className="mb-6"
                 variants={fadeIn}
                 transition={{ delay: 0.6 }}
               >
-                <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="feedback">
+                <label
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                  htmlFor="feedback"
+                >
                   Feedback Type
                 </label>
                 <div className="flex flex-wrap gap-4">
@@ -203,13 +216,16 @@ const ContactUsPage = () => {
                   ))}
                 </div>
               </motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 className="mb-6"
                 variants={fadeIn}
                 transition={{ delay: 0.7 }}
               >
-                <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="subject">
+                <label
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                  htmlFor="subject"
+                >
                   Subject
                 </label>
                 <input
@@ -221,13 +237,16 @@ const ContactUsPage = () => {
                   required
                 />
               </motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 className="mb-6"
                 variants={fadeIn}
                 transition={{ delay: 0.8 }}
               >
-                <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="message">
+                <label
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                  htmlFor="message"
+                >
                   Your Message
                 </label>
                 <textarea
@@ -239,13 +258,16 @@ const ContactUsPage = () => {
                   required
                 ></textarea>
               </motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 className="mb-8"
                 variants={fadeIn}
                 transition={{ delay: 0.9 }}
               >
-                <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="attachment">
+                <label
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                  htmlFor="attachment"
+                >
                   Attachment
                 </label>
                 <div className="flex items-center">
@@ -271,8 +293,8 @@ const ContactUsPage = () => {
                 </div>
               </motion.div>
             </div>
-            
-            <motion.div 
+
+            <motion.div
               className="px-8 py-4 bg-gray-50 border-t border-gray-200 flex justify-end"
               variants={fadeIn}
               transition={{ delay: 1 }}

@@ -10,11 +10,10 @@ import "./styles.css";
 // Import required modules
 import { Navigation, Autoplay } from "swiper/modules";
 
-
 // Import images
-import slide1 from './slide1.png';
-import slide2 from './slide1.png';
-import slide3 from './slide1.png';
+import slide1 from "./slide1.png";
+import slide2 from "./slide1.png";
+import slide3 from "./slide1.png";
 
 export default function Hero() {
   return (
@@ -22,19 +21,31 @@ export default function Hero() {
       navigation={true}
       modules={[Navigation, Autoplay]}
       autoplay={{
-        delay: 3000, // 1 second delay
-        disableOnInteraction: false, // Continue autoplay even after manual interaction
+        delay: 3000,
+        disableOnInteraction: false,
       }}
-      className="mySwiper"
+      className="mySwiper w-full h-[250px] sm:h-[350px] md:h-[450px] lg:h-[550px] xl:h-[650px]"
     >
       <SwiperSlide>
-        <img src={slide1} alt="Slide 1" />
+        <img
+          src={slide1}
+          alt="Slide 1"
+          className="w-full h-full object-cover"
+        />
       </SwiperSlide>
       <SwiperSlide>
-        <img src={slide2} alt="Slide 2" />
+        <img
+          src={slide2}
+          alt="Slide 2"
+          className="w-full h-full object-cover"
+        />
       </SwiperSlide>
       <SwiperSlide>
-        <img src={slide3} alt="Slide 3" />
+        <img
+          src={slide3}
+          alt="Slide 3"
+          className="w-full h-full object-cover"
+        />
       </SwiperSlide>
     </Swiper>
   );
