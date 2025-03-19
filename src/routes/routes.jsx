@@ -1,28 +1,17 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
-import AdminDashboard from "../pages/admin/AdminDashboard";
-import Home from "../pages/Home/Home";
-import NotFound from "../pages/NotFound/NotFound";
+import adminRoutes from "./admin.routes";
+import userRoutes from "./user.routes";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      {
-        index: "/",
-        element: <Home />,
-      },
-      {
-        path: "/admin-dashboard",
-        element: <AdminDashboard />,
-      },
-      {
-        path: "*",
-        element: <NotFound />,
-      },
+      ...userRoutes, // User-related routes
     ],
   },
+  ...adminRoutes, // Admin-related routes
 ]);
 
 export default router;
