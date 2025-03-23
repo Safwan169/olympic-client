@@ -6,7 +6,7 @@ import {
   Trash2,
   XCircle,
 } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast, Toaster } from "sonner";
 import { milestoneApi } from "../../../redux/features/milestone/milestoneApi";
@@ -20,10 +20,16 @@ const Milestone = () => {
   const [deleteMilestoneAPI, { isLoading: isDeleting }] =
     milestoneApi.useDeleteMilestoneByIdMutation();
 
-  const [milestones, setMilestones] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [editingId, setEditingId] = useState(null);
+
+  const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+
 
   // React Hook Form setup
   const {
@@ -34,25 +40,22 @@ const Milestone = () => {
   } = useForm({
     defaultValues: {
       year: "",
+      month: "",
       text: "",
     },
   });
 
-  // Update milestones state when API data changes
-  useEffect(() => {
-    if (data?.milestones) {
-      setMilestones(data.milestones);
-    }
-  }, [data]);
+
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredMilestones = milestones.filter(
+  const filteredMilestones = data?.filter(
     (milestone) =>
-      milestone.year.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      milestone.text.toLowerCase().includes(searchTerm.toLowerCase())
+      milestone?.year?.toString().includes(searchTerm?.toLowerCase()) ||
+      milestone?.month?.toLowerCase().includes(searchTerm?.toLowerCase()) ||
+      milestone?.text?.toLowerCase().includes(searchTerm?.toLowerCase())
   );
 
   const openModal = (milestone = null) => {
@@ -60,12 +63,13 @@ const Milestone = () => {
       // Reset form with milestone data for editing
       reset({
         year: milestone.year,
+        month: milestone.month,
         text: milestone.text,
       });
       setEditingId(milestone._id);
 
       toast.info("Editing milestone details", {
-        description: `You're now editing "${milestone.year}" milestone`,
+        description: `You're now editing "${milestone.month} ${milestone.year}" milestone`,
         icon: <Edit2 size={18} />,
         position: "top-right",
       });
@@ -73,6 +77,7 @@ const Milestone = () => {
       // Reset form to default values for new milestone
       reset({
         year: "",
+        month: "",
         text: "",
       });
       setEditingId(null);
@@ -92,16 +97,22 @@ const Milestone = () => {
 
   const onSubmit = async (formData) => {
     try {
+      // Convert year to number
+      const data = {
+        ...formData,
+        year: parseInt(formData.year, 10)
+      };
+
       if (editingId) {
         // Update existing milestone using API
         const response = await updateMilestone({
           id: editingId,
-          data: formData,
+          data,
         }).unwrap();
 
         if (response) {
           toast.success("Milestone updated successfully", {
-            description: `"${formData.year}" milestone has been updated`,
+            description: `"${formData.month} ${formData.year}" milestone has been updated`,
             icon: <CheckCircle size={18} />,
             position: "top-right",
             duration: 3000,
@@ -109,11 +120,11 @@ const Milestone = () => {
         }
       } else {
         // Add new milestone using API
-        const response = await createMilestone(formData).unwrap();
+        const response = await createMilestone(data).unwrap();
 
         if (response) {
           toast.success("Milestone created successfully", {
-            description: `"${formData.year}" milestone has been added to your timeline`,
+            description: `"${formData.month} ${formData.year}" milestone has been added to your timeline`,
             icon: <CheckCircle size={18} />,
             position: "top-right",
             duration: 3000,
@@ -133,7 +144,7 @@ const Milestone = () => {
 
   const deleteMilestone = async (milestoneId) => {
     try {
-      const milestoneToDelete = milestones.find(
+      const milestoneToDelete = data?.find(
         (milestone) => milestone._id === milestoneId
       );
 
@@ -147,12 +158,14 @@ const Milestone = () => {
 
       const response = await deleteMilestoneAPI(milestoneId).unwrap();
 
-      if (response) {
-        toast.success("Milestone deleted successfully", {
-          description: `"${milestoneToDelete.year}" has been removed from your timeline`,
-          duration: 3000,
-        });
-      }
+      console.log(response);
+
+      // if (response) {
+      //   toast.success("Milestone deleted successfully", {
+      //     description: `"${milestoneToDelete.month} ${milestoneToDelete.year}" has been removed from your timeline`,
+      //     duration: 3000,
+      //   });
+      // }
     } catch (error) {
       toast.error("Deletion failed", {
         description:
@@ -203,7 +216,7 @@ const Milestone = () => {
         </div>
         <div>
           <div className="font-medium text-gray-900 flex items-center">
-            {milestone.year}
+            {milestone.month} {milestone.year}
           </div>
         </div>
       </div>
@@ -273,14 +286,12 @@ const Milestone = () => {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Year
+                  Date
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Description
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Created Date
-                </th>
+               
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Actions
                 </th>
@@ -300,7 +311,7 @@ const Milestone = () => {
                         </div>
                         <div className="ml-4">
                           <div className="text-sm font-medium text-gray-900">
-                            {milestone.year}
+                            {milestone.month} {milestone.year}
                           </div>
                         </div>
                       </div>
@@ -310,9 +321,7 @@ const Milestone = () => {
                         {milestone.text}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {formatDate(milestone.createdAt)}
-                    </td>
+                  
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex space-x-3">
                         <button
@@ -388,15 +397,44 @@ const Milestone = () => {
                       Year
                     </label>
                     <input
-                      {...register("year", {
-                        required: "Year is required",
-                      })}
+                     {...register("year", {
+                      required: "Year is required",
+                      pattern: {
+                        value: /^\d{4}$/,
+                        message: "Year must be a 4-digit number"
+                      }
+                    })}
+                      type="number"
                       className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-300 focus:border-blue-500 transition-all"
                       placeholder="2025"
                     />
                     {errors.year && (
                       <p className="text-red-500 text-xs mt-1">
                         {errors.year.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Month
+                    </label>
+                    <select
+                      {...register("month", {
+                        required: "Month is required",
+                      })}
+                      className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-300 focus:border-blue-500 transition-all"
+                    >
+                      <option value="">Select a month</option>
+                      {months.map((month) => (
+                        <option key={month} value={month}>
+                          {month}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.month && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.month.message}
                       </p>
                     )}
                   </div>

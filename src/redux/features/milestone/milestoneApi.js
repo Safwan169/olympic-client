@@ -10,27 +10,27 @@ export const milestoneApi = baseApi.injectEndpoints({
       providesTags: ["milestones"],
     }),
     getMilestoneById: builder.query({
-      query: (milestoneId) => {
-        console.log("milestone api", milestoneId);
+      query: (id) => {
+        console.log("milestone api", id);
         return {
           method: "GET",
-          url: `/milestone/${milestoneId}`,
+          url: `/milestone/${id}`,
         };
       },
       providesTags: ["milestones"],
     }),
     getMilestonesByProjectId: builder.query({
-      query: (projectId) => ({
+      query: (id) => ({
         method: "GET",
-        url: `/milestone/project/${projectId}`,
+        url: `/milestone/project/${id}`,
       }),
       providesTags: ["milestones"],
     }),
     createMilestone: builder.mutation({
-      query: (milestoneData) => ({
+      query: (data) => ({
         method: "POST",
         url: `/milestone`,
-        body: milestoneData,
+        body: data,
       }),
       invalidatesTags: ["milestones"],
     }),
@@ -42,20 +42,20 @@ export const milestoneApi = baseApi.injectEndpoints({
       invalidatesTags: ["milestones"],
     }),
     updateMilestoneById: builder.mutation({
-      query: ({ id, updates }) => {
-        console.log("updating milestone", id, updates);
+      query: ({ id, data }) => {
+        console.log("updating milestone", id, data);
         return {
           method: "PUT",
           url: `/milestone/${id}`,
-          body: updates,
+          body: data,
         };
       },
       invalidatesTags: ["milestones"],
     }),
     completeMilestone: builder.mutation({
-      query: (milestoneId) => ({
+      query: (id) => ({
         method: "PATCH",
-        url: `/milestone/${milestoneId}/complete`,
+        url: `/milestone/${id}/complete`,
       }),
       invalidatesTags: ["milestones"],
     }),

@@ -1,23 +1,45 @@
-// import { useAppSelector } from "../../redux/hooks";
-// import { Navigate, useLocation } from "react-router-dom";
-// import { currentToken } from "../../redux/features/auth/authSlice";
-// import useCurrentUserInfo from "@/hoooks/useCurrentUserInfo";
+import { useEffect, useRef } from "react";
+import { Navigate, useLocation } from "react-router-dom";
+import { toast } from "sonner";
+import { currentToken, currentUser } from "../redux/features/auth/authSlice";
+import { useAppSelector } from "../redux/hooks";
 
-// const ProtectedRoute = ({ children, allowedRoles }) => {
-//   const token = localStorage.getItem("token");
+const ProtectedRoute = ({ children, allowedRoles }) => {
+  const user = useAppSelector(currentUser);
+  const token = useAppSelector(currentToken);
+  const location = useLocation();
+  const toastShown = useRef(false); // Create a ref to track if a toast is shown
 
-//   const { role } = useCurrentUserInfo();
-//   const location = useLocation();
+  useEffect(() => {
+    if (!token && !toastShown.current) {
+      toast.error("Authentication required", {
+        description: "Please log in to access this page",
+        duration: 4000,
+      });
+      toastShown.current = true; // Mark that the toast was shown
+      return;
+    }
 
-//   if (!token) {
-//     return <Navigate to="/login" state={{ from: location.pathname }} replace />;
-//   }
+    if (!allowedRoles.includes(user?.role)) {
+      toast.warning("Access denied", {
+        description: `You don't have permission to access this page`,
+        duration: 4000,
+      });
+      toastShown.current = true; // Mark that the toast was shown
+      return;
+    }
+  }, [token, user, allowedRoles, ]);
 
-//   if (!allowedRoles.includes(role)) {
-//     return <Navigate to="/login" replace />;
-//   }
+  // Logic for redirection remains the same
+  if (!token) {
+    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
+  }
 
-//   return children;
-// };
+  if (!allowedRoles.includes(user?.role)) {
+    return <Navigate to="/login" replace />;
+  }
 
-// export default ProtectedRoute;
+  return children;
+};
+
+export default ProtectedRoute;
