@@ -1,4 +1,4 @@
-import Achievement from "../pages/Admin/Achievement/Achievement";
+import AchievementManager from "../pages/admin/Achievement/Achievement";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
 import Dashboard from "../pages/admin/Dashboard/Dashboard";
 import Milestone from "../pages/Admin/Milestone/Milestone";
@@ -15,7 +15,7 @@ const adminRoutes = [
       },
       {
         path: "achievement",
-        element: <Achievement />,
+        element: <AchievementManager   />,
       },
       {
         path: "milestone",
