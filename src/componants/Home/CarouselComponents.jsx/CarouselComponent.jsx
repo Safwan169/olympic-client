@@ -1,5 +1,6 @@
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
+import React from 'react';
 
 import image2 from "../../../assets/distribution.png";
 import image1 from "../../../assets/innovation.jpg";

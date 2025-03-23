@@ -4,6 +4,7 @@ import Dashboard from "../pages/admin/Dashboard/Dashboard";
 import Milestone from "../pages/Admin/Milestone/Milestone";
 import News from "../pages/Admin/News/News";
 import ProtectedRoute from "../utilities/ProtectedRoute";
+import React from 'react';
 
 const adminRoutes = [
   {
