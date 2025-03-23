@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { FaBullhorn, FaChartLine, FaUsers } from "react-icons/fa";
+import React from 'react';
 
 const StatsCard = ({ icon: Icon, value, label }) => {
   return (

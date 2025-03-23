@@ -5,9 +5,9 @@ import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { useNavigate, NavLink } from "react-router";
 import { useDispatch } from "react-redux";
 import { authApi } from "../../redux/features/auth/authApi";
-import { decodeToken } from "../../utilities/decodeToken";
 import { setUser } from "../../redux/features/auth/authSlice";
 import { FiMail, FiLock, FiUser, FiShield } from "react-icons/fi";
+import { motion } from 'framer-motion';
 
 const RegisterPage = () => {
   const [loading, setLoading] = useState(false);
@@ -66,11 +66,6 @@ const RegisterPage = () => {
       const res = await signUp(data).unwrap();
 
       if (res) {
-        console.log('res', res);
-        const user = decodeToken(res?.token);
-        const token = `${res?.token}`;
-        dispatch(setUser({ user: user, token }));
-
         toast.success("Your account has been created, Please Login", {
           id: toastId,
           duration: 3000,

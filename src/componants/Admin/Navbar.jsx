@@ -8,10 +8,12 @@ import {
   LogOut, 
   ChevronDown
 } from 'lucide-react';
+import useHandleLogout from '../../hooks/useHandleLogout';
 
 const Header = ({ user }) => {
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const {handleLogout} = useHandleLogout()
   
   // Handle click outside to close dropdown
   useEffect(() => {
@@ -38,13 +40,10 @@ const Header = ({ user }) => {
     setProfileDropdownOpen(!profileDropdownOpen);
   };
 
-  const handleLogout = () => {
-    alert("Logging out...");
-    // Implement logout logic here
-  };
+
 
   return (
-    <header className="bg-white shadow-sm">
+    <header className="bg-white shadow-sm fixed w-full">
       <div className="flex items-center justify-between p-4">
         <div className="flex items-center space-x-2">
           <div className="relative">
