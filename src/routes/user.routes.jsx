@@ -3,6 +3,7 @@ import Home from "../pages/Home/Home";
 import LoginPage from "../pages/Login/Login";
 import NotFound from "../pages/NotFound/NotFound";
 import Register from "../pages/Register/Register";
+import React from 'react';
 
 const userRoutes = [
   {
