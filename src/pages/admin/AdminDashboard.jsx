@@ -1,35 +1,53 @@
-import { useState } from "react";
-import { Outlet } from "react-router-dom";
-import Navbar from "../../componants/Admin/Navbar";
-import Sidebar from "../../componants/Admin/Sidebar";
+import React, { useState } from 'react';
+import Sidebar from '../../componants/Admin/Sidebar'
+import Header from '../../componants/Admin/Navbar'
+import { Outlet } from 'react-router-dom';
 
-const AdminLayout = () => {
+
+
+const AdminDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [activeMenu, setActiveMenu] = useState('dashboard');
+  
+  // Mock user data
+  const user = {
+    name: "John Doe",
+    email: "john@example.com",
+    role: "Admin",
+    avatar: "/api/placeholder/40/40"
+  };
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
+  const handleMouseEnter = () => {
+    setSidebarOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    setSidebarOpen(false);
   };
 
   return (
     <div className="flex h-screen bg-gray-100">
-      {/* Sidebar with dynamic width and hover effect */}
-      <div
-        className={`transition-all duration-300 group ${
-          sidebarOpen ? "w-64" : "w-28"
-        } hover:w-48`} // Hover effect to expand sidebar
-      >
-        <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
-      </div>
+      {/* Sidebar */}
+      <Sidebar
+        sidebarOpen={sidebarOpen}
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
+        handleMouseEnter={handleMouseEnter}
+        handleMouseLeave={handleMouseLeave}
+      />
 
-      {/* Main content area */}
+      {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Navbar toggleSidebar={toggleSidebar} />
-        <main className=" border-l border-l-gray-300 flex-1 overflow-y-auto bg-gray-800 text-white">
-          <Outlet />
-        </main>
+        {/* Header */}
+        <Header user={user} />
+        
+      
+      <div className='p-5'>
+      <Outlet />
+      </div>
       </div>
     </div>
   );
 };
 
-export default AdminLayout;
+export default AdminDashboard;
