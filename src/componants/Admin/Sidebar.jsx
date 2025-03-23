@@ -25,7 +25,8 @@ const Sidebar = ({ sidebarOpen, setActiveMenu, handleMouseEnter, handleMouseLeav
 
   return (
     <div 
-      className={`bg-white border-r text-gray-700 transition-all duration-500 ease-in-out ${sidebarOpen ? 'w-64' : 'w-20'}`}
+      className={`bg-white  border-r text-gray-700 transition-all duration-500 ease-in-out ${sidebarOpen ? 'w-64' : 'w-20'}`}
+
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       style={{ transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)' }}

@@ -3,30 +3,32 @@ import AdminDashboard from "../pages/Admin/AdminDashboard";
 import Dashboard from "../pages/admin/Dashboard/Dashboard";
 import Milestone from "../pages/Admin/Milestone/Milestone";
 import News from "../pages/Admin/News/News";
+import ProtectedRoute from "../utilities/ProtectedRoute";
 
 const adminRoutes = [
   {
     path: "/admin",
-    element: <AdminDashboard />,
+    element: <ProtectedRoute allowedRoles={["admin"]}><AdminDashboard /></ProtectedRoute>,
     children: [
       {
-        path: "dashboard",
-        element: <Dashboard />,
+        path: "",
+        element: <ProtectedRoute allowedRoles={["admin"]}><Dashboard /></ProtectedRoute>,
       },
       {
         path: "achievement",
-        element: <Achievement />,
+        element: <ProtectedRoute allowedRoles={["admin"]}><Achievement /></ProtectedRoute>,
       },
       {
         path: "milestone",
-        element: <Milestone />,
+        element: <ProtectedRoute allowedRoles={["admin"]}><Milestone /></ProtectedRoute>,
       },
       {
         path: "news",
-        element: <News />,
+        element: <ProtectedRoute allowedRoles={["admin"]}><News /></ProtectedRoute>,
       },
     ],
   },
 ];
+
 
 export default adminRoutes;
