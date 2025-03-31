@@ -4,23 +4,23 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import axios from "axios";
+import { activityApi } from "../../redux/features/activity/activityApi";
 import { motion, AnimatePresence } from "framer-motion";
-import { newsApi } from "../../../redux/features/news/newsApi";
-import Loading from "../../../componants/Loading";
+import Loading from "../../componants/Loading";
 
-const NewsManagementIndex = () => {
-  const { data, isLoading } = newsApi.useGetNewsQuery();
-  const [createNews] = newsApi.useCreateNewsMutation();
-  const [updateNews] = newsApi.useUpdateNewsByIdMutation();
-  const [deleteNewsAPI] = newsApi.useDeleteNewsByIdMutation();
+const ActivityManagementIndex = () => {
+  const { data, isLoading } = activityApi.useGetActivitiesQuery();
+  const [createActivity] = activityApi.useCreateActivityMutation();
+  const [updateActivity] = activityApi.useUpdateActivityByIdMutation();
+  const [deleteActivity] = activityApi.useDeleteActivityByIdMutation();
 
-  const [newsList, setNewsList] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+  const [activityList, setActivityList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [editingId, setEditingId] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
-  const [selectedNews, setSelectedNews] = useState(null); // 👁️ View state
+  const [selectedActivity, setSelectedActivity] = useState(null);
 
   const {
     register,
@@ -36,26 +36,18 @@ const NewsManagementIndex = () => {
   });
 
   useEffect(() => {
-    if (data) {
-      setNewsList(data);
-    }
+    if (data) setActivityList(data);
   }, [data]);
 
-  const handleSearchChange = (e) => setSearchTerm(e.target.value);
-
-  const filteredNews = newsList.filter((news) =>
-    news.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const openModal = (news = null) => {
-    if (news) {
+  const openModal = (activity = null) => {
+    if (activity) {
       reset({
-        title: news.title,
-        description: news.description,
+        title: activity.title,
+        description: activity.description,
         imageFile: null,
       });
-      setPreviewImage(news.imageUrl);
-      setEditingId(news._id);
+      setPreviewImage(activity.image);
+      setEditingId(activity._id);
     } else {
       reset();
       setPreviewImage("");
@@ -66,9 +58,20 @@ const NewsManagementIndex = () => {
 
   const closeModal = () => setShowModal(false);
 
+  const handleSearchChange = (e) => setSearchTerm(e.target.value);
+
+  const filteredActivities = activityList?.filter((a) =>
+    a.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+  };
+
   const onSubmit = async (formData) => {
     const toastId = toast.loading(
-      editingId ? "Updating news..." : "Creating news..."
+      editingId ? "Updating activity..." : "Creating activity..."
     );
     setButtonLoading(true);
     try {
@@ -95,18 +98,18 @@ const NewsManagementIndex = () => {
         imageUrl = res.data.image;
       }
 
-      const finalData = {
+      const payload = {
         title: formData.title,
         description: formData.description,
-        imageUrl,
+        image: imageUrl,
       };
 
       if (editingId) {
-        await updateNews({ id: editingId, data: finalData }).unwrap();
-        toast.success("News updated successfully");
+        await updateActivity({ id: editingId, data: payload }).unwrap();
+        toast.success("Activity updated successfully!");
       } else {
-        await createNews(finalData).unwrap();
-        toast.success("News created successfully");
+        await createActivity(payload).unwrap();
+        toast.success("Activity created successfully!");
       }
 
       closeModal();
@@ -118,12 +121,12 @@ const NewsManagementIndex = () => {
     }
   };
 
-  const deleteNews = async (id) => {
-    const toastId = toast.loading("Deleting news...");
+  const handleDelete = async (id) => {
+    const toastId = toast.loading("Deleting activity...");
     try {
-      const news = newsList.find((n) => n._id === id);
-      await deleteNewsAPI(id).unwrap();
-      toast.success(`Deleted: ${news.title}`);
+      const activity = activityList?.find((a) => a._id === id);
+      await deleteActivity(id).unwrap();
+      toast.success(`Deleted: ${activity.title}`);
     } catch (err) {
       toast.error("Delete failed", { description: err.message });
     } finally {
@@ -131,30 +134,25 @@ const NewsManagementIndex = () => {
     }
   };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-  };
-
   if (isLoading) return <Loading />;
 
   return (
-    <div className="px-4 py-6 mx-auto w-full">
-      <h1 className="text-2xl font-bold mb-4">News Management</h1>
+    <div className="px-4 py-6  mx-auto w-full">
+      <h1 className="text-2xl font-bold mb-4">Activity Management</h1>
 
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4">
         <input
           type="text"
-          placeholder="Search News"
+          placeholder="Search activities"
           className="border p-2 rounded w-full sm:max-w-sm"
           value={searchTerm}
           onChange={handleSearchChange}
         />
         <button
           onClick={() => openModal()}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center justify-center"
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center"
         >
-          <PlusCircle className="inline-block mr-1" size={18} /> Add News
+          <PlusCircle className="mr-1" size={18} /> Add Activity
         </button>
       </div>
 
@@ -170,35 +168,30 @@ const NewsManagementIndex = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredNews.length ? (
-                filteredNews.map((news) => (
-                  <tr key={news._id} className="hover:bg-gray-50">
-                    <td className="px-4 py-2">{news.title}</td>
+              {filteredActivities.length ? (
+                filteredActivities.map((activity) => (
+                  <tr key={activity._id} className="hover:bg-gray-50">
+                    <td className="px-4 py-2">{activity.title}</td>
                     <td className="px-4 py-2">
                       <img
-                        src={news.imageUrl}
-                        alt="thumb"
-                        className="w-10 h-10 rounded object-cover"
+                        src={activity.image}
+                        alt="activity"
+                        className="w-12 h-12 object-cover rounded"
                       />
                     </td>
-                    <td className="px-4 py-2">{formatDate(news.date)}</td>
+                    <td className="px-4 py-2">
+                      {formatDate(activity.createdAt)}
+                    </td>
                     <td className="px-4 py-2">
                       <div className="flex gap-2">
                         <button
-                          onClick={() => setSelectedNews(news)}
-                          className="text-green-600 hover:text-green-800"
-                          title="View Details"
-                        >
-                          <Eye size={18} />
-                        </button>
-                        <button
-                          onClick={() => openModal(news)}
+                          onClick={() => openModal(activity)}
                           className="text-blue-500 hover:text-blue-700"
                         >
                           <Edit2 size={18} />
                         </button>
                         <button
-                          onClick={() => deleteNews(news._id)}
+                          onClick={() => handleDelete(activity._id)}
                           className="text-red-500 hover:text-red-700"
                         >
                           <Trash2 size={18} />
@@ -210,7 +203,7 @@ const NewsManagementIndex = () => {
               ) : (
                 <tr>
                   <td colSpan="4" className="text-center p-4 text-gray-500">
-                    No news found
+                    No activities found
                   </td>
                 </tr>
               )}
@@ -232,7 +225,7 @@ const NewsManagementIndex = () => {
             >
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-bold">
-                  {editingId ? "Edit News" : "Add News"}
+                  {editingId ? "Edit Activity" : "Add Activity"}
                 </h2>
                 <button onClick={closeModal}>
                   <XCircle size={22} />
@@ -322,50 +315,8 @@ const NewsManagementIndex = () => {
           </div>
         )}
       </AnimatePresence>
-
-      {/* View Details Modal */}
-      <AnimatePresence>
-        {selectedNews && (
-          <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.25 }}
-              className="bg-white p-6 rounded-lg w-full max-w-xl shadow-xl mx-4 max-h-[90vh] overflow-y-auto"
-            >
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-bold">News Details</h2>
-                <button onClick={() => setSelectedNews(null)}>
-                  <XCircle size={22} />
-                </button>
-              </div>
-
-              <div className="space-y-3 text-sm">
-                <p>
-                  <strong>Title:</strong> {selectedNews.title}
-                </p>
-                <p>
-                  <strong>Description:</strong> {selectedNews.description}
-                </p>
-                <p>
-                  <strong>Date:</strong> {formatDate(selectedNews.date)}
-                </p>
-                <p>
-                  <strong>Image:</strong>
-                </p>
-                <img
-                  src={selectedNews.imageUrl}
-                  alt="News"
-                  className="w-full max-w-xs rounded shadow"
-                />
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </div>
   );
 };
 
-export default NewsManagementIndex;
+export default ActivityManagementIndex;

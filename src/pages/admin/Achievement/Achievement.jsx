@@ -1,322 +1,390 @@
-import axios from "axios";
+/* eslint-disable no-unused-vars */
+import { Edit2, Eye, PlusCircle, Trash2, XCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaEdit, FaTrash } from "react-icons/fa"; // Using react-icons for better button design
-import { getApi } from "../../../services/api";
+import { toast } from "sonner";
+import axios from "axios";
+import { motion, AnimatePresence } from "framer-motion";
+import { achievementApi } from "../../../redux/features/achievement/achievementApi";
+import Loading from "../../../componants/Loading";
 
-const AchievementManager = () => {
-  const [achievements, setAchievements] = useState([]);
-  const [editAchievement, setEditAchievement] = useState(null);
-  const [isFormVisible, setIsFormVisible] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(""); // State for search
-  const [sortField, setSortField] = useState("title"); // Default sort field
-  const [sortOrder, setSortOrder] = useState("asc"); // Default sort order
+const AchievementManagementIndex = () => {
+  const { data, isLoading } = achievementApi.useGetAchievementsQuery();
+  const [createAchievement] = achievementApi.useCreateAchievementMutation();
+  const [updateAchievement] = achievementApi.useUpdateAchievementByIdMutation();
+  const [deleteAchievementAPI] =
+    achievementApi.useDeleteAchievementByIdMutation();
 
-  // Initialize react-hook-form
+  const [achievementList, setAchievementList] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [editingId, setEditingId] = useState(null);
+  const [buttonLoading, setButtonLoading] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [selectedAchievement, setSelectedAchievement] = useState(null);
+
   const {
     register,
     handleSubmit,
-    setValue,
+    reset,
     formState: { errors },
-  } = useForm();
-
-  // Fetch achievements from backend
-  const fetchAchievements = async () => {
-    try {
-      const response = await getApi("/achievements");
-      setAchievements(response.data);
-    } catch (error) {
-      console.error("Error fetching achievements:", error);
-    }
-  };
+  } = useForm({
+    defaultValues: {
+      title: "",
+      awardYear: "",
+      description: "",
+      imageFile: null,
+    },
+  });
 
   useEffect(() => {
-    fetchAchievements();
-  }, []);
+    if (data) setAchievementList(data);
+  }, [data]);
 
-  // Handle form submit
-  const onSubmit = async (data) => {
-    try {
-      if (editAchievement) {
-        await axios.put(`/api/achievements/${editAchievement._id}`, data);
-      } else {
-        await axios.post("/api/achievements", data);
-      }
-      setValue("title", "");
-      setValue("awardYear", "");
-      setValue("description", "");
-      setValue("image", "");
-      setEditAchievement(null);
-      fetchAchievements(); // Fetch after create/update
-      setIsFormVisible(false);
-    } catch (error) {
-      console.error("Error saving achievement:", error);
-    }
-  };
+  const handleSearchChange = (e) => setSearchTerm(e.target.value);
 
-  // Handle editing an achievement
-  const handleEdit = (achievement) => {
-    setEditAchievement(achievement);
-    setValue("title", achievement.title);
-    setValue("awardYear", achievement.awardYear);
-    setValue("description", achievement.description);
-    setValue("image", achievement.image);
-    setIsFormVisible(true);
-  };
+  const filteredAchievements = achievementList.filter((a) =>
+    a.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-  // Handle deleting an achievement
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`/api/achievements/${id}`);
-      fetchAchievements(); // Fetch after delete
-    } catch (error) {
-      console.error("Error deleting achievement:", error);
-    }
-  };
-
-  // Handle form cancel
-  const handleCancel = () => {
-    setIsFormVisible(false);
-    setEditAchievement(null);
-  };
-
-  // Handle search
-  const handleSearch = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
-  // Handle sorting
-  const handleSort = (field) => {
-    if (sortField === field) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+  const openModal = (achievement = null) => {
+    if (achievement) {
+      reset({
+        title: achievement.title,
+        awardYear: achievement.awardYear,
+        description: achievement.description,
+        imageFile: null,
+      });
+      setPreviewImage(achievement.image);
+      setEditingId(achievement._id);
     } else {
-      setSortField(field);
-      setSortOrder("asc");
+      reset();
+      setPreviewImage("");
+      setEditingId(null);
     }
+    setShowModal(true);
   };
 
-  // Filter and sort achievements
-  const filteredAchievements = achievements
-    .filter((achievement) => {
-      return (
-        achievement.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        achievement.description
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase())
-      );
-    })
-    .sort((a, b) => {
-      const compareValue = (a, b, field) => {
-        if (a[field] < b[field]) return sortOrder === "asc" ? -1 : 1;
-        if (a[field] > b[field]) return sortOrder === "asc" ? 1 : -1;
-        return 0;
+  const closeModal = () => setShowModal(false);
+
+  const onSubmit = async (formData) => {
+    const toastId = toast.loading(
+      editingId ? "Updating achievement..." : "Creating achievement..."
+    );
+    setButtonLoading(true);
+    try {
+      let image = previewImage;
+
+      if (formData.imageFile && formData.imageFile[0]) {
+        const file = formData.imageFile[0];
+        const form = new FormData();
+        form.append("image", file);
+
+        const res = await axios.post(
+          `${import.meta.env.VITE_BASE_URL}/upload/image`,
+          form,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          }
+        );
+
+        if (!res.data.image) {
+          toast.error("Image upload failed.");
+          return;
+        }
+
+        image = res.data.image;
+      }
+
+      const finalData = {
+        title: formData.title,
+        awardYear: Number(formData.awardYear),
+        description: formData.description,
+        image,
       };
 
-      return compareValue(a, b, sortField);
-    });
+      if (editingId) {
+        await updateAchievement({ id: editingId, data: finalData }).unwrap();
+        toast.success("Achievement updated successfully");
+      } else {
+        await createAchievement(finalData).unwrap();
+        toast.success("Achievement created successfully");
+      }
+
+      closeModal();
+    } catch (err) {
+      toast.error("Failed", { description: err.message });
+    } finally {
+      toast.dismiss(toastId);
+      setButtonLoading(false);
+    }
+  };
+
+  const deleteAchievement = async (id) => {
+    const toastId = toast.loading("Deleting achievement...");
+    try {
+      const achievement = achievementList.find((a) => a._id === id);
+      await deleteAchievementAPI(id).unwrap();
+      toast.success(`Deleted: ${achievement.title}`);
+    } catch (err) {
+      toast.error("Delete failed", { description: err.message });
+    } finally {
+      toast.dismiss(toastId);
+    }
+  };
+
+  if (isLoading) return <Loading />;
 
   return (
-    <div className="p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl text-black font-semibold mb-4 text-center">
-        Manage Achievements
-      </h2>
+    <div className="px-4 py-6 mx-auto w-full">
+      <h1 className="text-2xl font-bold mb-4">Achievement Management</h1>
 
-      <div className="flex justify-between mb-4">
-        {/* Search input */}
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4">
         <input
           type="text"
-          value={searchQuery}
-          onChange={handleSearch}
-          placeholder="Search achievements..."
-          className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 w-1/3"
+          placeholder="Search Achievements"
+          className="border p-2 rounded w-full sm:max-w-sm"
+          value={searchTerm}
+          onChange={handleSearchChange}
         />
-
-        {/* Button to toggle the form visibility */}
-        {!isFormVisible ? (
-          <button
-            onClick={() => setIsFormVisible(true)}
-            className="py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          >
-            Add Achievement
-          </button>
-        ) : (
-          <button
-            onClick={handleCancel}
-            className="py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          >
-            Cancel
-          </button>
-        )}
+        <button
+          onClick={() => openModal()}
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center justify-center"
+        >
+          <PlusCircle className="inline-block mr-1" size={18} /> Add Achievement
+        </button>
       </div>
 
-      {/* Form */}
-      {isFormVisible && (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-4">
-          <div>
-            <label
-              htmlFor="title"
-              className="block text-sm font-medium text-gray-700"
+      <div className="bg-white shadow rounded overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full table-auto text-left">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="px-4 py-2">Title</th>
+                <th className="px-4 py-2">Year</th>
+                <th className="px-4 py-2">Image</th>
+                <th className="px-4 py-2">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredAchievements.length ? (
+                filteredAchievements.map((a) => (
+                  <tr key={a._id} className="hover:bg-gray-50">
+                    <td className="px-4 py-2">{a.title}</td>
+                    <td className="px-4 py-2">{a.awardYear}</td>
+                    <td className="px-4 py-2">
+                      {a.image && (
+                        <img
+                          src={a.image}
+                          alt="achievement"
+                          className="w-10 h-10 rounded object-cover"
+                        />
+                      )}
+                    </td>
+                    <td className="px-4 py-2">
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => setSelectedAchievement(a)}
+                          className="text-green-600 hover:text-green-800"
+                        >
+                          <Eye size={18} />
+                        </button>
+                        <button
+                          onClick={() => openModal(a)}
+                          className="text-blue-500 hover:text-blue-700"
+                        >
+                          <Edit2 size={18} />
+                        </button>
+                        <button
+                          onClick={() => deleteAchievement(a._id)}
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4" className="text-center p-4 text-gray-500">
+                    No achievements found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Create/Edit Modal */}
+      <AnimatePresence>
+        {showModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.25 }}
+              className="bg-white p-6 rounded-lg w-full max-w-lg shadow-xl mx-4 max-h-[90vh] overflow-y-auto"
             >
-              Title
-            </label>
-            <input
-              id="title"
-              type="text"
-              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              {...register("title", { required: "Title is required" })}
-            />
-            {errors.title && (
-              <p className="text-sm text-red-500 mt-1">
-                {errors.title.message}
-              </p>
-            )}
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-lg font-bold">
+                  {editingId ? "Edit Achievement" : "Add Achievement"}
+                </h2>
+                <button onClick={closeModal}>
+                  <XCircle size={22} />
+                </button>
+              </div>
+
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium">Title</label>
+                  <input
+                    {...register("title", { required: "Title is required" })}
+                    className="w-full border rounded p-2"
+                  />
+                  {errors.title && (
+                    <p className="text-sm text-red-500">
+                      {errors.title.message}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium">
+                    Award Year
+                  </label>
+                  <input
+                    type="number"
+                    {...register("awardYear", { required: "Year is required" })}
+                    className="w-full border rounded p-2"
+                  />
+                  {errors.awardYear && (
+                    <p className="text-sm text-red-500">
+                      {errors.awardYear.message}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium">
+                    Description
+                  </label>
+                  <textarea
+                    {...register("description", {
+                      required: "Description is required",
+                    })}
+                    className="w-full border rounded p-2"
+                  ></textarea>
+                  {errors.description && (
+                    <p className="text-sm text-red-500">
+                      {errors.description.message}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium">Image</label>
+                  {previewImage && (
+                    <div className="mb-2">
+                      <img
+                        src={previewImage}
+                        alt="Preview"
+                        className="w-32 h-32 object-cover rounded border"
+                      />
+                    </div>
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    {...register("imageFile")}
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      if (file) {
+                        setPreviewImage(URL.createObjectURL(file));
+                      }
+                    }}
+                    className="w-full border rounded p-2"
+                  />
+                </div>
+
+                <div className="flex justify-end gap-2 pt-4">
+                  <button
+                    type="button"
+                    onClick={closeModal}
+                    className="border px-4 py-2 rounded text-gray-600 hover:bg-gray-100"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={buttonLoading}
+                    className={`bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 ${
+                      buttonLoading ? "opacity-70 cursor-not-allowed" : ""
+                    }`}
+                  >
+                    {buttonLoading
+                      ? "Processing..."
+                      : editingId
+                      ? "Update"
+                      : "Create"}
+                  </button>
+                </div>
+              </form>
+            </motion.div>
           </div>
+        )}
+      </AnimatePresence>
 
-          <div>
-            <label
-              htmlFor="awardYear"
-              className="block text-sm font-medium text-gray-700"
+      {/* View Details Modal */}
+      <AnimatePresence>
+        {selectedAchievement && (
+          <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.25 }}
+              className="bg-white p-6 rounded-lg w-full max-w-xl shadow-xl mx-4 max-h-[90vh] overflow-y-auto"
             >
-              Award Year
-            </label>
-            <input
-              id="awardYear"
-              type="number"
-              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              {...register("awardYear", { required: "Award Year is required" })}
-            />
-            {errors.awardYear && (
-              <p className="text-sm text-red-500 mt-1">
-                {errors.awardYear.message}
-              </p>
-            )}
-          </div>
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-lg font-bold">Achievement Details</h2>
+                <button onClick={() => setSelectedAchievement(null)}>
+                  <XCircle size={22} />
+                </button>
+              </div>
 
-          <div>
-            <label
-              htmlFor="description"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Description
-            </label>
-            <textarea
-              id="description"
-              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              {...register("description", {
-                required: "Description is required",
-              })}
-            />
-            {errors.description && (
-              <p className="text-sm text-red-500 mt-1">
-                {errors.description.message}
-              </p>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="image"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Image URL (optional)
-            </label>
-            <input
-              id="image"
-              type="text"
-              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              {...register("image")}
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-full mt-4 py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          >
-            {editAchievement ? "Update" : "Create"} Achievement
-          </button>
-
-          {/* Cancel Button */}
-          <button
-            type="button"
-            onClick={handleCancel}
-            className="w-full mt-2 py-2 px-4 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
-          >
-            Cancel
-          </button>
-        </form>
-      )}
-
-      {/* Achievements Table */}
-
-      <table className="min-w-full table-auto border-separate border-spacing-2">
-        <thead>
-          <tr className="bg-gray-100">
-            <th
-              className="px-4 py-2 text-left text-sm font-medium text-gray-700 cursor-pointer"
-              onClick={() => handleSort("title")}
-            >
-              Title {sortField === "title" && (sortOrder === "asc" ? "↑" : "↓")}
-            </th>
-            <th
-              className="px-4 py-2 text-left text-sm font-medium text-gray-700 cursor-pointer"
-              onClick={() => handleSort("awardYear")}
-            >
-              Award Year{" "}
-              {sortField === "awardYear" && (sortOrder === "asc" ? "↑" : "↓")}
-            </th>
-            <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-              Description
-            </th>
-            <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-              Image
-            </th>
-            <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredAchievements.map((achievement) => (
-            <tr
-              key={achievement._id}
-              className="bg-white border-b hover:bg-gray-50"
-            >
-              <td className="px-4 py-2 text-sm text-gray-700">
-                {achievement.title}
-              </td>
-              <td className="px-4 py-2 text-sm text-gray-700">
-                {achievement.awardYear}
-              </td>
-              <td className="px-4 py-2 text-sm text-gray-700">
-                {achievement.description}
-              </td>
-              <td className="px-4 py-2 text-sm text-gray-700">
-                {achievement.image ? (
-                  <img src={achievement.image} alt="Achievement" width="50" />
-                ) : (
-                  "No Image"
+              <div className="space-y-3 text-sm">
+                <p>
+                  <strong>Title:</strong> {selectedAchievement.title}
+                </p>
+                <p>
+                  <strong>Award Year:</strong> {selectedAchievement.awardYear}
+                </p>
+                <p>
+                  <strong>Description:</strong>{" "}
+                  {selectedAchievement.description}
+                </p>
+                {selectedAchievement.image && (
+                  <>
+                    <p>
+                      <strong>Image:</strong>
+                    </p>
+                    <img
+                      src={selectedAchievement.image}
+                      alt="Achievement"
+                      className="w-full max-w-xs rounded shadow"
+                    />
+                  </>
                 )}
-              </td>
-              <td className="px-4 py-2 text-sm">
-                <button
-                  onClick={() => handleEdit(achievement)}
-                  className="text-blue-500 hover:text-blue-700 mr-2"
-                >
-                  <FaEdit />
-                </button>
-                <button
-                  onClick={() => handleDelete(achievement._id)}
-                  className="text-red-500 hover:text-red-700"
-                >
-                  <FaTrash />
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
 
-export default AchievementManager;
+export default AchievementManagementIndex;

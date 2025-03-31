@@ -3,37 +3,24 @@ import { Edit2, Eye, PlusCircle, Trash2, XCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
-import { milestoneApi } from "../../../redux/features/milestone/milestoneApi";
-import Loading from "../../../componants/Loading";
+import { bannerApi } from "../../redux/features/banner/bannerApi";
+import Loading from "../../componants/Loading";
 
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+const BannerManagementIndex = () => {
+  const { data, isLoading } = bannerApi.useGetBannersQuery();
+  const [createBanner] = bannerApi.useCreateBannerMutation();
+  const [updateBanner] = bannerApi.useUpdateBannerByIdMutation();
+  const [deleteBanner] = bannerApi.useDeleteBannerByIdMutation();
 
-const MilestoneManagementIndex = () => {
-  const { data, isLoading } = milestoneApi.useGetMilestonesQuery();
-  const [createMilestone] = milestoneApi.useCreateMilestoneMutation();
-  const [updateMilestone] = milestoneApi.useUpdateMilestoneByIdMutation();
-  const [deleteMilestone] = milestoneApi.useDeleteMilestoneByIdMutation();
-
-  const [milestoneList, setMilestoneList] = useState([]);
+  const [bannerList, setBannerList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
-  const [selectedMilestone, setSelectedMilestone] = useState(null);
+  const [previewImage, setPreviewImage] = useState("");
+  const [selectedBanner, setSelectedBanner] = useState(null); // 👁️ View state
 
   const {
     register,
@@ -42,26 +29,28 @@ const MilestoneManagementIndex = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      year: "",
-      month: "",
-      text: "",
+      title: "",
+      content: "",
+      imageFile: null,
     },
   });
 
   useEffect(() => {
-    if (data) setMilestoneList(data);
+    if (data) setBannerList(data);
   }, [data]);
 
-  const openModal = (milestone = null) => {
-    if (milestone) {
+  const openModal = (banner = null) => {
+    if (banner) {
       reset({
-        year: milestone.year,
-        month: milestone.month,
-        text: milestone.text,
+        title: banner.title,
+        content: banner.content,
+        imageFile: null,
       });
-      setEditingId(milestone._id);
+      setPreviewImage(banner.img);
+      setEditingId(banner._id);
     } else {
       reset();
+      setPreviewImage("");
       setEditingId(null);
     }
     setShowModal(true);
@@ -71,21 +60,58 @@ const MilestoneManagementIndex = () => {
 
   const handleSearchChange = (e) => setSearchTerm(e.target.value);
 
-  const filteredMilestones = milestoneList?.filter((m) =>
-    m.text.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredBanners = bannerList?.filter((b) =>
+    b.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+  };
+
   const onSubmit = async (formData) => {
-    const toastId = toast.loading(editingId ? "Updating..." : "Creating...");
+    const toastId = toast.loading(
+      editingId ? "Updating banner..." : "Creating banner..."
+    );
     setButtonLoading(true);
     try {
-      if (editingId) {
-        await updateMilestone({ id: editingId, data: formData }).unwrap();
-        toast.success("Milestone updated successfully!");
-      } else {
-        await createMilestone(formData).unwrap();
-        toast.success("Milestone created successfully!");
+      let imageUrl = previewImage;
+
+      if (formData.imageFile && formData.imageFile[0]) {
+        const file = formData.imageFile[0];
+        const form = new FormData();
+        form.append("image", file);
+
+        const res = await axios.post(
+          `${import.meta.env.VITE_BASE_URL}/upload/image`,
+          form,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          }
+        );
+
+        if (!res.data.image) {
+          toast.error("Image upload failed.");
+          return;
+        }
+
+        imageUrl = res.data.image;
       }
+
+      const payload = {
+        title: formData.title,
+        content: formData.content,
+        img: imageUrl,
+      };
+
+      if (editingId) {
+        await updateBanner({ id: editingId, data: payload }).unwrap();
+        toast.success("Banner updated successfully!");
+      } else {
+        await createBanner(payload).unwrap();
+        toast.success("Banner created successfully!");
+      }
+
       closeModal();
     } catch (err) {
       toast.error("Failed", { description: err.message });
@@ -96,11 +122,11 @@ const MilestoneManagementIndex = () => {
   };
 
   const handleDelete = async (id) => {
-    const toastId = toast.loading("Deleting...");
+    const toastId = toast.loading("Deleting banner...");
     try {
-      const item = milestoneList?.find((m) => m._id === id);
-      await deleteMilestone(id).unwrap();
-      toast.success(`Deleted: ${item.text}`);
+      const banner = bannerList?.find((b) => b._id === id);
+      await deleteBanner(id).unwrap();
+      toast.success(`Deleted: ${banner.title}`);
     } catch (err) {
       toast.error("Delete failed", { description: err.message });
     } finally {
@@ -112,12 +138,12 @@ const MilestoneManagementIndex = () => {
 
   return (
     <div className="px-4 py-6 mx-auto w-full">
-      <h1 className="text-2xl font-bold mb-4">Milestone Management</h1>
+      <h1 className="text-2xl font-bold mb-4">Banner Management</h1>
 
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4">
         <input
           type="text"
-          placeholder="Search milestone text"
+          placeholder="Search Banners"
           className="border p-2 rounded w-full sm:max-w-sm"
           value={searchTerm}
           onChange={handleSearchChange}
@@ -126,7 +152,7 @@ const MilestoneManagementIndex = () => {
           onClick={() => openModal()}
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center"
         >
-          <PlusCircle className="mr-1" size={18} /> Add Milestone
+          <PlusCircle className="mr-1" size={18} /> Add Banner
         </button>
       </div>
 
@@ -135,36 +161,42 @@ const MilestoneManagementIndex = () => {
           <table className="w-full table-auto text-left">
             <thead className="bg-gray-100">
               <tr>
-                <th className="px-4 py-2">Year</th>
-                <th className="px-4 py-2">Month</th>
-                <th className="px-4 py-2">Text</th>
+                <th className="px-4 py-2">Title</th>
+                <th className="px-4 py-2">Image</th>
+                <th className="px-4 py-2">Date</th>
                 <th className="px-4 py-2">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {filteredMilestones.length ? (
-                filteredMilestones.map((milestone) => (
-                  <tr key={milestone._id} className="hover:bg-gray-50">
-                    <td className="px-4 py-2">{milestone.year}</td>
-                    <td className="px-4 py-2">{milestone.month}</td>
-                    <td className="px-4 py-2">{milestone.text}</td>
+              {filteredBanners.length ? (
+                filteredBanners.map((banner) => (
+                  <tr key={banner._id} className="hover:bg-gray-50">
+                    <td className="px-4 py-2">{banner.title}</td>
+                    <td className="px-4 py-2">
+                      <img
+                        src={banner.img}
+                        alt="Banner"
+                        className="w-12 h-12 object-cover rounded"
+                      />
+                    </td>
+                    <td className="px-4 py-2">{formatDate(banner.date)}</td>
                     <td className="px-4 py-2">
                       <div className="flex gap-2">
                         <button
-                          onClick={() => setSelectedMilestone(milestone)}
+                          onClick={() => setSelectedBanner(banner)}
                           className="text-green-600 hover:text-green-800"
-                          title="View"
+                          title="View Details"
                         >
                           <Eye size={18} />
                         </button>
                         <button
-                          onClick={() => openModal(milestone)}
+                          onClick={() => openModal(banner)}
                           className="text-blue-500 hover:text-blue-700"
                         >
                           <Edit2 size={18} />
                         </button>
                         <button
-                          onClick={() => handleDelete(milestone._id)}
+                          onClick={() => handleDelete(banner._id)}
                           className="text-red-500 hover:text-red-700"
                         >
                           <Trash2 size={18} />
@@ -176,7 +208,7 @@ const MilestoneManagementIndex = () => {
               ) : (
                 <tr>
                   <td colSpan="4" className="text-center p-4 text-gray-500">
-                    No milestones found
+                    No banners found
                   </td>
                 </tr>
               )}
@@ -194,11 +226,11 @@ const MilestoneManagementIndex = () => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.25 }}
-              className="bg-white p-6 rounded-lg w-full max-w-md shadow-xl mx-4"
+              className="bg-white p-6 rounded-lg w-full max-w-lg shadow-xl mx-4 max-h-[90vh] overflow-y-auto"
             >
-              <div className="flex justify-between items-center mb-3">
+              <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-bold">
-                  {editingId ? "Edit Milestone" : "Add Milestone"}
+                  {editingId ? "Edit Banner" : "Add Banner"}
                 </h2>
                 <button onClick={closeModal}>
                   <XCircle size={22} />
@@ -207,51 +239,56 @@ const MilestoneManagementIndex = () => {
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium">Year</label>
+                  <label className="block text-sm font-medium">Title</label>
                   <input
-                    type="number"
-                    {...register("year", { required: "Year is required" })}
+                    {...register("title", { required: "Title is required" })}
                     className="w-full border rounded p-2"
                   />
-                  {errors.year && (
+                  {errors.title && (
                     <p className="text-sm text-red-500">
-                      {errors.year.message}
+                      {errors.title.message}
                     </p>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium">Month</label>
-                  <select
-                    {...register("month", { required: "Month is required" })}
-                    className="w-full border rounded p-2"
-                  >
-                    <option value="">Select month</option>
-                    {months.map((m) => (
-                      <option key={m} value={m}>
-                        {m}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.month && (
-                    <p className="text-sm text-red-500">
-                      {errors.month.message}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium">Text</label>
+                  <label className="block text-sm font-medium">Content</label>
                   <textarea
-                    {...register("text", { required: "Text is required" })}
+                    {...register("content", {
+                      required: "Content is required",
+                    })}
                     className="w-full border rounded p-2"
-                    rows={4}
-                  />
-                  {errors.text && (
+                  ></textarea>
+                  {errors.content && (
                     <p className="text-sm text-red-500">
-                      {errors.text.message}
+                      {errors.content.message}
                     </p>
                   )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium">Image</label>
+                  {previewImage && (
+                    <div className="mb-2">
+                      <img
+                        src={previewImage}
+                        alt="Preview"
+                        className="w-32 h-32 object-cover rounded border"
+                      />
+                    </div>
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    {...register("imageFile")}
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      if (file) {
+                        setPreviewImage(URL.createObjectURL(file));
+                      }
+                    }}
+                    className="w-full border rounded p-2"
+                  />
                 </div>
 
                 <div className="flex justify-end gap-2 pt-4">
@@ -282,34 +319,42 @@ const MilestoneManagementIndex = () => {
         )}
       </AnimatePresence>
 
-      {/* View Modal */}
+      {/* View Details Modal */}
       <AnimatePresence>
-        {selectedMilestone && (
+        {selectedBanner && (
           <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.25 }}
-              className="bg-white p-6 rounded-lg w-full max-w-md shadow-xl mx-4"
+              className="bg-white p-6 rounded-lg w-full max-w-xl shadow-xl mx-4 max-h-[90vh] overflow-y-auto"
             >
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-bold">Milestone Details</h2>
-                <button onClick={() => setSelectedMilestone(null)}>
+                <h2 className="text-lg font-bold">Banner Details</h2>
+                <button onClick={() => setSelectedBanner(null)}>
                   <XCircle size={22} />
                 </button>
               </div>
 
-              <div className="space-y-2 text-sm">
+              <div className="space-y-3 text-sm">
                 <p>
-                  <strong>Year:</strong> {selectedMilestone.year}
+                  <strong>Title:</strong> {selectedBanner.title}
                 </p>
                 <p>
-                  <strong>Month:</strong> {selectedMilestone.month}
+                  <strong>Content:</strong> {selectedBanner.content}
                 </p>
                 <p>
-                  <strong>Text:</strong> {selectedMilestone.text}
+                  <strong>Date:</strong> {formatDate(selectedBanner.date)}
                 </p>
+                <p>
+                  <strong>Image:</strong>
+                </p>
+                <img
+                  src={selectedBanner.img}
+                  alt="Banner"
+                  className="w-full max-w-xs rounded shadow"
+                />
               </div>
             </motion.div>
           </div>
@@ -319,4 +364,4 @@ const MilestoneManagementIndex = () => {
   );
 };
 
-export default MilestoneManagementIndex;
+export default BannerManagementIndex;
