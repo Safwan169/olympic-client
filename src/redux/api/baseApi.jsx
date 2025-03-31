@@ -3,15 +3,15 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 // import { toast } from "sonner";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5000/api",
+  baseUrl: import.meta.env.VITE_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
   credentials: "include",
-  
+
   prepareHeaders: (headers, { getState }) => {
-    const token = (getState() ).auth?.token;
-    console.log('tt', token);
+    const token = getState().auth?.token;
+    console.log("tt", token);
     if (token) {
       headers.set("authorization", `${token}`);
     }
