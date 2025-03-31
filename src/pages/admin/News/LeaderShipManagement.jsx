@@ -1,26 +1,25 @@
 /* eslint-disable no-unused-vars */
-import { Edit2, Eye, PlusCircle, Trash2, XCircle } from "lucide-react";
+import { Edit2, PlusCircle, Trash2, XCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
-import { newsApi } from "../../../redux/features/news/newsApi";
+import { leadershipApi } from "../../../redux/features/leadership/leadershipApi";
 import Loading from "../../../componants/Loading";
 
-const NewsManagementIndex = () => {
-  const { data, isLoading } = newsApi.useGetNewsQuery();
-  const [createNews] = newsApi.useCreateNewsMutation();
-  const [updateNews] = newsApi.useUpdateNewsByIdMutation();
-  const [deleteNewsAPI] = newsApi.useDeleteNewsByIdMutation();
+const LeadershipManagementIndex = () => {
+  const { data, isLoading } = leadershipApi.useGetLeadershipsQuery();
+  const [createLeader] = leadershipApi.useCreateLeadershipMutation();
+  const [updateLeader] = leadershipApi.useUpdateLeadershipByIdMutation();
+  const [deleteLeader] = leadershipApi.useDeleteLeadershipByIdMutation();
 
-  const [newsList, setNewsList] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+  const [leadershipList, setLeadershipList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [editingId, setEditingId] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
-  const [selectedNews, setSelectedNews] = useState(null); // 👁️ View state
 
   const {
     register,
@@ -29,33 +28,27 @@ const NewsManagementIndex = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      title: "",
-      description: "",
+      name: "",
+      role: "",
+      biography: "",
       imageFile: null,
     },
   });
 
   useEffect(() => {
-    if (data) {
-      setNewsList(data);
-    }
+    if (data) setLeadershipList(data);
   }, [data]);
 
-  const handleSearchChange = (e) => setSearchTerm(e.target.value);
-
-  const filteredNews = newsList.filter((news) =>
-    news.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const openModal = (news = null) => {
-    if (news) {
+  const openModal = (leader = null) => {
+    if (leader) {
       reset({
-        title: news.title,
-        description: news.description,
+        name: leader.name,
+        role: leader.role,
+        biography: leader.biography,
         imageFile: null,
       });
-      setPreviewImage(news.imageUrl);
-      setEditingId(news._id);
+      setPreviewImage(leader.img);
+      setEditingId(leader._id);
     } else {
       reset();
       setPreviewImage("");
@@ -66,9 +59,20 @@ const NewsManagementIndex = () => {
 
   const closeModal = () => setShowModal(false);
 
+  const handleSearchChange = (e) => setSearchTerm(e.target.value);
+
+  const filteredList = leadershipList?.filter((l) =>
+    l.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+  };
+
   const onSubmit = async (formData) => {
     const toastId = toast.loading(
-      editingId ? "Updating news..." : "Creating news..."
+      editingId ? "Updating leader..." : "Creating leader..."
     );
     setButtonLoading(true);
     try {
@@ -92,21 +96,24 @@ const NewsManagementIndex = () => {
           return;
         }
 
+        console.log("resss", res);
+
         imageUrl = res.data.image;
       }
 
-      const finalData = {
-        title: formData.title,
-        description: formData.description,
-        imageUrl,
+      const payload = {
+        name: formData.name,
+        role: formData.role,
+        biography: formData.biography,
+        img: imageUrl,
       };
 
       if (editingId) {
-        await updateNews({ id: editingId, data: finalData }).unwrap();
-        toast.success("News updated successfully");
+        await updateLeader({ id: editingId, data: payload }).unwrap();
+        toast.success("Leader updated successfully!");
       } else {
-        await createNews(finalData).unwrap();
-        toast.success("News created successfully");
+        await createLeader(payload).unwrap();
+        toast.success("Leader created successfully!");
       }
 
       closeModal();
@@ -118,12 +125,12 @@ const NewsManagementIndex = () => {
     }
   };
 
-  const deleteNews = async (id) => {
-    const toastId = toast.loading("Deleting news...");
+  const handleDelete = async (id) => {
+    const toastId = toast.loading("Deleting...");
     try {
-      const news = newsList.find((n) => n._id === id);
-      await deleteNewsAPI(id).unwrap();
-      toast.success(`Deleted: ${news.title}`);
+      const leader = leadershipList?.find((l) => l._id === id);
+      await deleteLeader(id).unwrap();
+      toast.success(`Deleted: ${leader.name}`);
     } catch (err) {
       toast.error("Delete failed", { description: err.message });
     } finally {
@@ -131,30 +138,25 @@ const NewsManagementIndex = () => {
     }
   };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-  };
-
   if (isLoading) return <Loading />;
 
   return (
     <div className="px-4 py-6 mx-auto w-full">
-      <h1 className="text-2xl font-bold mb-4">News Management</h1>
+      <h1 className="text-2xl font-bold mb-4">Leadership Management</h1>
 
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4">
         <input
           type="text"
-          placeholder="Search News"
+          placeholder="Search Leaders"
           className="border p-2 rounded w-full sm:max-w-sm"
           value={searchTerm}
           onChange={handleSearchChange}
         />
         <button
           onClick={() => openModal()}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center justify-center"
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center"
         >
-          <PlusCircle className="inline-block mr-1" size={18} /> Add News
+          <PlusCircle className="mr-1" size={18} /> Add Leader
         </button>
       </div>
 
@@ -163,42 +165,35 @@ const NewsManagementIndex = () => {
           <table className="w-full table-auto text-left">
             <thead className="bg-gray-100">
               <tr>
-                <th className="px-4 py-2">Title</th>
+                <th className="px-4 py-2">Name</th>
+                <th className="px-4 py-2">Role</th>
                 <th className="px-4 py-2">Image</th>
-                <th className="px-4 py-2">Date</th>
                 <th className="px-4 py-2">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {filteredNews.length ? (
-                filteredNews.map((news) => (
-                  <tr key={news._id} className="hover:bg-gray-50">
-                    <td className="px-4 py-2">{news.title}</td>
+              {filteredList.length ? (
+                filteredList.map((leader) => (
+                  <tr key={leader._id} className="hover:bg-gray-50">
+                    <td className="px-4 py-2">{leader.name}</td>
+                    <td className="px-4 py-2">{leader.role}</td>
                     <td className="px-4 py-2">
                       <img
-                        src={news.imageUrl}
-                        alt="thumb"
-                        className="w-10 h-10 rounded object-cover"
+                        src={leader.img}
+                        alt="Leader"
+                        className="w-10 h-10 object-cover rounded"
                       />
                     </td>
-                    <td className="px-4 py-2">{formatDate(news.date)}</td>
                     <td className="px-4 py-2">
                       <div className="flex gap-2">
                         <button
-                          onClick={() => setSelectedNews(news)}
-                          className="text-green-600 hover:text-green-800"
-                          title="View Details"
-                        >
-                          <Eye size={18} />
-                        </button>
-                        <button
-                          onClick={() => openModal(news)}
+                          onClick={() => openModal(leader)}
                           className="text-blue-500 hover:text-blue-700"
                         >
                           <Edit2 size={18} />
                         </button>
                         <button
-                          onClick={() => deleteNews(news._id)}
+                          onClick={() => handleDelete(leader._id)}
                           className="text-red-500 hover:text-red-700"
                         >
                           <Trash2 size={18} />
@@ -209,8 +204,8 @@ const NewsManagementIndex = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="4" className="text-center p-4 text-gray-500">
-                    No news found
+                  <td colSpan="5" className="text-center p-4 text-gray-500">
+                    No leaders found
                   </td>
                 </tr>
               )}
@@ -219,7 +214,7 @@ const NewsManagementIndex = () => {
         </div>
       </div>
 
-      {/* Create/Edit Modal */}
+      {/* Modal */}
       <AnimatePresence>
         {showModal && (
           <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
@@ -232,7 +227,7 @@ const NewsManagementIndex = () => {
             >
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-bold">
-                  {editingId ? "Edit News" : "Add News"}
+                  {editingId ? "Edit Leader" : "Add Leader"}
                 </h2>
                 <button onClick={closeModal}>
                   <XCircle size={22} />
@@ -241,31 +236,42 @@ const NewsManagementIndex = () => {
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium">Title</label>
+                  <label className="block text-sm font-medium">Name</label>
                   <input
-                    {...register("title", { required: "Title is required" })}
+                    {...register("name", { required: "Name is required" })}
                     className="w-full border rounded p-2"
                   />
-                  {errors.title && (
+                  {errors.name && (
                     <p className="text-sm text-red-500">
-                      {errors.title.message}
+                      {errors.name.message}
                     </p>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium">
-                    Description
-                  </label>
+                  <label className="block text-sm font-medium">Role</label>
+                  <input
+                    {...register("role", { required: "Role is required" })}
+                    className="w-full border rounded p-2"
+                  />
+                  {errors.role && (
+                    <p className="text-sm text-red-500">
+                      {errors.role.message}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium">Biography</label>
                   <textarea
-                    {...register("description", {
-                      required: "Description is required",
+                    {...register("biography", {
+                      required: "Biography is required",
                     })}
                     className="w-full border rounded p-2"
                   ></textarea>
-                  {errors.description && (
+                  {errors.biography && (
                     <p className="text-sm text-red-500">
-                      {errors.description.message}
+                      {errors.biography.message}
                     </p>
                   )}
                 </div>
@@ -322,50 +328,8 @@ const NewsManagementIndex = () => {
           </div>
         )}
       </AnimatePresence>
-
-      {/* View Details Modal */}
-      <AnimatePresence>
-        {selectedNews && (
-          <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.25 }}
-              className="bg-white p-6 rounded-lg w-full max-w-xl shadow-xl mx-4 max-h-[90vh] overflow-y-auto"
-            >
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-bold">News Details</h2>
-                <button onClick={() => setSelectedNews(null)}>
-                  <XCircle size={22} />
-                </button>
-              </div>
-
-              <div className="space-y-3 text-sm">
-                <p>
-                  <strong>Title:</strong> {selectedNews.title}
-                </p>
-                <p>
-                  <strong>Description:</strong> {selectedNews.description}
-                </p>
-                <p>
-                  <strong>Date:</strong> {formatDate(selectedNews.date)}
-                </p>
-                <p>
-                  <strong>Image:</strong>
-                </p>
-                <img
-                  src={selectedNews.imageUrl}
-                  alt="News"
-                  className="w-full max-w-xs rounded shadow"
-                />
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </div>
   );
 };
 
-export default NewsManagementIndex;
+export default LeadershipManagementIndex;

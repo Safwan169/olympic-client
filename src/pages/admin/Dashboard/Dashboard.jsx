@@ -1,158 +1,408 @@
-import React from 'react';
-import { BarChart2, Users, ShoppingBag, FileText } from 'lucide-react';
+import React from "react";
+import {
+  TrendingUp,
+  Award,
+  Settings,
+  ClipboardList,
+  AlertCircle,
+  Info,
+  CheckCircle,
+  ChevronRight,
+} from "lucide-react";
 
-const Dashboard = () => {
-  return (
-    <main className="flex-1 overflow-y-auto p-6">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">Dashboard</h2>
-      
-      {/* Dashboard Stats */}
-      <StatsCards />
-      
-      {/* Recent Activity & Tasks Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <RecentActivity />
-        <UpcomingTasks />
-      </div>
-    </main>
-  );
+// Sample data
+const productionData = {
+  totalProduction: 12500,
+  targetProduction: 15000,
+  lastMonthProduction: 11800,
+  percentageChange: 5.9,
 };
 
-const StatsCards = () => {
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-      {/* Stat Card 1 */}
-      <div className="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow duration-300">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-gray-500">Total Revenue</p>
-            <p className="text-2xl font-bold text-gray-900">$24,576</p>
-          </div>
-          <div className="p-3 rounded-full bg-green-100 text-green-500">
-            <BarChart2 size={24} />
-          </div>
-        </div>
-        <div className="mt-2">
-          <span className="text-green-500 text-sm font-medium">+12.5%</span>
-          <span className="text-gray-500 text-sm"> from last month</span>
-        </div>
-      </div>
-      
-      {/* Stat Card 2 */}
-      <div className="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow duration-300">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-gray-500">New Customers</p>
-            <p className="text-2xl font-bold text-gray-900">1,432</p>
-          </div>
-          <div className="p-3 rounded-full bg-blue-100 text-blue-500">
-            <Users size={24} />
-          </div>
-        </div>
-        <div className="mt-2">
-          <span className="text-blue-500 text-sm font-medium">+8.2%</span>
-          <span className="text-gray-500 text-sm"> from last month</span>
-        </div>
-      </div>
-      
-      {/* Stat Card 3 */}
-      <div className="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow duration-300">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-gray-500">Total Orders</p>
-            <p className="text-2xl font-bold text-gray-900">3,859</p>
-          </div>
-          <div className="p-3 rounded-full bg-purple-100 text-purple-500">
-            <ShoppingBag size={24} />
-          </div>
-        </div>
-        <div className="mt-2">
-          <span className="text-purple-500 text-sm font-medium">+5.7%</span>
-          <span className="text-gray-500 text-sm"> from last month</span>
-        </div>
-      </div>
-      
-      {/* Stat Card 4 */}
-      <div className="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow duration-300">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-gray-500">Pending Tasks</p>
-            <p className="text-2xl font-bold text-gray-900">42</p>
-          </div>
-          <div className="p-3 rounded-full bg-yellow-100 text-yellow-500">
-            <FileText size={24} />
-          </div>
-        </div>
-        <div className="mt-2">
-          <span className="text-red-500 text-sm font-medium">+24.3%</span>
-          <span className="text-gray-500 text-sm"> from last week</span>
-        </div>
-      </div>
-    </div>
-  );
+const qualityData = {
+  defectRate: 1.2,
+  qualityScore: 97.8,
+  inspectionsPassed: 982,
+  inspectionsFailed: 18,
 };
 
-const RecentActivity = () => {
-  return (
-    <div className="bg-white rounded-lg shadow">
-      <div className="flex items-center justify-between p-4 border-b">
-        <h3 className="text-lg font-medium">Recent Activity</h3>
-        <button className="text-sm text-blue-500 hover:text-blue-700">View All</button>
-      </div>
-      <div className="p-4">
-        <ul className="space-y-4">
-          {[1, 2, 3, 4, 5].map((item) => (
-            <li key={item} className="flex items-start">
-              <div className="flex-shrink-0">
-                <img 
-                  src={`/api/placeholder/32/32`} 
-                  alt="User" 
-                  className="w-8 h-8 rounded-full"
-                />
-              </div>
-              <div className="ml-3">
-                <p className="text-sm text-gray-800">
-                  <span className="font-medium">User {item}</span> 
-                  {' '}completed task <span className="font-medium">Task #{item*11}</span>
-                </p>
-                <p className="text-xs text-gray-500">{item} hour{item !== 1 ? 's' : ''} ago</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
+const maintenanceData = {
+  plannedDowntime: 24,
+  unplannedDowntime: 8,
+  machineEfficiency: 92.5,
+  maintenanceTickets: 7,
 };
 
-const UpcomingTasks = () => {
+const orderData = {
+  totalOrders: 145,
+  pendingOrders: 38,
+  completedOrders: 107,
+  recentOrders: [
+    {
+      id: "ORD-7829",
+      customer: "Acme Corp",
+      value: 78500,
+      status: "Completed",
+      date: "28 Mar 2025",
+    },
+    {
+      id: "ORD-7830",
+      customer: "TechGiant Inc",
+      value: 125000,
+      status: "In Progress",
+      date: "29 Mar 2025",
+    },
+    {
+      id: "ORD-7831",
+      customer: "Global Supplies",
+      value: 47200,
+      status: "Pending",
+      date: "30 Mar 2025",
+    },
+    {
+      id: "ORD-7832",
+      customer: "Innovate Solutions",
+      value: 92400,
+      status: "In Progress",
+      date: "31 Mar 2025",
+    },
+  ],
+};
+
+const upcomingEvents = [
+  { id: 1, title: "Quality Audit", date: "2 Apr 2025", type: "Quality" },
+  {
+    id: 2,
+    title: "Maintenance Schedule",
+    date: "5 Apr 2025",
+    type: "Maintenance",
+  },
+  { id: 3, title: "Client Meeting", date: "8 Apr 2025", type: "Sales" },
+  { id: 4, title: "Team Training", date: "10 Apr 2025", type: "HR" },
+];
+
+function ManufacturingDashboard() {
   return (
-    <div className="bg-white rounded-lg shadow">
-      <div className="flex items-center justify-between p-4 border-b">
-        <h3 className="text-lg font-medium">Upcoming Tasks</h3>
-        <button className="text-sm text-blue-500 hover:text-blue-700">View All</button>
-      </div>
-      <div className="p-4">
-        <ul className="space-y-3">
-          {[1, 2, 3, 4, 5].map((item) => (
-            <li key={item} className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-md transition-colors duration-200">
-              <div className="flex items-center">
-                <input type="checkbox" className="mr-3" />
-                <span className="text-sm">Complete project proposal #{item}</span>
-              </div>
-              <span className={`text-xs px-2 py-1 rounded-full ${
-                item % 3 === 0 ? 'bg-red-100 text-red-800' : 
-                item % 3 === 1 ? 'bg-yellow-100 text-yellow-800' : 
-                'bg-green-100 text-green-800'
-              }`}>
-                {item % 3 === 0 ? 'High' : item % 3 === 1 ? 'Medium' : 'Low'}
+    <div className="bg-gray-100 p-6">
+      {/* Header */}
+      <header className="mb-6">
+        <h1 className="text-2xl font-semibold text-gray-800">
+          Manufacturing Dashboard
+        </h1>
+      </header>
+
+      {/* Dashboard Content */}
+      <main>
+        {/* Key Metrics */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {/* Production Status */}
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-medium text-gray-700">Production</h3>
+              <TrendingUp className="h-5 w-5 text-green-500" />
+            </div>
+            <p className="mt-2 text-3xl font-semibold text-gray-900">
+              {productionData.totalProduction.toLocaleString()}
+            </p>
+            <div className="mt-1 flex items-center">
+              <span className="text-sm text-green-600 font-medium">
+                +{productionData.percentageChange}%
               </span>
-            </li>
-          ))}
-        </ul>
-      </div>
+              <span className="ml-2 text-sm text-gray-500">
+                from last month
+              </span>
+            </div>
+            <div className="mt-4 w-full bg-gray-200 rounded-full h-2.5">
+              <div
+                className="bg-blue-600 h-2.5 rounded-full"
+                style={{
+                  width: `${
+                    (productionData.totalProduction /
+                      productionData.targetProduction) *
+                    100
+                  }%`,
+                }}
+              ></div>
+            </div>
+            <p className="mt-1 text-xs text-gray-500">
+              {Math.round(
+                (productionData.totalProduction /
+                  productionData.targetProduction) *
+                  100
+              )}
+              % of target
+            </p>
+          </div>
+
+          {/* Quality Metrics */}
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-medium text-gray-700">Quality</h3>
+              <Award className="h-5 w-5 text-blue-500" />
+            </div>
+            <p className="mt-2 text-3xl font-semibold text-gray-900">
+              {qualityData.qualityScore}%
+            </p>
+            <div className="mt-1 flex items-center">
+              <span className="text-sm text-gray-500">
+                Defect rate: {qualityData.defectRate}%
+              </span>
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <div className="bg-green-50 rounded p-2 text-center">
+                <span className="text-sm font-medium text-green-700">
+                  {qualityData.inspectionsPassed}
+                </span>
+                <p className="text-xs text-green-600">Passed</p>
+              </div>
+              <div className="bg-red-50 rounded p-2 text-center">
+                <span className="text-sm font-medium text-red-700">
+                  {qualityData.inspectionsFailed}
+                </span>
+                <p className="text-xs text-red-600">Failed</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Maintenance */}
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-medium text-gray-700">Maintenance</h3>
+              <Settings className="h-5 w-5 text-gray-500" />
+            </div>
+            <p className="mt-2 text-3xl font-semibold text-gray-900">
+              {maintenanceData.machineEfficiency}%
+            </p>
+            <div className="mt-1 flex items-center">
+              <span className="text-sm text-gray-500">Machine efficiency</span>
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <div className="bg-blue-50 rounded p-2 text-center">
+                <span className="text-sm font-medium text-blue-700">
+                  {maintenanceData.plannedDowntime}h
+                </span>
+                <p className="text-xs text-blue-600">Planned</p>
+              </div>
+              <div className="bg-amber-50 rounded p-2 text-center">
+                <span className="text-sm font-medium text-amber-700">
+                  {maintenanceData.unplannedDowntime}h
+                </span>
+                <p className="text-xs text-amber-600">Unplanned</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Orders */}
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-medium text-gray-700">Orders</h3>
+              <ClipboardList className="h-5 w-5 text-indigo-500" />
+            </div>
+            <p className="mt-2 text-3xl font-semibold text-gray-900">
+              {orderData.totalOrders}
+            </p>
+            <div className="mt-1 flex items-center">
+              <span className="text-sm text-gray-500">Total active orders</span>
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <div className="bg-indigo-50 rounded p-2 text-center">
+                <span className="text-sm font-medium text-indigo-700">
+                  {orderData.pendingOrders}
+                </span>
+                <p className="text-xs text-indigo-600">Pending</p>
+              </div>
+              <div className="bg-green-50 rounded p-2 text-center">
+                <span className="text-sm font-medium text-green-700">
+                  {orderData.completedOrders}
+                </span>
+                <p className="text-xs text-green-600">Completed</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Charts and Tables */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          {/* Recent Orders */}
+          <div className="lg:col-span-2 bg-white rounded-lg shadow-md">
+            <div className="p-6 border-b border-gray-200">
+              <h3 className="text-lg font-medium text-gray-700">
+                Recent Orders
+              </h3>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Order ID
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Customer
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Value
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Status
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Date
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {orderData.recentOrders.map((order) => (
+                    <tr key={order.id}>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">
+                        {order.id}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {order.customer}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        ${order.value.toLocaleString()}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span
+                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                          ${
+                            order.status === "Completed"
+                              ? "bg-green-100 text-green-800"
+                              : order.status === "In Progress"
+                              ? "bg-blue-100 text-blue-800"
+                              : "bg-amber-100 text-amber-800"
+                          }`}
+                        >
+                          {order.status}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {order.date}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="p-4 border-t border-gray-200">
+              <a
+                href="#"
+                className="text-sm font-medium text-blue-600 hover:text-blue-500 flex items-center"
+              >
+                View all orders <ChevronRight size={16} className="ml-1" />
+              </a>
+            </div>
+          </div>
+
+          {/* Upcoming Events */}
+          <div className="bg-white rounded-lg shadow-md">
+            <div className="p-6 border-b border-gray-200">
+              <h3 className="text-lg font-medium text-gray-700">
+                Upcoming Events
+              </h3>
+            </div>
+            <div className="p-6">
+              <ul className="divide-y divide-gray-200">
+                {upcomingEvents.map((event) => (
+                  <li key={event.id} className="py-4 flex items-start">
+                    <div className="mr-4 flex-shrink-0">
+                      <div
+                        className={`h-10 w-10 rounded-full flex items-center justify-center
+                        ${
+                          event.type === "Quality"
+                            ? "bg-green-100 text-green-600"
+                            : event.type === "Maintenance"
+                            ? "bg-blue-100 text-blue-600"
+                            : event.type === "Sales"
+                            ? "bg-indigo-100 text-indigo-600"
+                            : "bg-purple-100 text-purple-600"
+                        }`}
+                      >
+                        {event.type.charAt(0)}
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-900">
+                        {event.title}
+                      </p>
+                      <p className="text-sm text-gray-500">{event.date}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="p-4 border-t border-gray-200">
+              <a
+                href="#"
+                className="text-sm font-medium text-blue-600 hover:text-blue-500 flex items-center"
+              >
+                View all events <ChevronRight size={16} className="ml-1" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Alerts and Notifications */}
+        <div className="bg-white rounded-lg shadow-md mb-8">
+          <div className="p-6 border-b border-gray-200">
+            <h3 className="text-lg font-medium text-gray-700">
+              Alerts & Notifications
+            </h3>
+          </div>
+          <div className="p-6">
+            <div className="flex items-center p-4 mb-4 bg-yellow-50 rounded-lg">
+              <AlertCircle className="h-5 w-5 text-yellow-400 mr-3" />
+              <div>
+                <p className="text-sm font-medium text-yellow-800">
+                  Maintenance scheduled for Production Line 3
+                </p>
+                <p className="text-sm text-yellow-700">
+                  Scheduled for 5 Apr 2025, 08:00 - 14:00
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center p-4 mb-4 bg-blue-50 rounded-lg">
+              <Info className="h-5 w-5 text-blue-400 mr-3" />
+              <div>
+                <p className="text-sm font-medium text-blue-800">
+                  Quality audit results available
+                </p>
+                <p className="text-sm text-blue-700">
+                  March 2025 quality audit completed with 97.8% score
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center p-4 bg-green-50 rounded-lg">
+              <CheckCircle className="h-5 w-5 text-green-400 mr-3" />
+              <div>
+                <p className="text-sm font-medium text-green-800">
+                  Order #ORD-7829 shipped successfully
+                </p>
+                <p className="text-sm text-green-700">
+                  Delivered to Acme Corp on schedule
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   );
-};
+}
 
-export default Dashboard;
+export default ManufacturingDashboard;
