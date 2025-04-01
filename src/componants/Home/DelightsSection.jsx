@@ -3,13 +3,28 @@ import React from "react";
 const categories = [
   {
     name: "BISCUITS",
-    img: "/p.png",
+    img: "https://olympicbd.com/wp-content/uploads/2018/04/Energy-Plus-New.png",
   },
-  { name: "COOKIES", img: "/p.png" },
-  { name: "SNACKS", img: "/p.png" },
-  { name: "CONFECTIONARY", img: "/p.png" },
-  { name: "POWDER DRINK", img: "/p.png" },
-  { name: "BATTERY", img: "/p.png" },
+  {
+    name: "COOKIES",
+    img: "https://olympicbd.com/wp-content/uploads/2018/04/Energy-Plus-New.png",
+  },
+  {
+    name: "SNACKS",
+    img: "https://olympicbd.com/wp-content/uploads/2018/04/Energy-Plus-New.png",
+  },
+  {
+    name: "CONFECTIONARY",
+    img: "https://olympicbd.com/wp-content/uploads/2018/04/Energy-Plus-New.png",
+  },
+  {
+    name: "POWDER DRINK",
+    img: "https://olympicbd.com/wp-content/uploads/2018/04/Energy-Plus-New.png",
+  },
+  {
+    name: "BATTERY",
+    img: "https://olympicbd.com/wp-content/uploads/2018/04/Energy-Plus-New.png",
+  },
 ];
 
 export default function DelightsSection() {
