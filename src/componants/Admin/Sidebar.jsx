@@ -32,12 +32,7 @@ const Sidebar = ({
       icon: <Home size={20} />,
       path: "/admin/dashboard",
     },
-    {
-      id: "milestone",
-      label: "Milestone",
-      icon: <BarChart2 size={20} />,
-      path: "/admin/milestone",
-    },
+
     {
       id: "product",
       label: "Product",
@@ -85,6 +80,12 @@ const Sidebar = ({
       label: "News",
       icon: <Newspaper size={20} />,
       path: "/admin/news",
+    },
+    {
+      id: "milestone",
+      label: "Milestone",
+      icon: <BarChart2 size={20} />,
+      path: "/admin/milestone",
     },
   ];
 

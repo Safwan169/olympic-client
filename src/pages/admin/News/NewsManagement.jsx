@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { newsApi } from "../../../redux/features/news/newsApi";
 import Loading from "../../../componants/Loading";
 
-const NewsManagementIndex = () => {
+const NewsManagement = () => {
   const { data, isLoading } = newsApi.useGetNewsQuery();
   const [createNews] = newsApi.useCreateNewsMutation();
   const [updateNews] = newsApi.useUpdateNewsByIdMutation();
@@ -368,4 +368,4 @@ const NewsManagementIndex = () => {
   );
 };
 
-export default NewsManagementIndex;
+export default NewsManagement;
