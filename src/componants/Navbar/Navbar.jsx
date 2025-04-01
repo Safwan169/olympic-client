@@ -5,87 +5,64 @@ import { faFacebook, faLinkedin, faYoutube, faInstagram } from '@fortawesome/fre
 import { motion, AnimatePresence } from 'framer-motion';
 import './Navbar.css';
 
-// const navbarStyles = `
-//   .navbar {
-//     transition: background-color 0.3s ease, box-shadow 0.3s ease;
-//     position: fixed;
-//     top: 0;
-//     left: 0;
-//     right: 0;
-//     z-index: 1000;
-//   }
-
-//   .navbar-transparent {
-//     background-color: transparent;
-//     box-shadow: none;
-//   }
-
-//   .navbar-solid {
-//     background-color: #ff0001;
-//     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-//   }
-
-//   .search-icon {
-//     transition: color 0.3s ease, text-shadow 0.3s ease;
-//   }
-
-//   .search-container {
-//     position: relative;
-//     display: flex;
-//     align-items: center;
-//   }
-
-//   .search-input {
-//     width: 0;
-//     padding: 0;
-//     border: none;
-//     background: transparent;
-//     color: white;
-//     transition: width 0.3s ease;
-//   }
-
-//   .search-input.active {
-//     width: 150px;
-//     padding-left: 8px;
-//   }
-
-//   .search-icon-glow {
-//     color: white;
-//     text-shadow: 0 0 10px rgba(255,255,0,0.8);
-//   }
-
-//   .search-icon-normal {
-//     color: white;
-//     text-shadow: none;
-//   }
-// `;
 
 const Navbar = () => {
     // Navigation data structure for easy future updates
     const navigationItems = [
-        { id: 'us', label: 'US', href: '#', hasDropdown: false },
-        { 
-            id: 'brands', 
-            label: 'BRANDS', 
+        { id: 'Home', label: 'Home', href: '/', hasDropdown: false },
+        {
+            id: 'Company',
+            label: 'Company',
             hasDropdown: true,
             dropdownItems: [
-                { id: 'brand1', label: 'Brand 1', href: '#' },
-                { id: 'brand2', label: 'Brand 2', href: '#' },
-                { id: 'brand3', label: 'Brand 3', href: '#' }
+                { id: 'About Us', label: 'About Us', href: '/about' },
+                { id: 'LeaderShip', label: 'LeaderShip', href: '/leadership' },
+                { id: 'Facilities', label: 'Facilities', href: '/facilities' },
+                { id: 'Sales & Distribution', label: 'Sales & Distribution', href: '/sales' }
             ]
         },
-        { id: 'golden-virtues', label: 'GOLDEN VIRTUES', href: '#', hasDropdown: false },
-        { id: 'legacy', label: 'THE LEGACY', href: '#', hasDropdown: false },
-        { id: 'sustainability', label: 'SUSTAINABILITY', href: '#', hasDropdown: false },
-        { id: 'support', label: 'SUPPORT', href: '#', hasDropdown: false }
+        {
+            id: 'Brands', label: 'Brands', href: '/brands', hasDropdown: false,
+
+        },
+        {
+            id: 'Investors', label: 'Investors', href: '/investors', hasDropdown: true,
+            dropdownItems: [
+                { id: 'Corporate Governance', label: 'Corporate Governance', href: '/corporate' },
+                { id: 'Strategy & Innovation', label: 'Strategy & Innovation', href: '/innovation' },
+                { id: 'Share Structure', label: 'Share Structure', href: '/structure' },
+                { id: 'Financials & Annual Reports', label: 'Financials & Annual Reports', href: '/reports' },
+                { id: 'List of Unclaimed Dividends', label: 'List of Unclaimed Dividends', href: '/dividends' },
+            ]
+        },
+        {
+            id: 'Sustainability', label: 'Sustainability', href: '/sustainability', hasDropdown: true,
+            dropdownItems: [
+                { id: 'Overview', label: 'Overview', href: '/overview' },
+                { id: 'Activities', label: 'Activities', href: '/activities' },
+                { id: 'Full Reports ', label: 'Full Reports ', href: '/fullreports' },
+
+            ]
+        },
+        { id: 'Exports', label: 'Exports', href: '/exports', hasDropdown: false },
+        {
+            id: 'News & Media', label: 'News & Media', href: '/news', hasDropdown: true,
+            dropdownItems: [
+                { id: 'Press Release/PSI/MI', label: 'Press Release/PSI/MI', href: '/press' },
+                { id: 'Career ', label: 'Career ', href: '/career ' },
+                { id: 'Creatives ', label: 'Creatives ', href: '/creatives' },
+
+            ]
+        }, 
+        { id: 'Contact', label: 'Contact', href: '/contact', hasDropdown: false }
     ];
 
     // Mobile navigation structure (can include different items if needed)
     const mobileNavigationItems = [
         { id: 'home', label: 'Home', href: '#', hasDropdown: false },
-        { 
-            id: 'about', 
-            label: 'About', 
+        {
+            id: 'about',
+            label: 'About',
             hasDropdown: true,
             dropdownItems: [
                 { id: 'inception', label: 'Our Inception', href: '#' },
@@ -152,9 +129,9 @@ const Navbar = () => {
     };
 
     const toggleMobileDropdown = (itemId) => {
-        setDropdownState(prev => ({ 
-            ...prev, 
-            [itemId]: !prev[itemId] 
+        setDropdownState(prev => ({
+            ...prev,
+            [itemId]: !prev[itemId]
         }));
     };
 
@@ -199,7 +176,7 @@ const Navbar = () => {
     return (
         <>
             {/* <style>{navbarStyles}</style> */}
-            
+
             <nav
                 className={`navbar text-white ${scrolled ? 'navbar-solid' : 'navbar-transparent'}`}
                 ref={menuRef}
@@ -219,8 +196,8 @@ const Navbar = () => {
                                 <div key={item.id} className="mobile-nav-item">
                                     {item.hasDropdown ? (
                                         <>
-                                            <button 
-                                                className="block w-full text-left py-2 hover:bg-gray-100" 
+                                            <button
+                                                className="block w-full text-left py-2 hover:bg-gray-100"
                                                 onClick={() => toggleMobileDropdown(item.id)}
                                             >
                                                 {item.label}
@@ -235,9 +212,9 @@ const Navbar = () => {
                                                         transition={{ duration: 0.15 }}
                                                     >
                                                         {item.dropdownItems.map(dropdownItem => (
-                                                            <a 
+                                                            <a
                                                                 key={dropdownItem.id}
-                                                                href={dropdownItem.href} 
+                                                                href={dropdownItem.href}
                                                                 className="block py-2 hover:bg-gray-100"
                                                             >
                                                                 {dropdownItem.label}
@@ -248,8 +225,8 @@ const Navbar = () => {
                                             </AnimatePresence>
                                         </>
                                     ) : (
-                                        <a 
-                                            href={item.href} 
+                                        <a
+                                            href={item.href}
                                             className="block py-2 hover:bg-gray-100"
                                         >
                                             {item.label}
@@ -264,14 +241,14 @@ const Navbar = () => {
                 {/* Main Navigation */}
                 <div className="container mx-auto flex items-center justify-between px-4 py-2 hidden md:flex"> {/* Hidden on smaller screens */}
                     <div className="flex items-center">
-                      {/* Logo */}
-                      <motion.div
-                          className="flex items-center cursor-pointer mr-8"
-                          transition={{ type: "spring", stiffness: 320, damping: 12 }}
-                          style={{ mixBlendMode: 'lighten' }}
-                      >
-                          <img src="/olympic-logo.png" alt="Logo" className="w-40 mr-2" />
-                      </motion.div>
+                        {/* Logo */}
+                        <motion.div
+                            className="flex items-center cursor-pointer mr-8"
+                            transition={{ type: "spring", stiffness: 320, damping: 12 }}
+                            style={{ mixBlendMode: 'lighten' }}
+                        >
+                            <img src="/olympic-logo.png" alt="Logo" className="w-40 mr-2" />
+                        </motion.div>
                     </div>
 
                     {/* Navigation Items - Mapped from configuration */}
@@ -298,10 +275,10 @@ const Navbar = () => {
                                                     exit="exit"
                                                 >
                                                     {item.dropdownItems.map(dropdownItem => (
-                                                        <motion.a 
+                                                        <motion.a
                                                             key={dropdownItem.id}
-                                                            variants={dropdownItemVariants} 
-                                                            href={dropdownItem.href} 
+                                                            variants={dropdownItemVariants}
+                                                            href={dropdownItem.href}
                                                             className="block px-4 py-3 text-sm hover:bg-gray-100"
                                                         >
                                                             {dropdownItem.label}
@@ -312,8 +289,8 @@ const Navbar = () => {
                                         </AnimatePresence>
                                     </>
                                 ) : (
-                                    <a 
-                                        href={item.href} 
+                                    <a
+                                        href={item.href}
                                         className="hover:text-yellow-200 font-semibold"
                                     >
                                         {item.label}
@@ -321,7 +298,7 @@ const Navbar = () => {
                                 )}
                             </div>
                         ))}
-                        
+
                         {/* Search Icon */}
                         <div className="search-container">
                             <input
@@ -330,7 +307,7 @@ const Navbar = () => {
                                 placeholder="Search..."
                                 className={`search-input focus:outline-none ${searchActive ? 'active' : ''}`}
                             />
-                            <button 
+                            <button
                                 onClick={toggleSearch}
                                 className="text-white p-2 focus:outline-none"
                             >

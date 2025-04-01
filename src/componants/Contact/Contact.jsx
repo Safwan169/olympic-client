@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Send, Paperclip, CheckCircle } from 'lucide-react';
 
-const ContactUsPage = () => {
+const Contact = () => {
   const [selectedDepartment, setSelectedDepartment] = useState('');
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState('');
@@ -294,4 +294,4 @@ const ContactUsPage = () => {
   );
 };
 
-export default ContactUsPage;
+export default Contact;
