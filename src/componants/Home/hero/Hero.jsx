@@ -1,6 +1,6 @@
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-import React from 'react';
+import React from "react";
 
 // Import Swiper styles
 import "swiper/css";
@@ -12,9 +12,9 @@ import "./styles.css";
 import { Navigation, Autoplay } from "swiper/modules";
 
 // Import images
-import slide1 from "./slide1.png";
-import slide2 from "./slide1.png";
-import slide3 from "./slide1.png";
+import slide1 from "/assets/slide1.png";
+import slide2 from "/assets/slide1.png";
+import slide3 from "/assets/slide1.png";
 
 export default function Hero() {
   return (

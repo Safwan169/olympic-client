@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { achievementApi } from "../../../redux/features/achievement/achievementApi";
 import Loading from "../../../componants/Loading";
 
-const AchievementManagementIndex = () => {
+const AchievementManagement = () => {
   const { data, isLoading } = achievementApi.useGetAchievementsQuery();
   const [createAchievement] = achievementApi.useCreateAchievementMutation();
   const [updateAchievement] = achievementApi.useUpdateAchievementByIdMutation();
@@ -387,4 +387,4 @@ const AchievementManagementIndex = () => {
   );
 };
 
-export default AchievementManagementIndex;
+export default AchievementManagement;
