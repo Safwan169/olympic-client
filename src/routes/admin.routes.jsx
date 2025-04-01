@@ -2,10 +2,8 @@ import React from "react";
 
 // Pages
 import Dashboard from "../pages/admin/Dashboard/Dashboard";
-import Achievement from "../pages/Admin/Achievement/Achievement";
-import Milestone from "../pages/Admin/Milestone/Milestone";
-import News from "../pages/Admin/News/News";
 import JobPostManagement from "../pages/admin/JobPostManagement";
+import Milestone from "../pages/admin/Milestone/Milestone";
 
 // Route protection utility
 import ProtectedRoute from "../utilities/ProtectedRoute";
@@ -13,9 +11,10 @@ import ActivityManagement from "../pages/admin/ActivityManagement";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import LeadershipManagementIndex from "../pages/admin/News/LeaderShipManagement";
 import BannerManagementIndex from "../pages/admin/BannerManagement";
-import NewsManagementIndex from "../pages/Admin/News/News";
 import ContactManagementIndex from "../pages/admin/ContactManagement";
 import ProductManagementIndex from "../pages/admin/ProductManagement";
+import AchievementManagement from "../pages/admin/Achievement/AchievementManagement";
+import NewsManagement from "../pages/admin/News/NewsManagement";
 
 const adminRoutes = [
   {
@@ -38,7 +37,7 @@ const adminRoutes = [
         path: "achievement",
         element: (
           <ProtectedRoute allowedRoles={["admin"]}>
-            <Achievement />
+            <AchievementManagement />
           </ProtectedRoute>
         ),
       },
@@ -62,7 +61,7 @@ const adminRoutes = [
         path: "news",
         element: (
           <ProtectedRoute allowedRoles={["admin"]}>
-            <News />
+            <NewsManagement />
           </ProtectedRoute>
         ),
       },
@@ -94,7 +93,7 @@ const adminRoutes = [
         path: "news",
         element: (
           <ProtectedRoute allowedRoles={["admin"]}>
-            <NewsManagementIndex />
+            <NewsManagement />
           </ProtectedRoute>
         ),
       },
