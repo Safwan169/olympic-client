@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { toast } from "sonner";
 import { currentToken, currentUser } from "../redux/features/auth/authSlice";
@@ -8,35 +8,28 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   const user = useAppSelector(currentUser);
   const token = useAppSelector(currentToken);
   const location = useLocation();
-  const toastShown = useRef(false); // Create a ref to track if a toast is shown
 
   useEffect(() => {
-    if (!token && !toastShown.current) {
+    if (!token) {
       toast.error("Authentication required", {
+        id: "auth-required", // 👈 ID to prevent duplicates
         description: "Please log in to access this page",
-        duration: 4000,
+        duration: 2000,
       });
-      toastShown.current = true; // Mark that the toast was shown
       return;
     }
 
     if (!allowedRoles.includes(user?.role)) {
       toast.warning("Access denied", {
+        id: "access-denied", // 👈 different ID
         description: `You don't have permission to access this page`,
-        duration: 4000,
+        duration: 2000,
       });
-      toastShown.current = true; // Mark that the toast was shown
-      return;
     }
-  }, [token, user, allowedRoles, ]);
+  }, []);
 
-  // Logic for redirection remains the same
-  if (!token) {
+  if (!token || !allowedRoles.includes(user?.role)) {
     return <Navigate to="/login" state={{ from: location.pathname }} replace />;
-  }
-
-  if (!allowedRoles.includes(user?.role)) {
-    return <Navigate to="/login" replace />;
   }
 
   return children;

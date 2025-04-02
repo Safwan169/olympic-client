@@ -1,57 +1,63 @@
-import { useState } from 'react';
-import { FaSearch, FaChevronDown, FaAngleLeft, FaAngleRight } from 'react-icons/fa';
-import ReactPlayer from 'react-player';
+import { useState } from "react";
+import {
+  FaSearch,
+  FaChevronDown,
+  FaAngleLeft,
+  FaAngleRight,
+} from "react-icons/fa";
+import ReactPlayer from "react-player";
 
 const videoData = [
   {
     id: 1,
-    title: 'Company Overview',
-    url: 'https://www.youtube.com/watch?v=7TavVZMewpY',
-    category: 'About Us',
-    views: '1.2M views',
-    uploaded: '2 weeks ago',
+    title: "Company Overview",
+    url: "https://www.youtube.com/watch?v=7TavVZMewpY",
+    category: "About Us",
+    views: "1.2M views",
+    uploaded: "2 weeks ago",
   },
   {
     id: 2,
-    title: 'Product Launch Event',
-    url: 'https://www.youtube.com/watch?v=XHOmBV4js_E',
-    category: 'Event',
-    views: '800K views',
-    uploaded: '1 month ago',
+    title: "Product Launch Event",
+    url: "https://www.youtube.com/watch?v=XHOmBV4js_E",
+    category: "Event",
+    views: "800K views",
+    uploaded: "1 month ago",
   },
   {
     id: 3,
-    title: 'Employee Testimonials',
-    url: 'https://www.youtube.com/watch?v=ysz5S6PUM-U',
-    category: 'Testimonial',
-    views: '600K views',
-    uploaded: '3 months ago',
+    title: "Employee Testimonials",
+    url: "https://www.youtube.com/watch?v=ysz5S6PUM-U",
+    category: "Testimonial",
+    views: "600K views",
+    uploaded: "3 months ago",
   },
   {
     id: 4,
-    title: 'Customer Feedback',
-    url: 'https://www.youtube.com/watch?v=jNQXAC9IVRw',
-    category: 'Customer Stories',
-    views: '450K views',
-    uploaded: '1 month ago',
+    title: "Customer Feedback",
+    url: "https://www.youtube.com/watch?v=jNQXAC9IVRw",
+    category: "Customer Stories",
+    views: "450K views",
+    uploaded: "1 month ago",
   },
 ];
 
 const ITEMS_PER_PAGE = 6;
-const categories = ['All', ...new Set(videoData.map((video) => video.category))];
+const categories = [
+  "All",
+  ...new Set(videoData.map((video) => video.category)),
+];
 
-const VideoGallery = () => {
-  const [search, setSearch] = useState('');
-  const [filter, setFilter] = useState('All');
+const Creatives = () => {
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
   const [hoveredVideo, setHoveredVideo] = useState(null);
 
   // Filter and Search
   const filteredVideos = videoData
-    .filter((video) =>
-      video.title.toLowerCase().includes(search.toLowerCase())
-    )
-    .filter((video) => (filter === 'All' ? true : video.category === filter));
+    .filter((video) => video.title.toLowerCase().includes(search.toLowerCase()))
+    .filter((video) => (filter === "All" ? true : video.category === filter));
 
   // Pagination
   const totalPages = Math.ceil(filteredVideos.length / ITEMS_PER_PAGE);
@@ -71,7 +77,9 @@ const VideoGallery = () => {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-4xl font-bold">Our Video Gallery</h1>
-        <p className="text-gray-400 mt-2">Explore our latest videos and company updates</p>
+        <p className="text-gray-400 mt-2">
+          Explore our latest videos and company updates
+        </p>
       </div>
 
       {/* Search + Filter */}
@@ -122,13 +130,15 @@ const VideoGallery = () => {
                 width="100%"
                 height="180px"
                 style={{
-                  borderRadius: '10px',
-                  overflow: 'hidden',
+                  borderRadius: "10px",
+                  overflow: "hidden",
                 }}
               />
             ) : (
               <img
-                src={`https://img.youtube.com/vi/${video.url.split('v=')[1]}/hqdefault.jpg`}
+                src={`https://img.youtube.com/vi/${
+                  video.url.split("v=")[1]
+                }/hqdefault.jpg`}
                 alt={video.title}
                 className="w-full h-48 object-cover rounded-lg"
               />
@@ -151,7 +161,9 @@ const VideoGallery = () => {
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
           className={`px-4 py-2 rounded-md ${
-            currentPage === 1 ? 'bg-gray-700 cursor-not-allowed' : 'bg-cc0000 hover:bg-red-600'
+            currentPage === 1
+              ? "bg-gray-700 cursor-not-allowed"
+              : "bg-cc0000 hover:bg-red-600"
           }`}
         >
           <FaAngleLeft />
@@ -162,7 +174,9 @@ const VideoGallery = () => {
             key={i}
             onClick={() => handlePageChange(i + 1)}
             className={`px-4 py-2 rounded-md ${
-              currentPage === i + 1 ? 'bg-red-500' : 'bg-gray-700 hover:bg-gray-600'
+              currentPage === i + 1
+                ? "bg-red-500"
+                : "bg-gray-700 hover:bg-gray-600"
             }`}
           >
             {i + 1}
@@ -173,7 +187,9 @@ const VideoGallery = () => {
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
           className={`px-4 py-2 rounded-md ${
-            currentPage === totalPages ? 'bg-gray-700 cursor-not-allowed' : 'bg-cc0000 hover:bg-red-600'
+            currentPage === totalPages
+              ? "bg-gray-700 cursor-not-allowed"
+              : "bg-cc0000 hover:bg-red-600"
           }`}
         >
           <FaAngleRight />
@@ -183,4 +199,4 @@ const VideoGallery = () => {
   );
 };
 
-export default VideoGallery;
+export default Creatives;

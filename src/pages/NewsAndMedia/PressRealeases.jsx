@@ -1,77 +1,80 @@
-import { useState } from 'react';
-import { FaSearch, FaCalendarAlt, FaAngleLeft, FaAngleRight, FaChevronDown } from 'react-icons/fa';
-import { IoNewspaperOutline } from 'react-icons/io5';
+import { useState } from "react";
+import {
+  FaSearch,
+  FaCalendarAlt,
+  FaAngleLeft,
+  FaAngleRight,
+  FaChevronDown,
+} from "react-icons/fa";
+import { IoNewspaperOutline } from "react-icons/io5";
 
 const data = [
   {
     id: 1,
-    title: 'Principles on Disclosure of Material Information and Price Sensitive Information',
-    date: 'January 29, 2024',
-    category: 'General',
+    title:
+      "Principles on Disclosure of Material Information and Price Sensitive Information",
+    date: "January 29, 2024",
+    category: "General",
   },
   {
     id: 2,
-    title: 'Price Sensitive Information Feb 16, 2025',
-    date: 'February 16, 2025',
-    category: 'Financial',
+    title: "Price Sensitive Information Feb 16, 2025",
+    date: "February 16, 2025",
+    category: "Financial",
   },
   {
     id: 3,
-    title: 'Price Sensitive Information Jan 30, 2025',
-    date: 'January 30, 2025',
-    category: 'Financial',
+    title: "Price Sensitive Information Jan 30, 2025",
+    date: "January 30, 2025",
+    category: "Financial",
   },
   {
     id: 4,
-    title: 'DISTRIBUTION OF CASH DIVIDEND FOR FY 2023-2024',
-    date: 'January 8, 2025',
-    category: 'Dividend',
+    title: "DISTRIBUTION OF CASH DIVIDEND FOR FY 2023-2024",
+    date: "January 8, 2025",
+    category: "Dividend",
   },
   {
     id: 5,
-    title: 'Transmission of Soft Copy of Annual Report 2024',
-    date: 'November 24, 2024',
-    category: 'Report',
+    title: "Transmission of Soft Copy of Annual Report 2024",
+    date: "November 24, 2024",
+    category: "Report",
   },
   {
     id: 6,
-    title: 'Notice of 45th Annual General Meeting',
-    date: 'November 19, 2024',
-    category: 'Meeting',
+    title: "Notice of 45th Annual General Meeting",
+    date: "November 19, 2024",
+    category: "Meeting",
   },
   {
     id: 7,
-    title: 'Credit Rating Report',
-    date: 'November 14, 2024',
-    category: 'Report',
+    title: "Credit Rating Report",
+    date: "November 14, 2024",
+    category: "Report",
   },
   {
     id: 8,
-    title: 'Price Sensitive Information Oct 27, 2024',
-    date: 'October 27, 2024',
-    category: 'Financial',
+    title: "Price Sensitive Information Oct 27, 2024",
+    date: "October 27, 2024",
+    category: "Financial",
   },
 ];
 
 // Sort by latest date (newest first)
-const sortedData = data.sort(
-  (a, b) => new Date(b.date) - new Date(a.date)
-);
+const sortedData = data.sort((a, b) => new Date(b.date) - new Date(a.date));
 
 const ITEMS_PER_PAGE = 4;
-const categories = ['All', ...new Set(data.map((item) => item.category))];
+const categories = ["All", ...new Set(data.map((item) => item.category))];
 
 const PressReleases = () => {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [filter, setFilter] = useState('All');
+  const [filter, setFilter] = useState("All");
 
   // Filter and search logic
   const filteredData = sortedData
-    .filter((item) =>
-      item.title.toLowerCase().includes(search.toLowerCase())
-    )
-    .filter((item) => (filter === 'All' ? true : item.category === filter));
+    .filter((item) => item.title.toLowerCase().includes(search.toLowerCase()))
+    .filter((item) => (filter === "All" ? true : item.category === filter));
 
   const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
   const currentData = filteredData.slice(
@@ -149,7 +152,9 @@ const PressReleases = () => {
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
             className={`px-3 py-1 rounded-md ${
-              currentPage === 1 ? 'bg-gray-700 cursor-not-allowed' : 'bg-cc0000 hover:bg-red-600'
+              currentPage === 1
+                ? "bg-gray-700 cursor-not-allowed"
+                : "bg-cc0000 hover:bg-red-600"
             }`}
           >
             <FaAngleLeft />
@@ -160,7 +165,9 @@ const PressReleases = () => {
               key={i + 1}
               onClick={() => handlePageChange(i + 1)}
               className={`px-3 py-1 rounded-md ${
-                currentPage === i + 1 ? 'bg-red-500' : 'bg-gray-700 hover:bg-gray-600'
+                currentPage === i + 1
+                  ? "bg-red-500"
+                  : "bg-gray-700 hover:bg-gray-600"
               }`}
             >
               {i + 1}
@@ -171,7 +178,9 @@ const PressReleases = () => {
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
             className={`px-3 py-1 rounded-md ${
-              currentPage === totalPages ? 'bg-gray-700 cursor-not-allowed' : 'bg-cc0000 hover:bg-red-600'
+              currentPage === totalPages
+                ? "bg-gray-700 cursor-not-allowed"
+                : "bg-cc0000 hover:bg-red-600"
             }`}
           >
             <FaAngleRight />
