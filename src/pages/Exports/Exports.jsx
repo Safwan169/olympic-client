@@ -1,13 +1,11 @@
-import { FaFilePdf, FaDownload } from 'react-icons/fa';
+import { FaFilePdf, FaDownload } from "react-icons/fa";
 
 const Exports = () => {
   return (
     <div className="bg-[#121212] text-white min-h-screen px-6 py-12">
       {/* Header Section */}
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold tracking-wide">
-          Exports
-        </h1>
+        <h1 className="text-4xl font-bold tracking-wide">Exports</h1>
       </div>
 
       {/* Content Section */}
@@ -15,40 +13,55 @@ const Exports = () => {
         {/* Section 1: Export Overview */}
         <section>
           <p className="text-gray-400 leading-relaxed">
-            Olympic Industries Limited, Bangladesh’s leading biscuit manufacturer, exports high-quality 
-            products to over <span className="text-red-500 font-semibold">32 countries</span> worldwide. With 
-            <span className="text-red-500 font-semibold"> eleven biscuit production lines</span>, 
-            <span className="text-red-500 font-semibold"> five confectionery lines</span>, and additional 
-            bakery, noodles, and snacks lines, we have the capacity to meet diverse global requirements.
+            Olympic Industries Limited, Bangladesh’s leading biscuit
+            manufacturer, exports high-quality products to over{" "}
+            <span className="text-red-500 font-semibold">32 countries</span>{" "}
+            worldwide. With
+            <span className="text-red-500 font-semibold">
+              {" "}
+              eleven biscuit production lines
+            </span>
+            ,
+            <span className="text-red-500 font-semibold">
+              {" "}
+              five confectionery lines
+            </span>
+            , and additional bakery, noodles, and snacks lines, we have the
+            capacity to meet diverse global requirements.
           </p>
 
           <p className="text-gray-400 leading-relaxed mt-4">
-            Olympic was the first biscuit manufacturer in Bangladesh to receive 
-            <span className="text-red-500 font-semibold"> ISO 22000 certification</span> for food safety and hygiene. 
-            All facilities are also Halal certified.
+            Olympic was the first biscuit manufacturer in Bangladesh to receive
+            <span className="text-red-500 font-semibold">
+              {" "}
+              ISO 22000 certification
+            </span>{" "}
+            for food safety and hygiene. All facilities are also Halal
+            certified.
           </p>
 
           <p className="text-gray-400 leading-relaxed mt-4">
-            Our product packaging is multilingual and tailored to meet the needs of our international customers. 
-            We also provide flexibility to accommodate specific customer requirements.
+            Our product packaging is multilingual and tailored to meet the needs
+            of our international customers. We also provide flexibility to
+            accommodate specific customer requirements.
           </p>
 
           <p className="text-gray-400 leading-relaxed mt-4">
-            For more information, visit our 
-            <a 
-              href="/brands" 
+            For more information, visit our
+            <a
+              href="/brands"
               className="text-cc0000 underline hover:text-red-600 transition ml-1"
             >
               Brands
-            </a> 
-            page. For export inquiries, contact our Export Manager at: 
-            <a 
-              href="mailto:export@olympicbd.com" 
+            </a>
+            page. For export inquiries, contact our Export Manager at:
+            <a
+              href="mailto:export@olympicbd.com"
               className="text-cc0000 underline hover:text-red-600 transition ml-1"
             >
               export@olympicbd.com
-            </a> 
-            or call 
+            </a>
+            or call
             <span className="text-cc0000 ml-1">+880 1760-403595</span>.
           </p>
         </section>

@@ -20,7 +20,9 @@ const useHandleLogout = () => {
         navigate("/");
         toast.success("Logout Successful");
       } catch (err) {
-        toast.error("Logout Failed. Please try again.");
+        toast.error("Logout Failed. Please try again.", {
+          duration: 2000,
+        });
         console.error("logout error", err);
       }
     },

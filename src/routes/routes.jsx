@@ -2,7 +2,8 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import adminRoutes from "./admin.routes";
 import userRoutes from "./user.routes";
-import React from 'react';
+import React from "react";
+import NotFoundPage from "../pages/NotFound/NotFound";
 
 const router = createBrowserRouter([
   {
@@ -11,6 +12,10 @@ const router = createBrowserRouter([
     children: [
       ...userRoutes, // User-related routes
     ],
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />,
   },
   ...adminRoutes, // Admin-related routes
 ]);

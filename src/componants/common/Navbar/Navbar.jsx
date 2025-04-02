@@ -3,115 +3,196 @@ import { faBars, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
+import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 
-// const navbarStyles = `
-//   .navbar {
-//     transition: background-color 0.3s ease, box-shadow 0.3s ease;
-//     position: fixed;
-//     top: 0;
-//     left: 0;
-//     right: 0;
-//     z-index: 1000;
-//   }
-
-//   .navbar-transparent {
-//     background-color: transparent;
-//     box-shadow: none;
-//   }
-
-//   .navbar-solid {
-//     background-color: #ff0001;
-//     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-//   }
-
-//   .search-icon {
-//     transition: color 0.3s ease, text-shadow 0.3s ease;
-//   }
-
-//   .search-container {
-//     position: relative;
-//     display: flex;
-//     align-items: center;
-//   }
-
-//   .search-input {
-//     width: 0;
-//     padding: 0;
-//     border: none;
-//     background: transparent;
-//     color: white;
-//     transition: width 0.3s ease;
-//   }
-
-//   .search-input.active {
-//     width: 150px;
-//     padding-left: 8px;
-//   }
-
-//   .search-icon-glow {
-//     color: white;
-//     text-shadow: 0 0 10px rgba(255,255,0,0.8);
-//   }
-
-//   .search-icon-normal {
-//     color: white;
-//     text-shadow: none;
-//   }
-// `;
-
 const Navbar = () => {
-  // Navigation data structure for easy future updates
+  // Updated Navigation data structure with new menu items
   const navigationItems = [
-    { id: "us", label: "US", href: "#", hasDropdown: false },
+    { id: "home", label: "HOME", to: "/", hasDropdown: false },
+    {
+      id: "company",
+      label: "COMPANY",
+      hasDropdown: true,
+      dropdownItems: [
+        { id: "about-us", label: "About Us", to: "/company/about-us" },
+        { id: "leadership", label: "Leadership", to: "/company/leadership" },
+        { id: "facilities", label: "Facilities", to: "/company/facilities" },
+        {
+          id: "sales-distribution",
+          label: "Sales & Distribution",
+          to: "/company/sales-distribution",
+        },
+      ],
+    },
     {
       id: "brands",
       label: "BRANDS",
       hasDropdown: true,
-      dropdownItems: [
-        { id: "brand1", label: "Brand 1", href: "#" },
-        { id: "brand2", label: "Brand 2", href: "#" },
-        { id: "brand3", label: "Brand 3", href: "#" },
-      ],
+      dropdownItems: [{ id: "brand1", label: "Brand 1", to: "/brands/brand1" }],
     },
     {
-      id: "golden-virtues",
-      label: "GOLDEN VIRTUES",
-      href: "#",
-      hasDropdown: false,
+      id: "investors",
+      label: "INVESTORS",
+      hasDropdown: true,
+      dropdownItems: [
+        {
+          id: "corporate-governance",
+          label: "Corporate Governance",
+          to: "/investors/corporate-governance",
+        },
+        {
+          id: "strategy-innovation",
+          label: "Strategy & Innovation",
+          to: "/investors/strategy-innovation",
+        },
+        {
+          id: "share-structure",
+          label: "Share Structure",
+          to: "/investors/share-structure",
+        },
+        {
+          id: "financials-reports",
+          label: "Financials & Annual Reports",
+          to: "/investors/financials-reports",
+        },
+        {
+          id: "unclaimed-dividend",
+          label: "List of Unclaimed Dividend",
+          to: "/investors/unclaimed-dividend",
+        },
+      ],
     },
-    { id: "legacy", label: "THE LEGACY", href: "#", hasDropdown: false },
     {
       id: "sustainability",
       label: "SUSTAINABILITY",
-      href: "#",
-      hasDropdown: false,
-    },
-    { id: "support", label: "SUPPORT", href: "#", hasDropdown: false },
-  ];
-
-  // Mobile navigation structure (can include different items if needed)
-  const mobileNavigationItems = [
-    { id: "home", label: "Home", href: "#", hasDropdown: false },
-    {
-      id: "about",
-      label: "About",
       hasDropdown: true,
       dropdownItems: [
-        { id: "inception", label: "Our Inception", href: "#" },
-        { id: "mission", label: "Mission & Vision", href: "#" },
-        { id: "achievements", label: "Achievements", href: "#" },
-        { id: "values", label: "Corporate Values", href: "#" },
-        { id: "sister", label: "Our Sister Concern", href: "#" },
-        { id: "certification", label: "Certification", href: "#" },
+        { id: "overview", label: "Overview", to: "/sustainability/overview" },
+        {
+          id: "activities",
+          label: "Activities",
+          to: "/sustainability/activities",
+        },
+        {
+          id: "full-reports",
+          label: "Full Reports",
+          to: "/sustainability/full-reports",
+        },
+      ],
+    },
+    { id: "exports", label: "EXPORTS", to: "/exports", hasDropdown: false },
+    {
+      id: "news-media",
+      label: "NEWS & MEDIA",
+      hasDropdown: true,
+      dropdownItems: [
+        {
+          id: "press-release",
+          label: "Press Release / PSI / MI",
+          to: "/news-media/press-release",
+        },
+        { id: "career", label: "Career", to: "/news-media/career" },
+        { id: "creatives", label: "Creatives", to: "/news-media/creatives" },
+      ],
+    },
+    { id: "contact", label: "CONTACT", to: "/contact", hasDropdown: false },
+  ];
+
+  // Mobile navigation structure with the same items for consistency
+  const mobileNavigationItems = [
+    { id: "home", label: "Home", to: "/", hasDropdown: false },
+    {
+      id: "company",
+      label: "Company",
+      hasDropdown: true,
+      dropdownItems: [
+        { id: "about-us", label: "About Us", to: "/company/about-us" },
+        { id: "leadership", label: "Leadership", to: "/company/leadership" },
+        { id: "facilities", label: "Facilities", to: "/company/facilities" },
+        {
+          id: "sales-distribution",
+          label: "Sales & Distribution",
+          to: "/company/sales-distribution",
+        },
       ],
     },
     {
-      id: "sustainability-reports",
-      label: "Sustainability Reports",
-      href: "#",
-      hasDropdown: false,
+      id: "brands",
+      label: "Brands",
+      hasDropdown: true,
+      dropdownItems: [
+        { id: "brand1", label: "Brand 1", to: "/brands/brand1" },
+        { id: "brand2", label: "Brand 2", to: "/brands/brand2" },
+        { id: "brand3", label: "Brand 3", to: "/brands/brand3" },
+      ],
     },
+    {
+      id: "investors",
+      label: "Investors",
+      hasDropdown: true,
+      dropdownItems: [
+        {
+          id: "corporate-governance",
+          label: "Corporate Governance",
+          to: "/investors/corporate-governance",
+        },
+        {
+          id: "strategy-innovation",
+          label: "Strategy & Innovation",
+          to: "/investors/strategy-innovation",
+        },
+        {
+          id: "share-structure",
+          label: "Share Structure",
+          to: "/investors/share-structure",
+        },
+        {
+          id: "financials-reports",
+          label: "Financials & Annual Reports",
+          to: "/investors/financials-reports",
+        },
+        {
+          id: "unclaimed-dividend",
+          label: "List of Unclaimed Dividend",
+          to: "/investors/unclaimed-dividend",
+        },
+      ],
+    },
+    {
+      id: "sustainability",
+      label: "Sustainability",
+      hasDropdown: true,
+      dropdownItems: [
+        { id: "overview", label: "Overview", to: "/sustainability/overview" },
+        {
+          id: "activities",
+          label: "Activities",
+          to: "/sustainability/activities",
+        },
+        {
+          id: "full-reports",
+          label: "Full Reports",
+          to: "/sustainability/full-reports",
+        },
+      ],
+    },
+    { id: "exports", label: "Exports", to: "/exports", hasDropdown: false },
+    {
+      id: "news-media",
+      label: "News & Media",
+      hasDropdown: true,
+      dropdownItems: [
+        {
+          id: "press-release",
+          label: "Press Release / PSI / MI",
+          to: "/news-media/press-release",
+        },
+        { id: "career", label: "Career", to: "/news-media/career" },
+        { id: "creatives", label: "Creatives", to: "/news-media/creatives" },
+      ],
+    },
+    { id: "contact", label: "Contact", to: "/contact", hasDropdown: false },
   ];
 
   // State for tracking dropdown visibility
@@ -215,10 +296,8 @@ const Navbar = () => {
 
   return (
     <div className="">
-      {/* <style>{navbarStyles}</style> */}
-
       <nav
-        className={`navbar text-white  ${
+        className={`navbar text-white ${
           scrolled ? "navbar-solid " : "navbar-transparent"
         }`}
         ref={menuRef}
@@ -254,25 +333,35 @@ const Navbar = () => {
                             transition={{ duration: 0.15 }}
                           >
                             {item.dropdownItems.map((dropdownItem) => (
-                              <a
+                              <NavLink
                                 key={dropdownItem.id}
-                                href={dropdownItem.href}
-                                className="block py-2 hover:bg-gray-100"
+                                to={dropdownItem.to}
+                                className={({ isActive }) =>
+                                  `block py-2 hover:bg-gray-100 ${
+                                    isActive ? "text-blue-600 font-medium" : ""
+                                  }`
+                                }
+                                onClick={() => setIsMobileMenuOpen(false)}
                               >
                                 {dropdownItem.label}
-                              </a>
+                              </NavLink>
                             ))}
                           </motion.div>
                         )}
                       </AnimatePresence>
                     </>
                   ) : (
-                    <a
-                      href={item.href}
-                      className="block py-2 hover:bg-gray-100"
+                    <NavLink
+                      to={item.to}
+                      className={({ isActive }) =>
+                        `block py-2 hover:bg-gray-100 ${
+                          isActive ? "text-blue-600 font-medium" : ""
+                        }`
+                      }
+                      onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {item.label}
-                    </a>
+                    </NavLink>
                   )}
                 </div>
               ))}
@@ -282,20 +371,21 @@ const Navbar = () => {
 
         {/* Main Navigation */}
         <div className="container mx-auto flex items-center justify-between px-4 py-2 hidden md:flex">
-          {" "}
-          {/* Hidden on smaller screens */}
+          {/* Logo */}
           <div className="flex items-center">
-            {/* Logo */}
             <motion.div
               className="flex items-center cursor-pointer mr-8"
               transition={{ type: "spring", stiffness: 320, damping: 12 }}
               style={{ mixBlendMode: "lighten" }}
             >
-              <img src="/olympic-logo.png" alt="Logo" className="w-40 mr-2" />
+              <NavLink to="/">
+                <img src="/olympic-logo.png" alt="Logo" className="w-40 mr-2" />
+              </NavLink>
             </motion.div>
           </div>
+
           {/* Navigation Items - Mapped from configuration */}
-          <div className="flex items-center space-x-8">
+          <div className="flex items-center space-x-6">
             {navigationItems.map((item) => (
               <div
                 key={item.id}
@@ -322,26 +412,40 @@ const Navbar = () => {
                           exit="exit"
                         >
                           {item.dropdownItems.map((dropdownItem) => (
-                            <motion.a
+                            <motion.div
                               key={dropdownItem.id}
                               variants={dropdownItemVariants}
-                              href={dropdownItem.href}
-                              className="block px-4 py-3 text-sm hover:bg-gray-100"
                             >
-                              {dropdownItem.label}
-                            </motion.a>
+                              <NavLink
+                                to={dropdownItem.to}
+                                className={({ isActive }) =>
+                                  `block px-4 py-3 text-sm hover:bg-gray-100 ${
+                                    isActive
+                                      ? "bg-gray-100 text-blue-600 font-medium"
+                                      : ""
+                                  }`
+                                }
+                                onClick={() => setDropdownState({})}
+                              >
+                                {dropdownItem.label}
+                              </NavLink>
+                            </motion.div>
                           ))}
                         </motion.div>
                       )}
                     </AnimatePresence>
                   </>
                 ) : (
-                  <a
-                    href={item.href}
-                    className="hover:text-yellow-200 font-semibold"
+                  <NavLink
+                    to={item.to}
+                    className={({ isActive }) =>
+                      `hover:text-yellow-200 font-semibold ${
+                        isActive ? "text-yellow-200" : ""
+                      }`
+                    }
                   >
                     {item.label}
-                  </a>
+                  </NavLink>
                 )}
               </div>
             ))}
@@ -369,7 +473,9 @@ const Navbar = () => {
         {/* Mobile Navigation */}
         <div className="flex justify-between items-center px-4 py-2 md:hidden">
           <div className="flex items-center">
-            <img src="/olympic-logo.png" alt="Logo" className="w-32" />
+            <NavLink to="/">
+              <img src="/olympic-logo.png" alt="Logo" className="w-32" />
+            </NavLink>
           </div>
           <button
             className="text-white focus:outline-none"
