@@ -1,24 +1,23 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
-import {
-  faPhone,
-  faEnvelope,
-  faLocationDot,
-  faChevronRight,
-} from "@fortawesome/free-solid-svg-icons";
 import {
   faFacebook,
-  faTwitter,
   faInstagram,
   faLinkedin,
+  faTwitter,
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
+import {
+  faChevronRight,
+  faEnvelope,
+  faFax,
+  faLocationDot,
+  faPhone,
+  faUserTie,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
+import { NavLink } from "react-router-dom";
 
 const Footer = () => {
-  const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
-
   const sitemapLinks = {
     // company: [
     //   { name: "About Us", url: "/about" },
@@ -72,15 +71,6 @@ const Footer = () => {
   ];
 
   const currentYear = new Date().getFullYear();
-
-  const handleSubscribe = (e) => {
-    e.preventDefault();
-    if (email) {
-      setSubscribed(true);
-      setTimeout(() => setSubscribed(false), 3000);
-      setEmail("");
-    }
-  };
 
   return (
     <footer className="bg-black text-gray-300 py-16 relative overflow-hidden">
@@ -165,7 +155,11 @@ const Footer = () => {
                   className="text-red-500 mr-3 mt-1 group-hover:text-yellow-500 transition-colors duration-300"
                 />
                 <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
-                  123 Industrial Avenue, Business District, City 12345
+                  Amin Court, 6th Floor
+                  <br />
+                  62-63 Motijheel C/A
+                  <br />
+                  Dhaka-1000, Bangladesh
                 </p>
               </div>
               <div className="flex items-start group">
@@ -174,7 +168,16 @@ const Footer = () => {
                   className="text-red-500 mr-3 mt-1 group-hover:text-yellow-500 transition-colors duration-300"
                 />
                 <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
-                  +1 (555) 123-4567
+                  +88 09-606565228
+                </p>
+              </div>
+              <div className="flex items-start group">
+                <FontAwesomeIcon
+                  icon={faFax}
+                  className="text-red-500 mr-3 mt-1 group-hover:text-yellow-500 transition-colors duration-300"
+                />
+                <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                  +88 02-223387485
                 </p>
               </div>
               <div className="flex items-start group">
@@ -183,59 +186,71 @@ const Footer = () => {
                   className="text-red-500 mr-3 mt-1 group-hover:text-yellow-500 transition-colors duration-300"
                 />
                 <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
-                  info@olympicgroup.com
+                  info@olympicbd.com
                 </p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Map and Newsletter */}
-        <div className="flex flex-col lg:flex-row justify-between items-center mt-16 text-center lg:text-left">
-          <div className="w-full lg:w-1/2 mb-8 lg:mb-0 overflow-hidden rounded-lg shadow-lg transform transition duration-500 hover:shadow-2xl">
+        {/* Map and Investors' Relations Section Side by Side */}
+        <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Map */}
+          <div className="w-full overflow-hidden rounded-lg shadow-lg transform transition duration-500 hover:shadow-2xl">
             <iframe
               title="Google Map"
-              className="w-full h-56 border-2 border-gray-800"
+              className="w-full h-72 border-2 border-gray-800"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3652.5571624495055!2d90.42035979999997!3d23.727503099999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b9b0faef7c85%3A0x2aba50dabe58a5c!2sAmin%20Court!5e0!3m2!1sen!2sbd!4v1741845985605!5m2!1sen!2sbd"
               allowFullScreen=""
               loading="lazy"
             ></iframe>
           </div>
 
-          <div className="mt-6 lg:mt-0 lg:ml-12 w-full lg:w-1/3">
+          {/* Investors' Relations Department */}
+          <div className="bg-gray-900 rounded-lg p-6 border border-gray-800 shadow-lg flex flex-col justify-center">
             <h3 className="text-lg font-bold text-white mb-6 border-b border-red-600 pb-2 inline-block">
-              Subscribe to Newsletter
+              Investors' Relation Department
             </h3>
-            <div className="relative">
-              <form onSubmit={handleSubscribe} className="relative">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Your email address"
-                  className="w-full p-4 rounded-full bg-gray-900 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-300 pl-6"
-                  required
+            <div className="space-y-6">
+              <div className="flex items-start group">
+                <FontAwesomeIcon
+                  icon={faUserTie}
+                  className="text-red-500 mr-3 mt-1 group-hover:text-yellow-500 transition-colors duration-300"
                 />
-                <button
-                  type="submit"
-                  className="absolute right-0 top-0 h-full px-6 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-full hover:from-red-500 hover:to-red-600 transition-all duration-300 flex items-center"
-                >
-                  <span className="hidden md:inline-block mr-2">Subscribe</span>
-                  <FontAwesomeIcon
-                    icon={faChevronRight}
-                    className="text-yellow-400"
-                  />
-                </button>
-              </form>
-              {subscribed && (
-                <div className="absolute -bottom-8 left-0 right-0 text-center text-green-400 mt-2 animate-pulse">
-                  Thank you for subscribing!
-                </div>
-              )}
+                <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                  <span className="text-gray-300">Contact Person:</span>
+                  <br />
+                  Mintu Kumar Das
+                </p>
+              </div>
+              <div className="flex items-start group">
+                <FontAwesomeIcon
+                  icon={faEnvelope}
+                  className="text-red-500 mr-3 mt-1 group-hover:text-yellow-500 transition-colors duration-300"
+                />
+                <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                  mintu.das@olympicbd.com
+                </p>
+              </div>
+              <div className="flex items-start group">
+                <FontAwesomeIcon
+                  icon={faPhone}
+                  className="text-red-500 mr-3 mt-1 group-hover:text-yellow-500 transition-colors duration-300"
+                />
+                <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                  +88 09-606565228 Ex-6154
+                </p>
+              </div>
+              <div className="flex items-start group">
+                <FontAwesomeIcon
+                  icon={faFax}
+                  className="text-red-500 mr-3 mt-1 group-hover:text-yellow-500 transition-colors duration-300"
+                />
+                <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                  +88 02-223387485
+                </p>
+              </div>
             </div>
-            <p className="text-gray-500 text-sm mt-4">
-              Get updates on new products, special offers and company news.
-            </p>
           </div>
         </div>
 
