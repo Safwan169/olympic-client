@@ -11,6 +11,7 @@ import PressReleases from "../pages/NewsAndMedia/PressRealeases";
 import Creatives from "../pages/NewsAndMedia/Creatives";
 import Exports from "../pages/Exports/Exports";
 import ContactPage from "../pages/Contact/Contact";
+import ProductCard from "../componants/common/ProductCard";
 
 const userRoutes = [
   {
@@ -59,6 +60,10 @@ const userRoutes = [
   {
     path: "/contact",
     element: <ContactPage />,
+  },
+  {
+    path: "/brands",
+    element: <ProductCard />,
   },
 ];
 
