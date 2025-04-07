@@ -31,7 +31,7 @@ const Navbar = () => {
       hasDropdown: true,
       dropdownItems: [
         { id: "brands", label: "Brands", to: "/brands" },
-        { id: "Consumer Promotion ", label: "Consumer Promotion ", to: "/Consumer Promotion " },
+        { id: "Consumer Promotion ", label: "Consumer Promotion ", to: "/consumer-promotion" },
 
       ],
     },
