@@ -1,4 +1,4 @@
-import bgImage from '../assets/cookieBG.jpg';
+import bgImage from "../../assets/cookieBG.jpg";
 
 const StrategyAndInnovation = () => {
   return (
@@ -25,9 +25,11 @@ const StrategyAndInnovation = () => {
             Innovation at Olympic
           </h2>
           <p className="text-gray-400 leading-relaxed">
-            Innovation is the process of generating value through new ideas. At Olympic, we integrate innovation
-            into every aspect of our business — from production to product development and marketing. Innovation
-            is key to overcoming business challenges and ensuring long-term success.
+            Innovation is the process of generating value through new ideas. At
+            Olympic, we integrate innovation into every aspect of our business —
+            from production to product development and marketing. Innovation is
+            key to overcoming business challenges and ensuring long-term
+            success.
           </p>
         </section>
 
@@ -37,9 +39,10 @@ const StrategyAndInnovation = () => {
             Production Process Innovation
           </h2>
           <p className="text-gray-400 leading-relaxed">
-            Our production processes are continuously optimized for efficiency and simplicity. We have made 
-            significant advancements in automation to increase output, reduce manual intervention, and ensure
-            that our products meet the highest health, safety, and hygiene standards.
+            Our production processes are continuously optimized for efficiency
+            and simplicity. We have made significant advancements in automation
+            to increase output, reduce manual intervention, and ensure that our
+            products meet the highest health, safety, and hygiene standards.
           </p>
         </section>
 
@@ -49,9 +52,11 @@ const StrategyAndInnovation = () => {
             Product Innovation
           </h2>
           <p className="text-gray-400 leading-relaxed">
-            Olympic operates trial production labs for new product development and testing. We collaborate with
-            global partners to access advanced research tools, enabling us to develop and launch products tailored
-            to the Bangladeshi market while continually improving our existing product line.
+            Olympic operates trial production labs for new product development
+            and testing. We collaborate with global partners to access advanced
+            research tools, enabling us to develop and launch products tailored
+            to the Bangladeshi market while continually improving our existing
+            product line.
           </p>
         </section>
 
@@ -61,9 +66,10 @@ const StrategyAndInnovation = () => {
             Marketing Innovation
           </h2>
           <p className="text-gray-400 leading-relaxed">
-            Product innovation drives marketing innovation. Having a diverse range of innovative products allows
-            us to create dynamic marketing campaigns that highlight new product features and resonate with
-            our consumers.
+            Product innovation drives marketing innovation. Having a diverse
+            range of innovative products allows us to create dynamic marketing
+            campaigns that highlight new product features and resonate with our
+            consumers.
           </p>
         </section>
 
@@ -73,9 +79,10 @@ const StrategyAndInnovation = () => {
             Sustainable Growth
           </h2>
           <p className="text-gray-400 leading-relaxed">
-            Olympic is committed to continuous investment in innovation to stay ahead of both domestic and
-            international competition. By adopting best practices and encouraging creative solutions, we aim
-            to drive long-term sustainability and growth.
+            Olympic is committed to continuous investment in innovation to stay
+            ahead of both domestic and international competition. By adopting
+            best practices and encouraging creative solutions, we aim to drive
+            long-term sustainability and growth.
           </p>
         </section>
 
@@ -85,7 +92,8 @@ const StrategyAndInnovation = () => {
             Learn More
           </h2>
           <p className="text-gray-400">
-            For more details on Olympic Industries' strategy and innovation, visit:
+            For more details on Olympic Industries' strategy and innovation,
+            visit:
             <a
               href="https://olympicbd.com/sustainability/overview/"
               target="_blank"

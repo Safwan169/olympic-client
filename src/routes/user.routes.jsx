@@ -12,6 +12,15 @@ import Creatives from "../pages/NewsAndMedia/Creatives";
 import Exports from "../pages/Exports/Exports";
 import ContactPage from "../pages/Contact/Contact";
 import ProductCard from "../componants/common/ProductCard";
+import CorporateGovernance from "../pages/Investors/CorporateGovernance";
+import StrategyAndInnovation from "../pages/Investors/StrategyAndInnovation";
+import ShareStructure from "../pages/Investors/ShareStructure";
+import FinancialAnnualReport from "../pages/Investors/FinancialAnnualReport";
+import UnclaimedDividends from "../pages/Investors/UnclaimedDividends";
+import AboutUs from "../pages/Company/AboutUs/AboutUs";
+import LeaderShipPage from "../pages/Company/LeaderShip/LeaderShipPage";
+import FacilitiesPage from "../pages/Company/Facilities/FacilitiesPage";
+import SalesAndDistribution from "../pages/Company/AboutUs/components/SalesAndDistribution";
 
 const userRoutes = [
   {
@@ -26,6 +35,31 @@ const userRoutes = [
     path: "/login",
     element: <LoginPage />,
   },
+  // about us
+  {
+    path: "/company/about-us",
+    element: <AboutUs />,
+  },
+  // leadership
+  {
+    path: "/company/leadership",
+    element: <LeaderShipPage />,
+  },
+  // facilities
+  {
+    path: "/company/facilities",
+    element: <FacilitiesPage />,
+  },
+  // sales and distribution
+  {
+    path: "/company/sales-distribution",
+    element: <SalesAndDistribution />,
+  },
+  {
+    path: "/company/about-us",
+    element: <AboutUs />,
+  },
+
   // sustainability
   {
     path: "/sustainability/activities",
@@ -60,6 +94,27 @@ const userRoutes = [
   {
     path: "/contact",
     element: <ContactPage />,
+  },
+  // investors
+  {
+    path: "/investors/corporate-governance",
+    element: <CorporateGovernance />,
+  },
+  {
+    path: "/investors/strategy-innovation",
+    element: <StrategyAndInnovation />,
+  },
+  {
+    path: "/investors/share-structure",
+    element: <ShareStructure />,
+  },
+  {
+    path: "/investors/financials-reports",
+    element: <FinancialAnnualReport />,
+  },
+  {
+    path: "/investors/unclaimed-dividend",
+    element: <UnclaimedDividends />,
   },
   {
     path: "/brands",
