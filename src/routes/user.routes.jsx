@@ -11,6 +11,7 @@ import PressReleases from "../pages/NewsAndMedia/PressRealeases";
 import Creatives from "../pages/NewsAndMedia/Creatives";
 import Exports from "../pages/Exports/Exports";
 import ContactPage from "../pages/Contact/Contact";
+import ProductCard from "../componants/common/ProductCard";
 import CorporateGovernance from "../pages/Investors/CorporateGovernance";
 import StrategyAndInnovation from "../pages/Investors/StrategyAndInnovation";
 import ShareStructure from "../pages/Investors/ShareStructure";
@@ -114,6 +115,10 @@ const userRoutes = [
   {
     path: "/investors/unclaimed-dividend",
     element: <UnclaimedDividends />,
+  },
+  {
+    path: "/brands",
+    element: <ProductCard />,
   },
 ];
 
