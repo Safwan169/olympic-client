@@ -89,7 +89,7 @@ const PressReleases = () => {
   };
 
   return (
-    <div className="bg-[#121212] text-white min-h-screen p-6">
+    <div className="bg-[#121212] text-white min-h-screen p-6 pt-20">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <h1 className="text-3xl font-bold mb-4 border-b-2 border-gray-700 pb-2 flex items-center gap-2">

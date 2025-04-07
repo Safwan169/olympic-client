@@ -198,11 +198,12 @@ const Footer = () => {
           {/* Map */}
           <div className="w-full overflow-hidden rounded-lg shadow-lg transform transition duration-500 hover:shadow-2xl">
             <iframe
-              title="Google Map"
-              className="w-full h-72 border-2 border-gray-800"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3652.5571624495055!2d90.42035979999997!3d23.727503099999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b9b0faef7c85%3A0x2aba50dabe58a5c!2sAmin%20Court!5e0!3m2!1sen!2sbd!4v1741845985605!5m2!1sen!2sbd"
-              allowFullScreen=""
+              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7305.114330503113!2d90.42036000000002!3d23.727503!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b85a9a41f945%3A0xbb8a4a4649ebd4b1!2sOlympic%20Industries%20Ltd.!5e0!3m2!1sen!2sbd!4v1744024414376!5m2!1sen!2sbd"
+              width="600"
+              height="450"
+              allowfullscreen=""
               loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
             ></iframe>
           </div>
 
