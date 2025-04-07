@@ -1,0 +1,52 @@
+.navbar {
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.navbar-transparent {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.navbar-solid {
+  background-color: #d82525;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-icon {
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  width: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: white;
+  transition: width 0.3s ease;
+}
+
+.search-input.active {
+  width: 150px;
+  padding-left: 8px;
+}
+
+.search-icon-glow {
+  color: white;
+  text-shadow: 0 0 10px rgba(255, 255, 0, 0.8);
+}
+
+.search-icon-normal {
+  color: white;
+  text-shadow: none;
+}
