@@ -11,6 +11,12 @@ import PressReleases from "../pages/NewsAndMedia/PressRealeases";
 import Creatives from "../pages/NewsAndMedia/Creatives";
 import Exports from "../pages/Exports/Exports";
 import ContactPage from "../pages/Contact/Contact";
+import CorporateGovernance from "../pages/Investors/CorporateGovernance";
+import StrategyAndInnovation from "../pages/Investors/StrategyAndInnovation";
+import ShareStructure from "../pages/Investors/ShareStructure";
+import FinancialAnnualReport from "../pages/Investors/FinancialAnnualReport";
+import UnclaimedDividends from "../pages/Investors/UnclaimedDividends";
+import AboutUs from "../pages/Company/AboutUs/AboutUs";
 
 const userRoutes = [
   {
@@ -24,6 +30,12 @@ const userRoutes = [
   {
     path: "/login",
     element: <LoginPage />,
+  },
+  // company
+  // about us
+  {
+    path: "/company/about-us",
+    element: <AboutUs />,
   },
   // sustainability
   {
@@ -59,6 +71,27 @@ const userRoutes = [
   {
     path: "/contact",
     element: <ContactPage />,
+  },
+  // investors
+  {
+    path: "/investors/corporate-governance",
+    element: <CorporateGovernance />,
+  },
+  {
+    path: "/investors/strategy-innovation",
+    element: <StrategyAndInnovation />,
+  },
+  {
+    path: "/investors/share-structure",
+    element: <ShareStructure />,
+  },
+  {
+    path: "/investors/financials-reports",
+    element: <FinancialAnnualReport />,
+  },
+  {
+    path: "/investors/unclaimed-dividend",
+    element: <UnclaimedDividends />,
   },
 ];
 
