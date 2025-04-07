@@ -17,6 +17,9 @@ import ShareStructure from "../pages/Investors/ShareStructure";
 import FinancialAnnualReport from "../pages/Investors/FinancialAnnualReport";
 import UnclaimedDividends from "../pages/Investors/UnclaimedDividends";
 import AboutUs from "../pages/Company/AboutUs/AboutUs";
+import LeaderShipPage from "../pages/Company/LeaderShip/LeaderShipPage";
+import FacilitiesPage from "../pages/Company/Facilities/FacilitiesPage";
+import SalesAndDistribution from "../pages/Company/AboutUs/components/SalesAndDistribution";
 
 const userRoutes = [
   {
@@ -31,12 +34,31 @@ const userRoutes = [
     path: "/login",
     element: <LoginPage />,
   },
-  // company
   // about us
   {
     path: "/company/about-us",
     element: <AboutUs />,
   },
+  // leadership
+  {
+    path: "/company/leadership",
+    element: <LeaderShipPage />,
+  },
+  // facilities
+  {
+    path: "/company/facilities",
+    element: <FacilitiesPage />,
+  },
+  // sales and distribution
+  {
+    path: "/company/sales-distribution",
+    element: <SalesAndDistribution />,
+  },
+  {
+    path: "/company/about-us",
+    element: <AboutUs />,
+  },
+
   // sustainability
   {
     path: "/sustainability/activities",
