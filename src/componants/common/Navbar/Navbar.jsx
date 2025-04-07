@@ -29,7 +29,11 @@ const Navbar = () => {
       id: "brands",
       label: "BRANDS",
       hasDropdown: true,
-      dropdownItems: [{ id: "brand1", label: "Brand 1", to: "/brands/brand1" }],
+      dropdownItems: [
+        { id: "brands", label: "Brands", to: "/brands" },
+        { id: "Consumer Promotion ", label: "Consumer Promotion ", to: "/Consumer Promotion " },
+
+      ],
     },
     {
       id: "investors",
