@@ -21,6 +21,7 @@ import AboutUs from "../pages/Company/AboutUs/AboutUs";
 import LeaderShipPage from "../pages/Company/LeaderShip/LeaderShipPage";
 import FacilitiesPage from "../pages/Company/Facilities/FacilitiesPage";
 import SalesAndDistribution from "../pages/Company/AboutUs/components/SalesAndDistribution";
+import PromotionsPage from "../pages/brands/PromotionsPage";
 
 const userRoutes = [
   {
@@ -119,6 +120,10 @@ const userRoutes = [
   {
     path: "/brands",
     element: <ProductCard />,
+  },
+  {
+    path: "/consumer-promotion",
+    element: <PromotionsPage />,
   },
 ];
 
