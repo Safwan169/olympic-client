@@ -113,6 +113,36 @@ const ContactPage = () => {
             }}
           />
         ))}
+
+        {/* Animated grid lines */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `linear-gradient(rgba(66, 22, 219, 0.1) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(66, 22, 219, 0.1) 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+            backgroundPosition: "center center",
+          }}
+        ></div>
+
+        {/* Animated neon circles */}
+        {[...Array(3)].map((_, i) => (
+          <div
+            key={`circle-${i}`}
+            className="absolute rounded-full opacity-10 animate-pulse"
+            style={{
+              width: `${Math.random() * 400 + 200}px`,
+              height: `${Math.random() * 400 + 200}px`,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              border: `4px solid hsla(${
+                Math.random() * 60 + 240
+              }, 100%, 70%, 0.3)`,
+              animationDuration: `${Math.random() * 15 + 20}s`,
+              transform: "translate(-50%, -50%)",
+            }}
+          />
+        ))}
       </div>
 
       <div className="container mx-auto px-4 py-12 relative z-10">
