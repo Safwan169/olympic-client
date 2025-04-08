@@ -57,7 +57,7 @@ const ProductCard = ({title,products}) => {
         {products?.map((product) => (
           <div key={product.id} className="flex flex-col items-center">
             <div
-              className="relative w-64 h-64 cursor-pointer rounded-full overflow-hidden shadow-2xl transform transition-all duration-300 hover:scale-105"
+              className="relative w-60 h-60 cursor-pointer rounded-full overflow-hidden shadow-2xl transform transition-all duration-300 hover:scale-105"
               onMouseEnter={() => setActiveProduct(product.id)}
               onMouseLeave={() => setActiveProduct(null)}
             >
@@ -72,7 +72,7 @@ const ProductCard = ({title,products}) => {
               {/* Base Overlay Circle */}
               <div className="absolute inset-0 rounded-full bg-gradient-to-t from-black via-black/70 to-transparent flex items-end justify-center text-center pb-6 px-4">
                 <div className="text-white">
-                  <h3 className="text-xl font-bold mb-1" style={{ fontFamily: 'Playfair Display, serif' }}>{product.name}</h3>
+                  <h3 className="text-[16px] font-bold mb-1" style={{ fontFamily: 'Playfair Display, serif' }}>{product.name}</h3>
                 </div>
               </div>
 

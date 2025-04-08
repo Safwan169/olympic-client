@@ -1,9 +1,25 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import ProductCard from '../../componants/common/ProductCard';
 
 const Brands = () => {
+    // Create refs for each section
+    const biscuitsRef = useRef(null);
+    const cookiesRef = useRef(null);
+    const confectioneryRef = useRef(null);
+    const snacksRef = useRef(null);
+    const powderDrinksRef = useRef(null);
+    const batteriesRef = useRef(null);
 
+    // State to track active tab
+    const [activeTab, setActiveTab] = useState('snacks'); // Default to snacks as active
 
+    // Scroll to section function
+    const scrollToSection = (ref, tabName) => {
+        ref.current.scrollIntoView({ behavior: 'smooth' });
+        setActiveTab(tabName);
+    };
+
+    // Product data
     const biscuits = [
         {
             id: 1,
@@ -45,7 +61,6 @@ const Brands = () => {
             ]
         }
     ];
-
 
     const cookies = [
         {
@@ -91,8 +106,7 @@ const Brands = () => {
                 { "size": "Family Pack (250g)", "price": "20" }
             ]
         }
-    ]
-
+    ];
 
     const confectionery = [
         {
@@ -136,8 +150,8 @@ const Brands = () => {
                 { "size": "Box of 6", "price": "12" },
                 { "size": "Box of 12", "price": "20" }
             ]
-        },
-    ]
+        }
+    ];
 
     const snacks = [
         {
@@ -184,83 +198,142 @@ const Brands = () => {
                 { "size": "Pack of 6", "price": "7" }
             ]
         }
-    ]
+    ];
 
-
-    const batteries=[
-          {
+    const batteries = [
+        {
             "id": 1,
             "name": "Olympic-Heavy-Duty-Battery",
             "description": "Long-lasting AA rechargeable batteries for everyday use",
             "image": "Olympic-Heavy-Duty-Battery.jpg",
             "packets": [
-              { "size": "Pack of 2", "price": "10" },
-              { "size": "Pack of 4", "price": "18" },
-              { "size": "Pack of 8", "price": "32" }
+                { "size": "Pack of 2", "price": "10" },
+                { "size": "Pack of 4", "price": "18" },
+                { "size": "Pack of 8", "price": "32" }
             ]
-          },
-          {
+        },
+        {
             "id": 2,
             "name": "Volt-UM-3-Battry",
             "description": "High-performance AAA lithium batteries, ideal for high-drain devices",
             "image": "Volt-UM-3-Battry.jpg",
             "packets": [
-              { "size": "Pack of 4", "price": "8" },
-              { "size": "Pack of 8", "price": "15" }
+                { "size": "Pack of 4", "price": "8" },
+                { "size": "Pack of 8", "price": "15" }
             ]
-          },
-          {
+        },
+        {
             "id": 3,
             "name": "Olympic-UM3",
             "description": "Reliable CR2032 coin cell batteries for watches, remotes, and small electronics",
             "image": "Olympic-UM3.jpg",
             "packets": [
-              { "size": "Pack of 2", "price": "3" },
-              { "size": "Pack of 5", "price": "7" },
-              { "size": "Pack of 10", "price": "13" }
+                { "size": "Pack of 2", "price": "3" },
+                { "size": "Pack of 5", "price": "7" },
+                { "size": "Pack of 10", "price": "13" }
             ]
-          },
-          {
+        },
+        {
             "id": 4,
             "name": "Olympic-Laser",
             "description": "High-capacity 9V rechargeable battery for long-lasting performance",
             "image": "Olympic-Laser.jpg",
             "packets": [
-              { "size": "Single", "price": "10" },
-              { "size": "Pack of 2", "price": "18" }
+                { "size": "Single", "price": "10" },
+                { "size": "Pack of 2", "price": "18" }
             ]
-          }
-        ]
-      
-      
-
-
-
-
+        }
+    ];
 
 
 
     return (
-        <div>
-            {/* biscuts  */}
+        <div className="bg-black min-h-screen text-white">
+            {/* Fixed navigation bar */}
+            <div className="fixed top-0 left-0 pt-20 w-full bg-black z-10 shadow-lg">
+                <div className="container mx-auto px-4 py-6">
+                    <div className="flex justify-center overflow-x-auto">
+                        <div className="flex space-x-1 rounded-lg bg-gray-900 p-1 border border-gray-800">
+                            <button
+                                className={`px-6 py-3 rounded-md font-medium transition-all duration-300 transform hover:scale-105 ${activeTab === 'biscuits'
+                                        ? 'bg-red-600 text-white shadow-md shadow-red-500/20'
+                                        : 'text-yellow-500 bg-gray-900 hover:bg-gray-800 border border-yellow-500/30'
+                                    }`}
+                                onClick={() => scrollToSection(biscuitsRef, 'biscuits')}
+                            >
+                                Biscuits
+                            </button>
+                            <button
+                                className={`px-6 py-3 rounded-md font-medium transition-all duration-300 transform hover:scale-105 ${activeTab === 'cookies'
+                                        ? 'bg-red-600 text-white shadow-md shadow-red-500/20'
+                                        : 'text-yellow-500 bg-gray-900 hover:bg-gray-800 border border-yellow-500/30'
+                                    }`}
+                                onClick={() => scrollToSection(cookiesRef, 'cookies')}
+                            >
+                                Cookies & Bakery
+                            </button>
+                            <button
+                                className={`px-6 py-3 rounded-md font-medium transition-all duration-300 transform hover:scale-105 ${activeTab === 'confectionery'
+                                        ? 'bg-red-600 text-white shadow-md shadow-red-500/20'
+                                        : 'text-yellow-500 bg-gray-900 hover:bg-gray-800 border border-yellow-500/30'
+                                    }`}
+                                onClick={() => scrollToSection(confectioneryRef, 'confectionery')}
+                            >
+                                Confectionery
+                            </button>
+                            <button
+                                className={`px-6 py-3 rounded-md font-medium transition-all duration-300 transform hover:scale-105 ${activeTab === 'snacks'
+                                        ? 'bg-red-600 text-white shadow-md shadow-red-500/20'
+                                        : 'text-yellow-500 bg-gray-900 hover:bg-gray-800 border border-yellow-500/30'
+                                    }`}
+                                onClick={() => scrollToSection(snacksRef, 'snacks')}
+                            >
+                                Snacks
+                            </button>
 
-            <ProductCard title={'Biscuits'} products={biscuits} />
+                            <button
+                                className={`px-6 py-3 rounded-md font-medium transition-all duration-300 transform hover:scale-105 ${activeTab === 'batteries'
+                                        ? 'bg-red-600 text-white shadow-md shadow-red-500/20'
+                                        : 'text-yellow-500 bg-gray-900 hover:bg-gray-800 border border-yellow-500/30'
+                                    }`}
+                                onClick={() => scrollToSection(batteriesRef, 'batteries')}
+                            >
+                                Batteries
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            {/* Cookies & Bakery */}
+            {/* Product Sections with padding for fixed navigation */}
+            <div className="container mx-auto  pt-32">
+                {/* Biscuits */}
+                <div ref={biscuitsRef} className="">
+                    <ProductCard title={'Biscuits'} products={biscuits} />
+                </div>
 
-            <ProductCard title={'Cookies & Bakery'} products={cookies} />
+                {/* Cookies & Bakery */}
+                <div ref={cookiesRef} className=" ">
+                    <ProductCard title={'Cookies & Bakery'} products={cookies} />
+                </div>
 
-            {/* confectionery */}
+                {/* Confectionery */}
+                <div ref={confectioneryRef} className="">
+                    <ProductCard title={'Confectionery'} products={confectionery} />
+                </div>
 
-            <ProductCard title={'Confectionery'} products={confectionery} />
+                {/* Snacks */}
+                <div ref={snacksRef} className="">
+                    <ProductCard title={'Snacks'} products={snacks} />
+                </div>
 
-            {/* snacks */}
 
-            <ProductCard title={'Snacks'} products={snacks} />
 
-            {/* batteries */}
-
-            <ProductCard title={'Batteries'} products={batteries} />
+                {/* Batteries */}
+                <div ref={batteriesRef} className="py-8">
+                    <ProductCard title={'Batteries'} products={batteries} />
+                </div>
+            </div>
         </div>
     );
 };
