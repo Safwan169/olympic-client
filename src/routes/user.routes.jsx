@@ -11,7 +11,6 @@ import PressReleases from "../pages/NewsAndMedia/PressRealeases";
 import Creatives from "../pages/NewsAndMedia/Creatives";
 import Exports from "../pages/Exports/Exports";
 import ContactPage from "../pages/Contact/Contact";
-import ProductCard from "../componants/common/ProductCard";
 import CorporateGovernance from "../pages/Investors/CorporateGovernance";
 import StrategyAndInnovation from "../pages/Investors/StrategyAndInnovation";
 import ShareStructure from "../pages/Investors/ShareStructure";
@@ -22,6 +21,7 @@ import LeaderShipPage from "../pages/Company/LeaderShip/LeaderShipPage";
 import FacilitiesPage from "../pages/Company/Facilities/FacilitiesPage";
 import SalesAndDistribution from "../pages/Company/AboutUs/components/SalesAndDistribution";
 import PromotionsPage from "../pages/brands/PromotionsPage";
+import Brands from "../pages/brands/Brands";
 
 const userRoutes = [
   {
@@ -119,7 +119,7 @@ const userRoutes = [
   },
   {
     path: "/brands",
-    element: <ProductCard />,
+    element: <Brands />,
   },
   {
     path: "/consumer-promotion",

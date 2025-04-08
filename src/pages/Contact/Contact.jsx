@@ -19,18 +19,18 @@ const ContactPage = () => {
   }, []);
 
   const departments = [
-    { id: 'sales', name: 'Sales' },
-    { id: 'marketing', name: 'Marketing' },
-    { id: 'support', name: 'Customer Support' },
-    { id: 'share', name: 'Share Department' },
-    { id: 'billing', name: 'Billing' }
+    { id: 'General', name: 'General' },
+    { id: 'Shareholder', name: 'Shareholder' },
+    { id: 'Export', name: 'Customer Export' },
+    { id: 'Media', name: 'Media ' },
+    { id: 'CSR & Sustainbaility', name: 'CSR & Sustainbaility' }
   ];
 
-  const feedbackOptions = [
-    { id: 'product', name: 'Product Feedback' },
-    { id: 'service', name: 'Service Feedback' },
-    { id: 'both', name: 'Product & Service Feedback' }
-  ];
+  // const feedbackOptions = [
+  //   { id: 'product', name: 'Product Feedback' },
+  //   { id: 'service', name: 'Service Feedback' },
+  //   { id: 'both', name: 'Product & Service Feedback' }
+  // ];
 
   const handleFileChange = (e) => {
     if (e.target.files) {
