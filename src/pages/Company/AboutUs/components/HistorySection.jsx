@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { ChevronRight, Clock, Star, Award, TrendingUp } from "lucide-react";
 
 export default function HistorySection() {
-  const [activeTab, setActiveTab] = useState("milestones");
+  const [activeTab, setActiveTab] = useState("journey");
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
