@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ArrowRight, ChevronDown, Globe, Heart, BookOpen, CloudRain, Users } from 'lucide-react';
+import bgImage from '../../assets/cookieBG.jpg'; // adjust as per actual location
 
 const SustainabilityOverview = () => {
   const [activeSection, setActiveSection] = useState(null);
@@ -15,7 +16,7 @@ const SustainabilityOverview = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center z-0"
           style={{
-            backgroundImage: `url('/api/placeholder/1200/600')`,
+            backgroundImage: `url(${bgImage})`,
             filter: 'brightness(0.4)'
           }}
         />

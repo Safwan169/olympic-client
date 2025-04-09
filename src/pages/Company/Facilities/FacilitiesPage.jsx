@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import cookieBG from "../../../assets/cookieBG.jpg"; // Adjust this path if your folder structure is different
 
 const FacilitiesPage = () => {
   // Colors - matching the previous component
@@ -36,7 +37,7 @@ const FacilitiesPage = () => {
         className="relative w-full h-64 md:h-96 overflow-hidden"
       >
         <img
-          src="../../../assets/facilities.jpg"
+          src={cookieBG}
           alt="Olympic Biscuit Factory Facilities"
           className="w-full h-full object-cover"
         />
@@ -66,7 +67,7 @@ const FacilitiesPage = () => {
 
           <p className="text-lg mb-6 leading-relaxed text-gray-200">
             We have always purchased cutting edge, modern machinery. In 2010, we made an even
-            greater commitment to industrial automation. Each biscuit lines procured after 2010 has a
+            greater commitment to industrial automation. Each biscuit line procured after 2010 has a
             high degree of automation, including technologies such as bulk handling, continuous mixing
             and dual-fuel burners.
           </p>
@@ -81,7 +82,7 @@ const FacilitiesPage = () => {
           <p className="text-lg mb-6 leading-relaxed text-gray-200">
             Our modern machinery, alongside our dedicated, hard-working operations, maintenance
             and quality control teams, create a unique combination of manufacturer experience
-            unparalleled in Bangladesh
+            unparalleled in Bangladesh.
           </p>
         </motion.div>
 
