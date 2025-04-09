@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Award, Shuffle, Compass, Users, Cog } from "lucide-react";
+import { Award, Shuffle, Compass, Users, Cog, Lightbulb } from "lucide-react";
 
 export default function ValuesSection() {
   const [hoveredItem, setHoveredItem] = useState(null);
@@ -53,6 +53,16 @@ export default function ValuesSection() {
         "Sustainability, innovation, and strategic planning play key roles in our business processes. The future is here, and we want to be part of it.",
       color: "bg-gradient-to-br from-red-600 to-red-800",
       hoverColor: "from-red-700 to-red-900",
+    },
+    {
+      icon: (
+        <Lightbulb className="w-12 h-12 text-yellow-400 group-hover:scale-110 transition-transform duration-300" />
+      ),
+      title: "INNOVATION",
+      description:
+        "We strive to innovate constantly — improving our products, processes, and mindset to stay ahead of the curve.",
+      color: "bg-gradient-to-br from-blue-700 to-blue-900",
+      hoverColor: "from-blue-800 to-blue-950",
     },
   ];
 
