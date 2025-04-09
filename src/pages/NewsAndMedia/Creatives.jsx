@@ -1,5 +1,14 @@
 import { useState, useEffect } from "react";
-import { Camera, Search, ChevronDown, ChevronLeft, ChevronRight, Play, Calendar, Eye } from "lucide-react";
+import {
+  Camera,
+  Search,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  Play,
+  Calendar,
+  Eye,
+} from "lucide-react";
 
 const videoData = [
   {
@@ -10,7 +19,7 @@ const videoData = [
     category: "About Us",
     views: "1.2M views",
     uploaded: "2 weeks ago",
-    duration: "4:32"
+    duration: "4:32",
   },
   {
     id: 2,
@@ -20,7 +29,7 @@ const videoData = [
     category: "Event",
     views: "800K views",
     uploaded: "1 month ago",
-    duration: "18:45"
+    duration: "18:45",
   },
   {
     id: 3,
@@ -30,7 +39,7 @@ const videoData = [
     category: "Testimonial",
     views: "600K views",
     uploaded: "3 months ago",
-    duration: "7:12"
+    duration: "7:12",
   },
   {
     id: 4,
@@ -40,7 +49,7 @@ const videoData = [
     category: "Customer Stories",
     views: "450K views",
     uploaded: "1 month ago",
-    duration: "5:18"
+    duration: "5:18",
   },
   {
     id: 5,
@@ -50,7 +59,7 @@ const videoData = [
     category: "Behind the Scenes",
     views: "320K views",
     uploaded: "2 months ago",
-    duration: "12:54"
+    duration: "12:54",
   },
   {
     id: 6,
@@ -60,7 +69,7 @@ const videoData = [
     category: "Tech Talk",
     views: "280K views",
     uploaded: "3 weeks ago",
-    duration: "22:10"
+    duration: "22:10",
   },
   {
     id: 7,
@@ -70,7 +79,7 @@ const videoData = [
     category: "About Us",
     views: "700K views",
     uploaded: "4 weeks ago",
-    duration: "9:45"
+    duration: "9:45",
   },
   {
     id: 8,
@@ -80,7 +89,7 @@ const videoData = [
     category: "Leadership",
     views: "950K views",
     uploaded: "2 months ago",
-    duration: "15:00"
+    duration: "15:00",
   },
   {
     id: 9,
@@ -90,7 +99,7 @@ const videoData = [
     category: "Customer Stories",
     views: "410K views",
     uploaded: "3 months ago",
-    duration: "6:38"
+    duration: "6:38",
   },
   {
     id: 10,
@@ -100,7 +109,7 @@ const videoData = [
     category: "Event",
     views: "220K views",
     uploaded: "1 week ago",
-    duration: "11:11"
+    duration: "11:11",
   },
   {
     id: 11,
@@ -110,7 +119,7 @@ const videoData = [
     category: "Leadership",
     views: "530K views",
     uploaded: "5 weeks ago",
-    duration: "13:27"
+    duration: "13:27",
   },
   {
     id: 12,
@@ -120,8 +129,8 @@ const videoData = [
     category: "Tech Talk",
     views: "1.5M views",
     uploaded: "3 days ago",
-    duration: "5:55"
-  }
+    duration: "5:55",
+  },
 ];
 
 const ITEMS_PER_PAGE = 6;
@@ -153,7 +162,7 @@ export default function VideoGallery() {
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -163,18 +172,23 @@ export default function VideoGallery() {
   }, []);
 
   return (
-    <div className={`bg-gradient-to-br from-black to-gray-900 text-white min-h-screen p-6 transition-opacity duration-700 ${fadeIn ? 'opacity-100' : 'opacity-0'}`}>
+    <div
+      className={`bg-gradient-to-br pt-20 from-black to-gray-900 text-white min-h-screen p-6 transition-opacity duration-700 ${
+        fadeIn ? "opacity-100" : "opacity-0"
+      }`}
+    >
       {/* Animated Header */}
       <div className="mb-12 relative">
         <div className="absolute -top-6 -left-6 w-20 h-20 bg-purple-900 rounded-full opacity-20 blur-xl"></div>
         <div className="absolute top-10 right-10 w-32 h-32 bg-red-900 rounded-full opacity-10 blur-xl"></div>
-        
+
         <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 inline-block">
           Explore Visual Stories
         </h1>
-        
+
         <p className="text-gray-400 mt-3 max-w-2xl text-lg">
-          Dive into our cinematic collection of videos showcasing our journey, products, and the people who make it all happen
+          Dive into our cinematic collection of videos showcasing our journey,
+          products, and the people who make it all happen
         </p>
       </div>
 
@@ -196,7 +210,7 @@ export default function VideoGallery() {
 
         {/* Categories Filter */}
         <div className="relative w-full md:w-1/4">
-          <div 
+          <div
             className="flex justify-between items-center w-full bg-gray-900/70 border border-gray-700 px-4 py-3 rounded-lg cursor-pointer hover:bg-gray-800 transition-colors duration-300"
             onClick={() => setShowFilter(!showFilter)}
           >
@@ -204,21 +218,32 @@ export default function VideoGallery() {
               <span className="h-2 w-2 rounded-full bg-purple-500"></span>
               {filter}
             </span>
-            <ChevronDown className={`text-gray-400 transition-transform duration-300 ${showFilter ? 'rotate-180' : ''}`} size={18} />
+            <ChevronDown
+              className={`text-gray-400 transition-transform duration-300 ${
+                showFilter ? "rotate-180" : ""
+              }`}
+              size={18}
+            />
           </div>
-          
+
           {showFilter && (
             <div className="absolute top-full left-0 right-0 mt-2 bg-gray-900 border border-gray-700 rounded-lg overflow-hidden z-10 shadow-xl">
               {categories.map((category) => (
-                <div 
-                  key={category} 
-                  className={`px-4 py-2 hover:bg-gray-800 cursor-pointer transition-colors duration-200 flex items-center gap-2 ${filter === category ? 'bg-gray-800' : ''}`}
+                <div
+                  key={category}
+                  className={`px-4 py-2 hover:bg-gray-800 cursor-pointer transition-colors duration-200 flex items-center gap-2 ${
+                    filter === category ? "bg-gray-800" : ""
+                  }`}
                   onClick={() => {
                     setFilter(category);
                     setShowFilter(false);
                   }}
                 >
-                  <span className={`h-2 w-2 rounded-full ${filter === category ? 'bg-purple-500' : 'bg-gray-600'}`}></span>
+                  <span
+                    className={`h-2 w-2 rounded-full ${
+                      filter === category ? "bg-purple-500" : "bg-gray-600"
+                    }`}
+                  ></span>
                   {category}
                 </div>
               ))}
@@ -230,10 +255,17 @@ export default function VideoGallery() {
       {/* Stats */}
       <div className="flex justify-between items-center mb-8 text-sm text-gray-400">
         <div>
-          Showing <span className="text-white font-medium">{currentVideos.length}</span> of <span className="text-white font-medium">{filteredVideos.length}</span> videos
+          Showing{" "}
+          <span className="text-white font-medium">{currentVideos.length}</span>{" "}
+          of{" "}
+          <span className="text-white font-medium">
+            {filteredVideos.length}
+          </span>{" "}
+          videos
         </div>
         <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-green-500"></span> Recently updated
+          <span className="w-2 h-2 rounded-full bg-green-500"></span> Recently
+          updated
         </div>
       </div>
 
@@ -249,8 +281,10 @@ export default function VideoGallery() {
             <div className="relative aspect-video overflow-hidden">
               {hoveredVideo === video.id ? (
                 <div className="w-full h-full object-cover">
-                  <img 
-                    src={`https://img.youtube.com/vi/${video.url.split("v=")[1]}/maxresdefault.jpg`}
+                  <img
+                    src={`https://img.youtube.com/vi/${
+                      video.url.split("v=")[1]
+                    }/maxresdefault.jpg`}
                     alt={video.title}
                     className="w-full h-full object-cover brightness-50 scale-110 transition duration-700"
                   />
@@ -263,7 +297,9 @@ export default function VideoGallery() {
               ) : (
                 <div className="relative">
                   <img
-                    src={`https://img.youtube.com/vi/${video.url.split("v=")[1]}/maxresdefault.jpg`}
+                    src={`https://img.youtube.com/vi/${
+                      video.url.split("v=")[1]
+                    }/maxresdefault.jpg`}
                     alt={video.title}
                     className="w-full h-full object-cover transition duration-700"
                   />
@@ -272,16 +308,20 @@ export default function VideoGallery() {
                   </div>
                 </div>
               )}
-              
+
               <div className="absolute top-2 left-2 bg-gray-900/80 backdrop-blur-sm px-2 py-1 rounded text-xs font-medium">
                 {video.category}
               </div>
             </div>
-            
+
             <div className="p-4">
-              <h2 className="font-bold text-lg group-hover:text-purple-400 transition duration-300">{video.title}</h2>
-              <p className="text-gray-400 text-sm mt-1 line-clamp-2">{video.description}</p>
-              
+              <h2 className="font-bold text-lg group-hover:text-purple-400 transition duration-300">
+                {video.title}
+              </h2>
+              <p className="text-gray-400 text-sm mt-1 line-clamp-2">
+                {video.description}
+              </p>
+
               <div className="flex justify-between items-center mt-4 text-xs text-gray-500">
                 <div className="flex items-center gap-1">
                   <Eye size={14} />
@@ -341,7 +381,7 @@ export default function VideoGallery() {
           </button>
         </div>
       )}
-      
+
       {/* Footer hint */}
       <div className="mt-16 text-center text-gray-500 text-sm">
         <p>Hover over a video to preview • Click to watch full video</p>
