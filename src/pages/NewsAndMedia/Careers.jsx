@@ -77,7 +77,6 @@ const jobData = [
   },
 ];
 
-// ✅ Always sort jobs by latest deadline (newest first)
 const sortedJobs = jobData.sort(
   (a, b) => new Date(b.deadline) - new Date(a.deadline)
 );
@@ -90,12 +89,10 @@ const Careers = () => {
   const [typeFilter, setTypeFilter] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Filter logic
   const filteredJobs = sortedJobs
     .filter((job) => job.title.toLowerCase().includes(search.toLowerCase()))
     .filter((job) => (typeFilter === "All" ? true : job.type === typeFilter));
 
-  // Pagination logic
   const totalPages = Math.ceil(filteredJobs.length / ITEMS_PER_PAGE);
   const currentJobs = filteredJobs.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
@@ -117,31 +114,25 @@ const Careers = () => {
           We are looking for talented and motivated individuals to help us grow.
           Explore our openings and find a role that fits you!
         </p>
-        <button className="mt-6 bg-cc0000 text-white px-6 py-3 rounded-md hover:bg-red-600 transition">
-          Explore Openings
-        </button>
       </div>
 
-      {/* Filter and Search */}
-      <div className="flex justify-between items-center mb-8">
-        {/* Search Bar */}
-        <div className="relative w-1/2">
+      {/* Filter/Search */}
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10">
+        <div className="relative w-full md:w-1/2">
           <FaSearch className="absolute top-3 left-3 text-gray-400" />
           <input
             type="text"
             placeholder="Search jobs..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-gray-800 text-white border border-gray-600 px-10 py-2 rounded-md focus:outline-none focus:border-cc0000"
+            className="w-full bg-gray-800 text-white border border-gray-700 px-10 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600"
           />
         </div>
-
-        {/* Type Filter */}
-        <div className="relative w-1/4">
+        <div className="relative w-full md:w-1/4">
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="w-full bg-gray-800 text-white border border-gray-600 px-4 py-2 rounded-md focus:outline-none focus:border-cc0000 appearance-none"
+            className="w-full bg-gray-800 text-white border border-gray-700 px-4 py-2 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-red-600"
           >
             {jobTypes.map((type) => (
               <option key={type} value={type}>
@@ -149,48 +140,58 @@ const Careers = () => {
               </option>
             ))}
           </select>
-          <FaChevronDown className="absolute top-3 right-3 text-gray-400" />
+          <FaChevronDown className="absolute top-3 right-3 text-gray-400 pointer-events-none" />
         </div>
       </div>
 
       {/* Job Listings */}
-      <div className="space-y-4">
+      <div className="grid gap-6">
         {currentJobs.map((job) => (
           <div
             key={job.id}
-            className="p-5 border border-gray-700 rounded-lg hover:bg-gray-900 transition"
+            className="bg-gray-900 rounded-lg p-6 shadow-lg border border-gray-800 hover:border-red-600 transition-all duration-300 transform hover:-translate-y-1"
           >
-            <h2 className="text-xl font-semibold">{job.title}</h2>
-            <div className="flex items-center text-gray-400 gap-4 mt-2">
-              <span className="flex items-center gap-1">
-                <FaMapMarkerAlt /> {job.location}
-              </span>
-              <span className="flex items-center gap-1">
-                <FaBriefcase /> {job.type}
-              </span>
-              <span className="flex items-center gap-1">
-                <FaDollarSign /> {job.salary}
-              </span>
-              <span className="flex items-center gap-1">
-                <FaCalendarAlt /> Deadline: {job.deadline}
-              </span>
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
+                <h2 className="text-xl font-bold text-gray-100">
+                  {job.title}
+                </h2>
+                <div className="mt-2 flex flex-wrap gap-x-6 gap-y-2 text-sm text-gray-400">
+                  <span className="flex items-center gap-1">
+                    <FaMapMarkerAlt className="text-red-500" />
+                    {job.location}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <FaBriefcase className="text-blue-500" />
+                    {job.type}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <FaDollarSign className="text-green-500" />
+                    {job.salary}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <FaCalendarAlt className="text-yellow-500" />
+                    Deadline: {job.deadline}
+                  </span>
+                </div>
+              </div>
+              <button className="inline-flex items-center justify-center gap-2 bg-gray-800 hover:bg-red-700 text-gray-100 px-4 py-2 rounded-md transition duration-200 group">
+                Apply Now
+              </button>
             </div>
-            <button className="mt-4 bg-cc0000 text-white px-4 py-2 rounded-md hover:bg-red-600 transition">
-              Apply Now
-            </button>
           </div>
         ))}
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-center mt-6 space-x-2">
+      <div className="flex justify-center mt-8 gap-2">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className={`px-3 py-1 rounded-md ${
+          className={`w-10 h-10 flex items-center justify-center rounded-md ${
             currentPage === 1
-              ? "bg-gray-700 cursor-not-allowed"
-              : "bg-cc0000 hover:bg-red-600"
+              ? "bg-gray-800 text-gray-600 cursor-not-allowed"
+              : "bg-gray-800 text-white hover:bg-red-600"
           }`}
         >
           <FaAngleLeft />
@@ -200,10 +201,10 @@ const Careers = () => {
           <button
             key={i + 1}
             onClick={() => handlePageChange(i + 1)}
-            className={`px-3 py-1 rounded-md ${
+            className={`w-10 h-10 flex items-center justify-center rounded-md ${
               currentPage === i + 1
-                ? "bg-red-500"
-                : "bg-gray-700 hover:bg-gray-600"
+                ? "bg-red-600 text-white"
+                : "bg-gray-800 text-white hover:bg-gray-700"
             }`}
           >
             {i + 1}
@@ -213,10 +214,10 @@ const Careers = () => {
         <button
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className={`px-3 py-1 rounded-md ${
+          className={`w-10 h-10 flex items-center justify-center rounded-md ${
             currentPage === totalPages
-              ? "bg-gray-700 cursor-not-allowed"
-              : "bg-cc0000 hover:bg-red-600"
+              ? "bg-gray-800 text-gray-600 cursor-not-allowed"
+              : "bg-gray-800 text-white hover:bg-red-600"
           }`}
         >
           <FaAngleRight />
