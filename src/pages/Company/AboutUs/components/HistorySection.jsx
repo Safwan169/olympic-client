@@ -9,6 +9,8 @@ export default function HistorySection() {
     setIsVisible(true);
   }, []);
 
+  console.log("activeTab", activeTab);
+
   // Ensure the tab change function works properly
   const handleTabChange = (tabId) => {
     console.log(`Changing to tab: ${tabId}`);
@@ -42,12 +44,12 @@ export default function HistorySection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
-          {tabs.map((tab) => (
+          {tabs?.map((tab) => (
             <button
               key={tab.id}
               onClick={() => handleTabChange(tab.id)}
               type="button"
-              className={`py-2 sm:py-3 px-3 sm:px-6  text-sm sm:text-base focus:outline-none transition-all duration-300 relative z-10 ${
+              className={`py-2 sm:py-3 px-3 sm:px-6  text-sm sm:text-base focus:outline-none transition-all duration-300 relative z-90 ${
                 activeTab === tab.id
                   ? "text-yellow-500 border-b-2 border-red-600 font-bold"
                   : "text-gray-400 hover:text-white"
