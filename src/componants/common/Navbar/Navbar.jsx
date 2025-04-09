@@ -3,11 +3,12 @@ import { faBars, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import "./Navbar.css";
 
 const Navbar = () => {
-  // Updated Navigation data structure with new menu items
+  const location = useLocation();
+
   const navigationItems = [
     { id: "home", label: "HOME", to: "/", hasDropdown: false },
     {
@@ -31,8 +32,11 @@ const Navbar = () => {
       hasDropdown: true,
       dropdownItems: [
         { id: "brands", label: "Brands", to: "/brands" },
-        { id: "Consumer Promotion ", label: "Consumer Promotion ", to: "/consumer-promotion" },
-
+        {
+          id: "Consumer Promotion ",
+          label: "Consumer Promotion ",
+          to: "/consumer-promotion",
+        },
       ],
     },
     {
@@ -103,103 +107,10 @@ const Navbar = () => {
     { id: "contact", label: "CONTACT", to: "/contact", hasDropdown: false },
   ];
 
-  // Mobile navigation structure with the same items for consistency
-  const mobileNavigationItems = [
-    { id: "home", label: "Home", to: "/", hasDropdown: false },
-    {
-      id: "company",
-      label: "Company",
-      hasDropdown: true,
-      dropdownItems: [
-        { id: "about-us", label: "About Us", to: "/company/about-us" },
-        { id: "leadership", label: "Leadership", to: "/company/leadership" },
-        { id: "facilities", label: "Facilities", to: "/company/facilities" },
-        {
-          id: "sales-distribution",
-          label: "Sales & Distribution",
-          to: "/company/sales-distribution",
-        },
-      ],
-    },
-    {
-      id: "brands",
-      label: "Brands",
-      hasDropdown: true,
-      dropdownItems: [
-        { id: "brand1", label: "Brand 1", to: "/brands/brand1" },
-        { id: "brand2", label: "Brand 2", to: "/brands/brand2" },
-        { id: "brand3", label: "Brand 3", to: "/brands/brand3" },
-      ],
-    },
-    {
-      id: "investors",
-      label: "Investors",
-      hasDropdown: true,
-      dropdownItems: [
-        {
-          id: "corporate-governance",
-          label: "Corporate Governance",
-          to: "/investors/corporate-governance",
-        },
-        {
-          id: "strategy-innovation",
-          label: "Strategy & Innovation",
-          to: "/investors/strategy-innovation",
-        },
-        {
-          id: "share-structure",
-          label: "Share Structure",
-          to: "/investors/share-structure",
-        },
-        {
-          id: "financials-reports",
-          label: "Financials & Annual Reports",
-          to: "/investors/financials-reports",
-        },
-        {
-          id: "unclaimed-dividend",
-          label: "List of Unclaimed Dividend",
-          to: "/investors/unclaimed-dividend",
-        },
-      ],
-    },
-    {
-      id: "sustainability",
-      label: "Sustainability",
-      hasDropdown: true,
-      dropdownItems: [
-        { id: "overview", label: "Overview", to: "/sustainability/overview" },
-        {
-          id: "activities",
-          label: "Activities",
-          to: "/sustainability/activities",
-        },
-        {
-          id: "full-reports",
-          label: "Full Reports",
-          to: "/sustainability/full-reports",
-        },
-      ],
-    },
-    { id: "exports", label: "Exports", to: "/exports", hasDropdown: false },
-    {
-      id: "news-media",
-      label: "News & Media",
-      hasDropdown: true,
-      dropdownItems: [
-        {
-          id: "press-release",
-          label: "Press Release / PSI / MI",
-          to: "/news-media/press-release",
-        },
-        { id: "career", label: "Career", to: "/news-media/career" },
-        { id: "creatives", label: "Creatives", to: "/news-media/creatives" },
-      ],
-    },
-    { id: "contact", label: "Contact", to: "/contact", hasDropdown: false },
-  ];
+  const isParentActive = (dropdownItems) => {
+    return dropdownItems?.some((item) => location.pathname.startsWith(item.to));
+  };
 
-  // State for tracking dropdown visibility
   const [dropdownState, setDropdownState] = useState({});
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -208,7 +119,6 @@ const Navbar = () => {
   const menuRef = useRef(null);
   const mobileMenuRef = useRef(null);
   const searchInputRef = useRef(null);
-
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
 
@@ -220,7 +130,6 @@ const Navbar = () => {
         mobileMenuRef.current &&
         !mobileMenuRef.current.contains(event.target)
       ) {
-        // Reset all dropdowns
         setDropdownState({});
         setIsMobileMenuOpen(false);
         setSearchActive(false);
@@ -228,15 +137,9 @@ const Navbar = () => {
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-
     const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      setScrolled(window.scrollY > 10);
     };
-
     window.addEventListener("scroll", handleScroll);
 
     return () => {
@@ -253,13 +156,6 @@ const Navbar = () => {
     setDropdownState((prev) => ({ ...prev, [itemId]: false }));
   };
 
-  const toggleMobileDropdown = (itemId) => {
-    setDropdownState((prev) => ({
-      ...prev,
-      [itemId]: !prev[itemId],
-    }));
-  };
-
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
     forceUpdate();
@@ -269,9 +165,7 @@ const Navbar = () => {
     setSearchActive(!searchActive);
     if (!searchActive) {
       setTimeout(() => {
-        if (searchInputRef.current) {
-          searchInputRef.current.focus();
-        }
+        searchInputRef.current?.focus();
       }, 100);
     }
   };
@@ -299,101 +193,25 @@ const Navbar = () => {
   };
 
   return (
-    <div className="">
+    <div>
       <nav
         className={`navbar text-white ${
-          scrolled ? "navbar-solid " : "navbar-transparent"
+          scrolled ? "navbar-solid" : "navbar-transparent"
         }`}
         ref={menuRef}
       >
-        {/* Mobile Menu (Conditionally Rendered) */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              className="mobile-menu absolute top-full left-0 w-full bg-white text-gray-800 shadow-xl rounded-b-xl py-4 px-6 z-30"
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              ref={mobileMenuRef}
-            >
-              {mobileNavigationItems.map((item) => (
-                <div key={item.id} className="mobile-nav-item">
-                  {item.hasDropdown ? (
-                    <>
-                      <button
-                        className="block w-full text-left py-2 hover:bg-gray-100"
-                        onClick={() => toggleMobileDropdown(item.id)}
-                      >
-                        {item.label}
-                      </button>
-                      <AnimatePresence>
-                        {dropdownState[item.id] && (
-                          <motion.div
-                            className="pl-4"
-                            initial={{ opacity: 0, y: -5 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -5 }}
-                            transition={{ duration: 0.15 }}
-                          >
-                            {item.dropdownItems.map((dropdownItem) => (
-                              <NavLink
-                                key={dropdownItem.id}
-                                to={dropdownItem.to}
-                                className={({ isActive }) =>
-                                  `block py-2 hover:bg-gray-100 ${
-                                    isActive ? "text-blue-600 font-medium" : ""
-                                  }`
-                                }
-                                onClick={() => setIsMobileMenuOpen(false)}
-                              >
-                                {dropdownItem.label}
-                              </NavLink>
-                            ))}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </>
-                  ) : (
-                    <NavLink
-                      to={item.to}
-                      className={({ isActive }) =>
-                        `block py-2 hover:bg-gray-100 ${
-                          isActive ? "text-blue-600 font-medium" : ""
-                        }`
-                      }
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      {item.label}
-                    </NavLink>
-                  )}
-                </div>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
-
         {/* Main Navigation */}
         <div className="container mx-auto flex items-center justify-between px-4 py-2 hidden md:flex">
-          {/* Logo */}
           <div className="flex items-center">
-            <motion.div
-              className="flex items-center cursor-pointer mr-8"
-              transition={{ type: "spring", stiffness: 320, damping: 12 }}
-              style={{ mixBlendMode: "lighten" }}
-            >
-              <NavLink to="/">
-                <img src="/olympic-logo.png" alt="Logo" className="w-40 mr-2" />
-              </NavLink>
-            </motion.div>
+            <NavLink to="/">
+              <img src="/olympic-logo.png" alt="Logo" className="w-40 mr-2" />
+            </NavLink>
           </div>
-
-          {/* Navigation Items - Mapped from configuration */}
           <div className="flex items-center space-x-6">
             {navigationItems.map((item) => (
               <div
                 key={item.id}
-                className={`relative group ${item.hasDropdown ? "" : ""}`}
+                className="relative group"
                 onMouseEnter={() =>
                   item.hasDropdown && handleDropdownHover(item.id)
                 }
@@ -403,7 +221,13 @@ const Navbar = () => {
               >
                 {item.hasDropdown ? (
                   <>
-                    <button className="flex text-white items-center hover:text-yellow-200 font-semibold">
+                    <button
+                      className={`flex items-center font-semibold ${
+                        isParentActive(item.dropdownItems)
+                          ? "text-yellow-600"
+                          : "text-white hover:text-yellow-600"
+                      }`}
+                    >
                       {item.label}
                     </button>
                     <AnimatePresence>
@@ -425,7 +249,7 @@ const Navbar = () => {
                                 className={({ isActive }) =>
                                   `block px-4 py-3 text-sm hover:bg-gray-100 ${
                                     isActive
-                                      ? "bg-gray-100 text-blue-600 font-medium"
+                                      ? "bg-gray-100 text-yellow-600 font-medium"
                                       : ""
                                   }`
                                 }
@@ -444,7 +268,7 @@ const Navbar = () => {
                     to={item.to}
                     className={({ isActive }) =>
                       `hover:text-yellow-200 font-semibold ${
-                        isActive ? "text-yellow-200" : ""
+                        isActive ? "text-yellow-200" : "text-white"
                       }`
                     }
                   >
@@ -454,7 +278,7 @@ const Navbar = () => {
               </div>
             ))}
 
-            {/* Search Icon */}
+            {/* Search */}
             <div className="search-container">
               <input
                 ref={searchInputRef}
@@ -474,7 +298,8 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation (unchanged) */}
+        {/* You can repeat the same isParentActive logic there if needed */}
         <div className="flex justify-between items-center px-4 py-2 md:hidden">
           <div className="flex items-center">
             <NavLink to="/">
