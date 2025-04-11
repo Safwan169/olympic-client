@@ -1,193 +1,4 @@
 /* eslint-disable no-unused-vars */
-// import React, { useState, useEffect } from "react";
-// import "swiper/css";
-// import "swiper/css/effect-fade";
-// import "swiper/css/pagination";
-// import "swiper/css/navigation";
-// import { Swiper, SwiperSlide } from "swiper/react";
-// import { Autoplay, Pagination, Navigation, EffectFade } from "swiper/modules";
-
-// import image2 from "../../../assets/distribution.png";
-// import image1 from "../../../assets/innovation.jpg";
-// import image3 from "../../../assets/quality.jpg";
-
-// const EnhancedCarouselComponent = () => {
-//   const [activeIndex, setActiveIndex] = useState(0);
-//   const [slidesPerView, setSlidesPerView] = useState(1.5);
-//   const [isAutoplay, setIsAutoplay] = useState(true);
-
-//   // Responsive slides per view based on screen width
-//   useEffect(() => {
-//     const handleResize = () => {
-//       if (window.innerWidth < 640) {
-//         setSlidesPerView(1);
-//       } else if (window.innerWidth < 1024) {
-//         setSlidesPerView(1.2);
-//       } else {
-//         setSlidesPerView(1.5);
-//       }
-//     };
-
-//     handleResize();
-//     window.addEventListener("resize", handleResize);
-//     return () => window.removeEventListener("resize", handleResize);
-//   }, []);
-
-//   const slides = [
-//     {
-//       title: "INNOVATION",
-//       description:
-//         "Discover cutting-edge solutions and forward-thinking approaches that transform industries and elevate business performance.",
-//       image: image1,
-//       icon: "✦",
-//     },
-//     {
-//       title: "DISTRIBUTION",
-//       description:
-//         "Access our global network of partners and streamlined logistics to ensure your products reach markets efficiently and effectively.",
-//       image: image2,
-//       icon: "⟐",
-//     },
-//     {
-//       title: "QUALITY",
-//       description:
-//         "Experience excellence with our unwavering commitment to the highest quality standards in every aspect of our service.",
-//       image: image3,
-//       icon: "◈",
-//     },
-//   ];
-
-//   const toggleAutoplay = () => {
-//     setIsAutoplay(!isAutoplay);
-//   };
-
-//   return (
-//     <div className="carousel-container relative mx-auto w-full bg-gray-900 rounded-lg overflow-hidden">
-//       {/* Accessibility controls */}
-//       <div className="flex justify-between items-center px-4 py-2 bg-gray-800">
-//         <h2 className="text-white font-medium">Featured Services</h2>
-//         <div className="flex items-center space-x-4">
-//           <button
-//             onClick={toggleAutoplay}
-//             className="text-xs text-white bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded-full flex items-center"
-//             aria-label={isAutoplay ? "Pause autoplay" : "Start autoplay"}
-//           >
-//             {isAutoplay ? "⏸ Pause" : "▶ Play"}
-//           </button>
-//           <div className="text-white text-xs">
-//             {activeIndex + 1} / {slides.length}
-//           </div>
-//         </div>
-//       </div>
-
-//       <Swiper
-//         modules={[Autoplay, Pagination, Navigation, EffectFade]}
-//         slidesPerView={slidesPerView}
-//         spaceBetween={16}
-//         loop={true}
-//         autoplay={
-//           isAutoplay
-//             ? {
-//                 delay: 5000,
-//                 disableOnInteraction: false,
-//               }
-//             : false
-//         }
-//         pagination={{
-//           clickable: true,
-//           bulletClass: "swiper-pagination-bullet bg-gray-400 opacity-50",
-//           bulletActiveClass:
-//             "swiper-pagination-bullet-active bg-red-500 opacity-100",
-//           renderBullet: function (index, className) {
-//             return `<span class="${className}" aria-label="Go to slide ${
-//               index + 1
-//             }">${slides[index].icon}</span>`;
-//           },
-//         }}
-//         navigation={{
-//           prevEl: ".swiper-button-prev",
-//           nextEl: ".swiper-button-next",
-//         }}
-//         onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
-//         className="pb-12"
-//       >
-//         {slides.map((slide, index) => (
-//           <SwiperSlide key={index}>
-//             <div
-//               className="group relative w-full h-full overflow-hidden border border-gray-700 rounded-lg shadow-lg transition-all duration-500 ease-in-out"
-//               style={{
-//                 backgroundImage: `url(${slide.image})`,
-//                 backgroundColor: "#0a0a0a",
-//                 backgroundSize: "cover",
-//                 backgroundPosition: "center",
-//                 minHeight: "350px",
-//                 height: "calc(50vh - 2rem)",
-//                 maxHeight: "500px",
-//               }}
-//             >
-//               {/* Gradient overlay for better text readability */}
-//               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent transition-opacity duration-500 ease-in-out opacity-70 group-hover:opacity-50"></div>
-
-//               {/* Content container with animation */}
-//               <div className="absolute bottom-0 left-0 w-full p-6 transform transition-all duration-500 ease-in-out">
-//                 {/* Icon badge */}
-//                 <div className="inline-block bg-red-600 text-white p-2 rounded-full mb-4 shadow-lg transform transition-transform duration-300 group-hover:scale-110">
-//                   <span className="text-xl">{slide.icon}</span>
-//                 </div>
-
-//                 {/* Title with animation */}
-//                 <h3 className="text-white text-2xl font-bold mb-2 tracking-wider transform transition-all duration-500 ease-in-out group-hover:translate-x-2">
-//                   {slide.title}
-//                 </h3>
-
-//                 {/* Gold accent line */}
-//                 <div className="w-16 h-1 bg-gradient-to-r from-yellow-500 to-yellow-600 mb-4 transition-all duration-500 ease-in-out group-hover:w-24"></div>
-
-//                 {/* Description with animation */}
-//                 <p className="text-gray-200 text-sm mb-6 max-w-md transform transition-all duration-500 opacity-90 group-hover:opacity-100">
-//                   {slide.description}
-//                 </p>
-
-//                 {/* Button with improved accessibility */}
-//                 <button
-//                   className="bg-red-600 text-white px-6 py-3 text-sm font-medium flex items-center space-x-2 rounded-md transform transition-all duration-300 ease-in-out border-b-2 border-yellow-600 hover:bg-red-700 focus:ring-2 focus:ring-yellow-400 focus:outline-none focus:ring-offset-2 focus:ring-offset-gray-900"
-//                   aria-label={`Learn more about ${slide.title.toLowerCase()}`}
-//                 >
-//                   <span>Explore More</span>
-//                   <span className="transition-transform duration-300 ease-in-out group-hover:translate-x-1">
-//                     →
-//                   </span>
-//                 </button>
-//               </div>
-
-//               {/* Interactive indicator */}
-//               <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-sm px-3 py-1 rounded-full text-xs text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-//                 Interactive
-//               </div>
-//             </div>
-//           </SwiperSlide>
-//         ))}
-//       </Swiper>
-
-//       {/* Custom navigation buttons */}
-//       <div
-//         className="swiper-button-prev absolute left-4 top-1/2 z-10 flex items-center justify-center w-10 h-10 bg-black/50 backdrop-blur-sm text-white rounded-full cursor-pointer hover:bg-red-600 transition-colors duration-300"
-//         aria-label="Previous slide"
-//       >
-//         ←
-//       </div>
-//       <div
-//         className="swiper-button-next absolute right-4 top-1/2 z-10 flex items-center justify-center w-10 h-10 bg-black/50 backdrop-blur-sm text-white rounded-full cursor-pointer hover:bg-red-600 transition-colors duration-300"
-//         aria-label="Next slide"
-//       >
-//         →
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default EnhancedCarouselComponent;
-
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -346,21 +157,18 @@ const LuxuryDarkCarousel = () => {
       onMouseLeave={() => setIsHovering(false)}
     >
       {/* Main heading with gold accents */}
-      <div className="max-w-6xl mx-auto mb-12 text-center relative">
+      <div className="w-full  mx-auto mb-12 text-center relative">
         {/* Decorative elements */}
         <div
-          className="absolute left-1/2 -top-6 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-transparent via-gold to-transparent"
+          className="absolute  left-1/2 -top-6 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-transparent via-gold to-transparent"
           style={{
             backgroundColor: "transparent",
             backgroundImage: `linear-gradient(90deg, transparent, ${colors.gold}, transparent)`,
           }}
         ></div>
 
-        <h2
-          className="text-3xl md:text-5xl font-bold mb-3"
-          style={{ color: colors.white }}
-        >
-          <span style={{ color: colors.red }}>Premium</span> Services
+        <h2 className="text-3xl md:text-5xl font-dancing font-extrabold mb-3">
+          <span className="text-[#DDB699] ">Premium Services </span>
         </h2>
 
         <p
@@ -381,7 +189,7 @@ const LuxuryDarkCarousel = () => {
 
       {/* Carousel container */}
       <div
-        className="relative max-w-6xl mx-auto overflow-hidden"
+        className="relative max-w-screen-2xl  mx-auto overflow-hidden"
         style={{
           height: "600px",
           borderRadius: "4px",
@@ -391,7 +199,7 @@ const LuxuryDarkCarousel = () => {
         {/* Progress bar */}
         <div
           ref={progressRef}
-          className="absolute top-0 left-0 w-full h-1 bg-gray-800 z-20"
+          className="absolute top-0 left-0  max-w-screen-2xl h-1 bg-gray-800 z-20"
         >
           {isAutoPlaying && !isHovering && (
             <div
@@ -536,7 +344,7 @@ const LuxuryDarkCarousel = () => {
         </AnimatePresence>
 
         {/* Navigation controls - slide indicators */}
-        <div className="absolute bottom-12 right-12 z-10 flex items-center space-x-3">
+        <div className="absolute  bottom-12 right-12 z-10 flex items-center space-x-3">
           {slides.map((_, index) => (
             <button
               key={index}
@@ -560,7 +368,7 @@ const LuxuryDarkCarousel = () => {
         </div>
 
         {/* Side navigation */}
-        <div className="absolute top-1/2 -translate-y-1/2 left-4 right-4 flex justify-between items-center z-10">
+        <div className="absolute top-1/2  -translate-y-1/2 left-4 right-4 flex justify-between items-center z-10">
           <button
             onClick={goToPrevious}
             className="group flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full transition-all duration-300"
@@ -617,7 +425,7 @@ const LuxuryDarkCarousel = () => {
         {/* Autoplay toggle button */}
         <button
           onClick={toggleAutoPlay}
-          className="absolute bottom-12 left-12 z-10 flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-300"
+          className="absolute bottom-12  max-w-screen-2xl left-12 z-10 flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-300"
           style={{
             backgroundColor: isAutoPlaying ? colors.red : "rgba(10,10,10,0.7)",
             border: `1px solid ${
@@ -657,7 +465,7 @@ const LuxuryDarkCarousel = () => {
       </div>
 
       {/* Service quick links */}
-      <div className="max-w-6xl mx-auto mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className=" mx-auto  max-w-screen-2xl mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
         {slides.map((slide, index) => (
           <div
             key={index}
