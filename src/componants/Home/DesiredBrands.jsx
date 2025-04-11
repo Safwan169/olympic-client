@@ -77,9 +77,9 @@ const DesiredBrands = () => {
           className={`text-3xl font-dancing sm:text-4xl md:text-6xl font-extrabold my-2 transition-all duration-700 delay-200 transform ${
             animateIn ? "opacity-100" : "opacity-0 translate-y-6"
           }`}
-          style={{ color: "#ff3333" }}
+          style={{ color: "#DDB699" }}
         >
-          Desired Brands
+          Desired BrandsOur Delights
         </h1>
 
         <div className="mt-4 w-32 h-1 bg-gradient-to-r from-red-800 to-red-600 mx-auto rounded-full"></div>

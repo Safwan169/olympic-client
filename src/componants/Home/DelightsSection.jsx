@@ -107,7 +107,7 @@ export default function DelightsSection() {
               className={`text-3xl font-dancing sm:text-4xl md:text-6xl font-bold my-3 transition-all duration-700 delay-200 ${
                 animateIn ? "opacity-100" : "opacity-0"
               }`}
-              style={{ color: "#ff3333" }}
+              style={{ color: "#DDB699" }}
             >
               Our Delights
             </h1>
