@@ -2,12 +2,18 @@ import { useState, useEffect } from "react";
 import { ChevronRight, Clock, Star, Award, TrendingUp } from "lucide-react";
 
 export default function HistorySection() {
-  const [activeTab, setActiveTab] = useState("journey");
+  const [activeTab, setActiveTab] = useState("milestones");
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
+
+  // Ensure the tab change function works properly
+  const handleTabChange = (tabId) => {
+    console.log(`Changing to tab: ${tabId}`);
+    setActiveTab(tabId);
+  };
 
   const tabs = [
     { id: "journey", label: "Our Journey" },
@@ -30,7 +36,7 @@ export default function HistorySection() {
           </h2>
         </div>
 
-        {/* Responsive Navigation Tabs */}
+        {/* Responsive Navigation Tabs - Fixed to ensure clickability */}
         <div
           className={`flex flex-wrap justify-center sm:justify-start space-x-0 sm:space-x-1 mb-8 sm:mb-12 border-b border-gray-800 transition-all duration-1000 delay-300 transform ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
@@ -39,8 +45,9 @@ export default function HistorySection() {
           {tabs.map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`py-2 sm:py-3 px-3 sm:px-6 text-sm sm:text-base focus:outline-none transition-all duration-300 ${
+              onClick={() => handleTabChange(tab.id)}
+              type="button"
+              className={`py-2 sm:py-3 px-3 sm:px-6  text-sm sm:text-base focus:outline-none transition-all duration-300 relative z-10 ${
                 activeTab === tab.id
                   ? "text-yellow-500 border-b-2 border-red-600 font-bold"
                   : "text-gray-400 hover:text-white"
