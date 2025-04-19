@@ -22,6 +22,7 @@ import FacilitiesPage from "../pages/Company/Facilities/FacilitiesPage";
 import SalesAndDistribution from "../pages/Company/AboutUs/components/SalesAndDistribution";
 import PromotionsPage from "../pages/brands/PromotionsPage";
 import Brands from "../pages/brands/Brands";
+import ExploreOpportunities from "../pages/NewsAndMedia/ExploreOpportunities";
 
 const userRoutes = [
   {
@@ -125,6 +126,10 @@ const userRoutes = [
     path: "/consumer-promotion",
     element: <PromotionsPage />,
   },
+  {
+    path: "/career/explore-opportunities",
+    element: <ExploreOpportunities/>,
+  }
 ];
 
 export default userRoutes;
