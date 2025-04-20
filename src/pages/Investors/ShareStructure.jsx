@@ -213,12 +213,6 @@ const ShareStructure = () => {
                 Olympic Industries Limited has 199.93 million shares issued with a market capitalization of approximately ৳22.19 billion. 
                 Foreign investors hold the largest stake at 34.30%, followed by Directors and Sponsors at 32.38%.
               </p>
-              <div className="mt-4 flex justify-center">
-                <button className="flex items-center text-sm font-medium px-4 py-2 rounded-full border border-gray-800 hover:border-gray-700 transition-all">
-                  <FaDownload className="mr-2" style={{ color: goldAccent }} />
-                  Download Full Report
-                </button>
-              </div>
             </div>
           </motion.div>
         )}
@@ -232,7 +226,7 @@ const ShareStructure = () => {
             variants={fadeIn}
             className="mb-12"
           >
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="flex items-center justify-center min-h-screen">
               {/* Pie Chart Section */}
               <div className="lg:col-span-2 bg-black/20 border border-gray-800 rounded-lg p-6">
                 <h3 className="text-xl font-light mb-6">Shareholding <span className="font-medium">Distribution</span></h3>
@@ -279,26 +273,6 @@ const ShareStructure = () => {
                       <span className="text-xs text-center text-gray-300">{item.name}</span>
                     </div>
                   ))}
-                </div>
-              </div>
-
-              {/* Key Metrics Summary */}
-              <div className="bg-black/20 border border-gray-800 rounded-lg p-6">
-                <h3 className="text-xl font-light mb-6">Key <span className="font-medium">Metrics</span></h3>
-                <div className="space-y-4">
-                  {tableData.slice(0, 5).map((row, index) => (
-                    <div 
-                      key={index} 
-                      className="border-b border-gray-800 pb-3 transition-all duration-300 hover:bg-black/20 p-2 rounded"
-                    >
-                      <div className="text-sm text-gray-400">{row.label}</div>  
-                      <div className="text-lg font-medium">{row.value}</div>
-                    </div>
-                  ))}
-                  <div className="flex items-center pt-2 text-sm">
-                    <FaInfoCircle style={{ color: goldAccent }} className="mr-2" />
-                    <span className="text-gray-400">Data as per DSE listing information</span>
-                  </div>
                 </div>
               </div>
             </div>
@@ -422,45 +396,6 @@ const ShareStructure = () => {
             </div>
           </motion.div>
         )}
-
-        {/* Download Section */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeIn}
-          className="max-w-4xl mx-auto mb-12"
-        >
-          <div className="border border-gray-800 rounded-lg p-8 text-center flex flex-col items-center">
-            <h3 className="text-2xl font-light">Need More <span className="font-medium">Information?</span></h3>
-            <div
-              className="h-px w-12 my-4"
-              style={{
-                background: `linear-gradient(to right, transparent, ${goldAccent}, transparent)`,
-              }}
-            />
-            <p className="text-gray-300 max-w-md mx-auto mb-6">
-              Download our full investor relations pack for comprehensive details about Olympic Industries' share structure, financial performance, and growth strategy.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <button
-                className="px-6 py-3 flex items-center rounded-md text-sm font-medium border border-gray-800 hover:border-gray-700 transition-all duration-300"
-              >
-                <FaDownload className="mr-2" style={{ color: goldAccent }} />
-                Annual Report
-              </button>
-              <button
-                className="px-6 py-3 flex items-center rounded-md text-sm font-medium transition-all duration-300"
-                style={{ 
-                  background: brandRed,
-                  color: 'white'
-                }}
-              >
-                Investor Relations Pack
-              </button>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </div>
   );
