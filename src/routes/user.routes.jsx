@@ -119,7 +119,7 @@ const userRoutes = [
     element: <UnclaimedDividends />,
   },
   {
-    path: "/brands",
+    path: "/domestic",
     element: <Brands />,
   },
   {
