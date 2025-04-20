@@ -6,7 +6,6 @@ import Register from "../pages/Register/Register";
 import LeadershipPage from "../pages/Company/LeaderShip/LeaderShipPage";
 import FacilitiesPage from "../pages/Company/Facilities/FacilitiesPage";
 import SalesAndDistribution from "../pages/Company/AboutUs/components/SalesAndDistribution";
-import Brands from "../pages/brands/Brands";
 import PromotionsPage from "../pages/brands/PromotionsPage";
 import Exports from "../pages/Exports/Exports";
 import CorporateGovernance from "../pages/Investors/CorporateGovernance";
@@ -19,7 +18,6 @@ import Creatives from "../pages/NewsAndMedia/Creatives";
 import Articles from "../pages/NewsAndMedia/Articles";
 import Careers from "../pages/NewsAndMedia/Careers";
 import ContactPage from "../pages/Contact/Contact";
-import History from "../pages/Company/History/History";
 import MissionVision from "../pages/Company/MissionVision/MissionVision";
 import Awards from "../pages/Company/Awards/Awards";
 import Quality from "../pages/Company/Quality/Quality";
@@ -28,6 +26,7 @@ import DomesticProducts from "../pages/Products/DomesticProducts";
 import ExportProducts from "../pages/Products/ExportProducts";
 import PSIMI from "../pages/Investors/PSIMI";
 import ExploreOpportunities from "../pages/Career/ExploreOpportunities";
+import HistoryAndMilestone from "../pages/Company/AboutUs/HistoryAndMilestone";
 
 const userRoutes = [
   {
@@ -47,7 +46,7 @@ const userRoutes = [
   // ABOUT US Section
   {
     path: "/about-us/history",
-    element: <History />,
+    element: <HistoryAndMilestone />,
   },
   {
     path: "/about-us/mission-vision",
