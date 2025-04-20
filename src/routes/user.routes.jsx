@@ -1,32 +1,38 @@
 // src/routes/user.routes.jsx
+import React from "react";
 import Home from "../pages/Home/Home";
 import LoginPage from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
-import Activity from "../pages/Sustainability/Activity";
-import React from "react";
-import FullReport from "../pages/Sustainability/FullReport";
-import Overview from "../pages/Sustainability/Overview";
-import Careers from "../pages/NewsAndMedia/Careers";
-import PressReleases from "../pages/NewsAndMedia/PressRealeases";
-import Creatives from "../pages/NewsAndMedia/Creatives";
+import LeadershipPage from "../pages/Company/LeaderShip/LeaderShipPage";
+import FacilitiesPage from "../pages/Company/Facilities/FacilitiesPage";
+import SalesAndDistribution from "../pages/Company/AboutUs/components/SalesAndDistribution";
+import Brands from "../pages/brands/Brands";
+import PromotionsPage from "../pages/brands/PromotionsPage";
 import Exports from "../pages/Exports/Exports";
-import ContactPage from "../pages/Contact/Contact";
 import CorporateGovernance from "../pages/Investors/CorporateGovernance";
 import StrategyAndInnovation from "../pages/Investors/StrategyAndInnovation";
 import ShareStructure from "../pages/Investors/ShareStructure";
 import FinancialAnnualReport from "../pages/Investors/FinancialAnnualReport";
 import UnclaimedDividends from "../pages/Investors/UnclaimedDividends";
-import AboutUs from "../pages/Company/AboutUs/AboutUs";
-import LeaderShipPage from "../pages/Company/LeaderShip/LeaderShipPage";
-import FacilitiesPage from "../pages/Company/Facilities/FacilitiesPage";
-import SalesAndDistribution from "../pages/Company/AboutUs/components/SalesAndDistribution";
-import PromotionsPage from "../pages/brands/PromotionsPage";
-import Brands from "../pages/brands/Brands";
-import ExploreOpportunities from "../pages/NewsAndMedia/ExploreOpportunities";
+import PressReleases from "../pages/NewsAndMedia/PressRealeases";
+import Creatives from "../pages/NewsAndMedia/Creatives";
+import Articles from "../pages/NewsAndMedia/Articles";
+import Careers from "../pages/NewsAndMedia/Careers";
+import ContactPage from "../pages/Contact/Contact";
+import History from "../pages/Company/History/History";
+import MissionVision from "../pages/Company/MissionVision/MissionVision";
+import Awards from "../pages/Company/Awards/Awards";
+import Quality from "../pages/Company/Quality/Quality";
+import CSR from "../pages/Company/CSR/CSR";
+import DomesticProducts from "../pages/Products/DomesticProducts";
+import ExportProducts from "../pages/Products/ExportProducts";
+import PSIMI from "../pages/Investors/PSIMI";
+import ExploreOpportunities from "../pages/Career/ExploreOpportunities";
 
 const userRoutes = [
   {
-    index: "/",
+    index: true,
+    path: "/",
     element: <Home />,
   },
   {
@@ -37,99 +43,116 @@ const userRoutes = [
     path: "/login",
     element: <LoginPage />,
   },
-  // about us
+
+  // ABOUT US Section
   {
-    path: "/company/about-us",
-    element: <AboutUs />,
+    path: "/about-us/history",
+    element: <History />,
   },
-  // leadership
   {
-    path: "/company/leadership",
-    element: <LeaderShipPage />,
+    path: "/about-us/mission-vision",
+    element: <MissionVision />,
   },
-  // facilities
   {
-    path: "/company/facilities",
+    path: "/about-us/leadership",
+    element: <LeadershipPage />,
+  },
+  {
+    path: "/about-us/awards",
+    element: <Awards />,
+  },
+  {
+    path: "/about-us/factories",
     element: <FacilitiesPage />,
   },
-  // sales and distribution
   {
-    path: "/company/sales-distribution",
+    path: "/about-us/quality",
+    element: <Quality />,
+  },
+  {
+    path: "/about-us/csr",
+    element: <CSR />,
+  },
+  {
+    path: "/about-us/sales-distribution",
     element: <SalesAndDistribution />,
   },
+
+  // PRODUCTS Section
   {
-    path: "/company/about-us",
-    element: <AboutUs />,
+    path: "/products/domestic",
+    element: <DomesticProducts />,
+  },
+  {
+    path: "/products/export",
+    element: <ExportProducts />,
+  },
+  {
+    path: "/products/promotions",
+    element: <PromotionsPage />,
   },
 
-  // sustainability
+  // EXPORT Section
   {
-    path: "/sustainability/activities",
-    element: <Activity />,
-  },
-  {
-    path: "/sustainability/full-reports",
-    element: <FullReport />,
-  },
-  {
-    path: "/sustainability/overview",
-    element: <Overview />,
-  },
-  // news and media
-  {
-    path: "/news-media/career",
-    element: <Careers />,
-  },
-  {
-    path: "/news-media/creatives",
-    element: <Creatives />,
-  },
-  {
-    path: "/news-media/press-release",
-    element: <PressReleases />,
-  },
-  // exports
-  {
-    path: "/exports",
+    path: "/export",
     element: <Exports />,
   },
-  {
-    path: "/contact",
-    element: <ContactPage />,
-  },
-  // investors
+
+  // INVESTORS Section
   {
     path: "/investors/corporate-governance",
     element: <CorporateGovernance />,
   },
   {
-    path: "/investors/strategy-innovation",
+    path: "/investors/strategy",
     element: <StrategyAndInnovation />,
   },
   {
-    path: "/investors/share-structure",
+    path: "/investors/share",
     element: <ShareStructure />,
   },
   {
-    path: "/investors/financials-reports",
+    path: "/investors/financials",
     element: <FinancialAnnualReport />,
   },
   {
-    path: "/investors/unclaimed-dividend",
+    path: "/investors/unclaimed-dividends",
     element: <UnclaimedDividends />,
   },
   {
-    path: "/brands",
-    element: <Brands />,
+    path: "/investors/psi-mi",
+    element: <PSIMI />,
+  },
+
+  // MEDIA Section
+  {
+    path: "/media/press-release",
+    element: <PressReleases />,
   },
   {
-    path: "/consumer-promotion",
-    element: <PromotionsPage />,
+    path: "/media/creatives",
+    element: <Creatives />,
+  },
+  {
+    path: "/media/articles",
+    element: <Articles />,
+  },
+
+  // CAREER Section
+  {
+    path: "/career",
+    element: <Careers />,
+  },
+
+  // CONTACT Section
+  {
+    path: "/contact",
+    element: <ContactPage />,
   },
   {
     path: "/career/explore-opportunities",
-    element: <ExploreOpportunities/>,
-  }
+    element: <ExploreOpportunities />,
+  },
 ];
 
 export default userRoutes;

@@ -292,7 +292,6 @@ const CorporateGovernance = () => {
                   Elected from among the non-executive directors as per Condition No.1(4)(c) of Corporate Governance Code
                 </p>
               </motion.div>
-              
             </motion.div>
             
             <motion.div className="md:w-2/3" variants={fadeIn}>
@@ -612,8 +611,6 @@ const CorporateGovernance = () => {
             </div>
           </motion.div>
         </motion.section>
-
-        
       </div>
     </div>
   );
