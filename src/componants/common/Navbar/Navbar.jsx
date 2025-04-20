@@ -93,11 +93,11 @@ const Navbar = () => {
       dropdownItems: [
         {
           id: "press-release",
-          label: "Press Release / PSI / MI",
+          label: "Press Release",
           to: "/news-media/press-release",
         },
-        { id: "career", label: "Career", to: "/news-media/career" },
         { id: "creatives", label: "Creatives", to: "/news-media/creatives" },
+        { id: "career", label: "Career", to: "/news-media/career" },
       ],
     },
     { id: "contact", label: "CONTACT", to: "/contact", hasDropdown: false },

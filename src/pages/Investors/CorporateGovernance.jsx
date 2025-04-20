@@ -293,12 +293,6 @@ const CorporateGovernance = () => {
                 </p>
               </motion.div>
               
-              <motion.div className="bg-gray-900/50 p-5 rounded-lg border border-gray-800" variants={slideIn}>
-                <h3 className="font-medium mb-2">Governance Structure</h3>
-                <p className="text-sm text-gray-300">
-                  As per Condition No.1(4)(a), the Chairman of the Board and the Managing Director are different individuals
-                </p>
-              </motion.div>
             </motion.div>
             
             <motion.div className="md:w-2/3" variants={fadeIn}>
@@ -413,32 +407,6 @@ const CorporateGovernance = () => {
                       <p className="text-gray-300 text-sm">{item}</p>
                     </motion.div>
                   ))}
-                </div>
-              </motion.div>
-            </motion.div>
-            
-            <motion.div className="md:w-1/3" variants={fadeIn}>
-              <motion.div className="bg-gray-900/50 p-5 rounded-lg border border-gray-800 sticky top-24" variants={slideIn}>
-                <h3 className="font-medium mb-4 text-center">Key Governance Provisions</h3>
-                <div className="space-y-4">
-                  <div className="p-3 rounded-lg bg-black/30">
-                    <h4 className="text-sm font-medium mb-1">CEO Function</h4>
-                    <p className="text-xs text-gray-400">
-                      The Managing Director performs CEO functions at Olympic Industries Limited
-                    </p>
-                  </div>
-                  <div className="p-3 rounded-lg bg-black/30">
-                    <h4 className="text-sm font-medium mb-1">Exclusivity</h4>
-                    <p className="text-xs text-gray-400">
-                      As per Condition No.1(4)(e), the MD does not hold same position in other listed companies
-                    </p>
-                  </div>
-                  <div className="p-3 rounded-lg bg-black/30">
-                    <h4 className="text-sm font-medium mb-1">Separation of Roles</h4>
-                    <p className="text-xs text-gray-400">
-                      Chairman and Managing Director roles are held by different individuals
-                    </p>
-                  </div>
                 </div>
               </motion.div>
             </motion.div>
@@ -645,52 +613,7 @@ const CorporateGovernance = () => {
           </motion.div>
         </motion.section>
 
-        {/* Governance Documents CTA */}
-        <motion.section
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-        >
-          <motion.div
-            className="border border-gray-800 rounded-xl p-12 text-center flex flex-col items-center space-y-6 relative overflow-hidden"
-            variants={fadeIn}
-            whileHover={{
-              borderColor: `rgba(212, 175, 55, 0.3)`,
-              transition: { duration: 0.3 },
-            }}
-          >
-            <div className="absolute -right-20 -top-20 w-40 h-40 rounded-full opacity-10" style={{ backgroundColor: brandRed }}></div>
-            <div className="absolute -left-20 -bottom-20 w-40 h-40 rounded-full opacity-10" style={{ backgroundColor: goldAccent }}></div>
-            
-            <h2 className="text-2xl font-light relative z-10">Complete Governance Documentation</h2>
-            <div
-              className="h-px w-12 relative z-10"
-              style={{
-                background: `linear-gradient(to right, transparent, ${goldAccent}, transparent)`,
-              }}
-            />
-            <p className="text-gray-300 max-w-lg mx-auto relative z-10">
-              Access our full corporate governance policies, board structure documents, and committee charters as recommended by the Nomination and Remuneration Committee (NRC).
-            </p>
-            <Link
-              to={"/sustainability/overview"}
-              className="group relative inline-block px-8 py-3 overflow-hidden text-sm font-medium transition-all duration-300 z-10"
-              style={{ color: goldAccent }}
-            >
-              <span className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-10 transition-opacity duration-300" style={{ backgroundColor: goldAccent }}></span>
-              <span className="relative flex items-center">
-                View Governance Documents
-                <span className="inline-block ml-2 transform group-hover:translate-x-1 transition-transform duration-300">
-                  →
-                </span>
-              </span>
-              <span
-                className="absolute bottom-0 left-0 w-full h-px transition-all duration-500 ease-out transform scale-x-0 group-hover:scale-x-100"
-                style={{ background: goldAccent }}
-              ></span>
-            </Link>
-          </motion.div>
-        </motion.section>
+        
       </div>
     </div>
   );
