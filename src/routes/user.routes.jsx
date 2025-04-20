@@ -3,7 +3,6 @@ import React from "react";
 import Home from "../pages/Home/Home";
 import LoginPage from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
-import AboutUs from "../pages/Company/AboutUs/AboutUs";
 import LeadershipPage from "../pages/Company/LeaderShip/LeaderShipPage";
 import FacilitiesPage from "../pages/Company/Facilities/FacilitiesPage";
 import SalesAndDistribution from "../pages/Company/AboutUs/components/SalesAndDistribution";
@@ -28,6 +27,7 @@ import CSR from "../pages/Company/CSR/CSR";
 import DomesticProducts from "../pages/Products/DomesticProducts";
 import ExportProducts from "../pages/Products/ExportProducts";
 import PSIMI from "../pages/Investors/PSIMI";
+import ExploreOpportunities from "../pages/Career/ExploreOpportunities";
 
 const userRoutes = [
   {
@@ -151,8 +151,8 @@ const userRoutes = [
   },
   {
     path: "/career/explore-opportunities",
-    element: <ExploreOpportunities/>,
-  }
+    element: <ExploreOpportunities />,
+  },
 ];
 
 export default userRoutes;
