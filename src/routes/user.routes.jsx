@@ -149,6 +149,10 @@ const userRoutes = [
     path: "/contact",
     element: <ContactPage />,
   },
+  {
+    path: "/career/explore-opportunities",
+    element: <ExploreOpportunities/>,
+  }
 ];
 
 export default userRoutes;
