@@ -1,7 +1,12 @@
 import React from "react";
+import AwardsSection from "../../../componants/Home/AwardsSection";
 
 const Awards = () => {
-  return <div>Awards</div>;
+  return (
+    <div>
+      <AwardsSection />
+    </div>
+  );
 };
 
 export default Awards;
