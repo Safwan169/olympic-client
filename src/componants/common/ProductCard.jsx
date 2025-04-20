@@ -1,127 +1,115 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-const ProductCard = ({title,products}) => {
-  // const products = [
-  //   {
-  //     id: 1,
-  //     name: "Milk",
-  //     description: "Rich dark chocolate products",
-  //     image: "Milk.jpg",
-  //     packets: [
-  //       { size: "Small Pack (100g)", price: "10" },
-  //       { size: "Family Pack (250g)", price: "20" }
-  //     ]
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Nutty",
-  //     description: "Creamy milk chocolate products",
-  //     image: "Nutty.jpg",
-  //     packets: [
-  //       { size: "Small Pack (100g)", price: "10" },
-  //       { size: "Medium Pack (150g)", price: "15" },
-  //       { size: "Large Pack (200g)", price: "18" },
-  //       { size: "Family Pack (250g)", price: "22" }
-  //     ]
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Tip",
-  //     description: "Nutty chocolate sensation",
-  //     image: "Tip.png",
-  //     packets: [] // No variety
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "Enagry",
-  //     description: "Zesty orange infused chocolate",
-  //     image: "Energy.png",
-  //     packets: [
-  //       { size: "Small Pack (100g)", price: "15" },
-  //       { size: "Family Pack (250g)", price: "60" }
-  //     ]
-  //   }
-  // ];
-
+const ProductCard = ({ title, products }) => {
   const [activeProduct, setActiveProduct] = useState(null);
 
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center p-6 font-serif">
+    <div className="bg-gray-950 mt-24 flex flex-col items-center justify-center p-4 sm:p-6 font-poppins w-full">
       {/* Main Section Title */}
-      <h1 className="text-3xl font-bold text-white mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>Premium {title}</h1>
-      <div className="w-32 h-1 bg-yellow-600 mb-20 rounded-full"></div>
+      <h1 className="text-2xl sm:text-3xl font-bold text-gray-100 mb-2">
+        Premium {title}
+      </h1>
+      <div className="w-24 sm:w-32 h-1 bg-yellow-700 mb-8 sm:mb-16 rounded-full"></div>
 
-      {/* Subtitle for Collection */}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 w-full max-w-6xl">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8 w-full max-w-6xl">
         {products?.map((product) => (
-          <div key={product.id} className="flex flex-col items-center">
+          <div key={product.id} className="flex flex-col items-center mx-auto">
             <div
-              className="relative w-60 h-60 cursor-pointer rounded-full overflow-hidden shadow-2xl transform transition-all duration-300 hover:scale-105"
+              className="relative w-full max-w-xs h-52 sm:h-60 cursor-pointer rounded-lg overflow-hidden shadow-xl transform transition-all duration-300 hover:scale-105 border border-gray-800"
               onMouseEnter={() => setActiveProduct(product.id)}
               onMouseLeave={() => setActiveProduct(null)}
+              // Add touch support for mobile devices
+              onTouchStart={() =>
+                setActiveProduct(
+                  product.id === activeProduct ? null : product.id
+                )
+              }
             >
-              {/* product Image */}
+              {/* Product Image with Dimmed Filter */}
+              <div className="absolute z-10"></div>
               <img
-                src={product.image
-                }
+                src={product.image}
                 alt={product.name}
-                className="w-full h-full object-cover rounded-full"
+                className="w-full h-full object-cover"
               />
 
-              {/* Base Overlay Circle */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-t from-black via-black/70 to-transparent flex items-end justify-center text-center pb-6 px-4">
-                <div className="text-white">
-                  <h3 className="text-[16px] font-bold mb-1" style={{ fontFamily: 'Playfair Display, serif' }}>{product.name}</h3>
+              {/* Base Overlay Square */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/5 to-transparent flex items-end justify-center text-center pb-6 px-4 z-20">
+                <div className="text-gray-100">
+                  <h3 className="text-base sm:text-lg font-bold mb-1">
+                    {product.name}
+                  </h3>
                 </div>
               </div>
 
+              {/* Details Overlay on Hover/Touch */}
               <div
-                className={`absolute inset-0 rounded-full bg-black bg-opacity-90 transition-all duration-500 flex flex-col items-center justify-center p-4 ${activeProduct === product.id
-                    ? 'opacity-100 scale-100'
-                    : 'opacity-0 scale-0'
-                  }`}
+                className={`absolute inset-0 bg-gray-900 bg-opacity-95 transition-all duration-500 flex flex-col items-center justify-center p-3 sm:p-4 z-30 ${
+                  activeProduct === product.id
+                    ? "opacity-100 scale-100"
+                    : "opacity-0 scale-95"
+                }`}
               >
-                <h4 className="text-yellow-600 font-bold mb-2" style={{ fontFamily: 'Playfair Display, serif', color: '#D4AF37' }}>Available Packets</h4>
+                <h4 className="text-yellow-600 font-bold mb-2 text-sm sm:text-base">
+                  Available Packets
+                </h4>
 
-                {/* Fixed height container with permanent scrollbar area */}
-                <div className="space-y-2 w-full px-4 max-h-40 overflow-y-auto custom-scrollbar">
+                {/* Scrollable Packets Container */}
+                <div className="space-y-2 sm:space-y-3 w-full px-2 sm:px-3 max-h-32 sm:max-h-40 overflow-y-auto custom-scrollbar">
                   {product.packets && product.packets.length > 0 ? (
                     product.packets.map((packet, index) => (
                       <div
                         key={index}
-                        className="bg-gray-800 rounded-full px-3 py-2 flex justify-between items-center border border-yellow-700"
+                        className="bg-gray-800 rounded-md px-2 sm:px-3 py-1 sm:py-2 flex justify-between items-center border border-gray-700"
                         style={{
-                          animation: activeProduct === product.id
-                            ? `fadeInRotate 0.5s ${index * 0.15}s forwards`
-                            : 'none',
+                          animation:
+                            activeProduct === product.id
+                              ? `fadeIn 0.5s ${index * 0.1}s forwards`
+                              : "none",
                           opacity: 0,
-                          transform: 'translateY(10px) rotate(-5deg)'
+                          transform: "translateY(8px)",
                         }}
                       >
-                        <span className="text-white text-sm font-medium">{packet.size}</span>
-                        <span style={{ color: '#D4AF37' }} className="font-bold">TK. {packet.price}</span>
+                        <span className="text-gray-200 text-xs sm:text-sm font-medium">
+                          {packet.size}
+                        </span>
+                        <span className="text-yellow-600 font-bold text-xs sm:text-sm">
+                          TK. {packet.price}
+                        </span>
                       </div>
                     ))
                   ) : (
-                    <p className="text-white text-sm text-center">No varieties available</p>
+                    <p className="text-gray-400 text-xs sm:text-sm text-center">
+                      No varieties available
+                    </p>
                   )}
 
-                  {/* Add invisible placeholder elements to ensure scrollbar space is consistent */}
-                  {product.packets && product.packets.length > 0 && product.packets.length < 3 && (
-                    Array(3 - product.packets.length).fill().map((_, i) => (
-                      <div key={`placeholder-${i}`} className="opacity-0 h-10"></div>
-                    ))
-                  )}
+                  {/* Placeholder elements for consistent scrollbar spacing */}
+                  {product.packets &&
+                    product.packets.length > 0 &&
+                    product.packets.length < 3 &&
+                    Array(3 - product.packets.length)
+                      .fill()
+                      .map((_, i) => (
+                        <div
+                          key={`placeholder-${i}`}
+                          className="opacity-0 h-6 sm:h-10"
+                        ></div>
+                      ))}
                 </div>
               </div>
             </div>
 
-            <div className="mt-4 text-center">
-              {product.packets.length > 0 ? (
-                <span style={{ color: '#D4AF37' }} className="text-lg font-medium">{product.packets.length} varieties available</span>
+            {/* Product Footer Info */}
+            <div className="mt-3 sm:mt-4 text-center">
+              {product.packets && product.packets.length > 0 ? (
+                <span className="text-base sm:text-lg text-yellow-600 font-medium">
+                  {product.packets.length} varieties available
+                </span>
               ) : (
-                <span className="text-gray-500">Showcase only</span>
+                <span className="text-gray-500 text-sm sm:text-base">
+                  Showcase only
+                </span>
               )}
             </div>
           </div>
@@ -129,13 +117,11 @@ const ProductCard = ({title,products}) => {
       </div>
 
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap');
-
-        /* Fix for scrollbar jumping */
+        /* Scrollbar Styling */
         .custom-scrollbar {
           scrollbar-width: thin;
-          scrollbar-color: #D4AF37 transparent;
-          padding-right: 2px; /* Small padding to ensure content isn't too close to scrollbar */
+          scrollbar-color: #B45309 rgba(0, 0, 0, 0.2);
+          padding-right: 4px;
         }
 
         .custom-scrollbar::-webkit-scrollbar {
@@ -144,30 +130,19 @@ const ProductCard = ({title,products}) => {
         }
 
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background-color: #D4AF37;
-          border-radius: 10px;
-          border: 1px solid transparent;
+          background-color: #B45309;
+          border-radius: 4px;
         }
 
-        /* Always show scrollbar space to prevent layout shift */
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(0, 0, 0, 0.2);
-          border-radius: 10px;
+          background: rgba(30, 30, 30, 0.3);
+          border-radius: 4px;
         }
 
-        @keyframes fadeInRotate {
-          from { opacity: 0; transform: translateY(10px) rotate(-5deg); }
-          to { opacity: 1; transform: translateY(0) rotate(0); }
-        }
-
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(10px); }
+        /* Animations */
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(8px); }
           to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Global font styles */
-        .font-serif {
-          font-family: 'Cormorant Garamond', serif;
         }
       `}</style>
     </div>
