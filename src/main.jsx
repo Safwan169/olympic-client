@@ -9,6 +9,7 @@ import { persistor, store } from "./redux/store.js";
 import { Toaster } from "sonner";
 import { PersistGate } from "redux-persist/integration/react";
 import ScrollToTopButton from "./componants/common/ScrollToTopButton.jsx";
+import LiveChat from "./componants/common/LiveChat.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -18,6 +19,7 @@ createRoot(document.getElementById("root")).render(
             <RouterProvider router={router} />
           </div>
           <ScrollToTopButton />
+          <LiveChat/>
         </PersistGate>
         <Toaster richColors closeButton position="top-center" />
       </Provider>
