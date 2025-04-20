@@ -1,7 +1,7 @@
 import React from "react";
 
 const Quality = () => {
-  return <div>Quality</div>;
+  return <div></div>;
 };
 
 export default Quality;
