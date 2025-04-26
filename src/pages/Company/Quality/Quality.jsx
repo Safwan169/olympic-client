@@ -63,40 +63,69 @@ export default function Quality() {
           </p>
         </div>
 
-        {/* Featured Video with hover play/pause */}
-        <div className="mb-16">
-          <div
-            className="relative mx-auto max-w-4xl overflow-hidden rounded-lg shadow-xl border-2 border-red-600"
-            onMouseEnter={() => setIsVideoHovered(true)}
-            onMouseLeave={() => setIsVideoHovered(false)}
-          >
-            <video
-              ref={videoRef}
-              className="w-full h-auto"
-              src={qualityData.videoUrl}
-              loop
-              muted
-              playsInline
-            />
+        {/* Main Content - Video and Text Side by Side */}
+        <div className="flex flex-col md:flex-row gap-8 mb-16">
+          {/* Left Side - Content */}
+          <div className="md:w-1/2">
+            <div className="bg-gray-900 rounded-lg p-6 h-full border border-red-600 shadow-lg">
+              <h3 className="text-2xl font-bold mb-4 text-amber-400">
+                Our Commitment
+              </h3>
+              <p className="text-gray-300 mb-6">
+                Olympic Industries sets the gold standard in the industry with
+                our unwavering commitment to excellence. Our production
+                facilities feature cutting-edge technology and automated systems
+                that ensure consistent quality.
+              </p>
+              <p className="text-gray-300 mb-6">
+                Every product undergoes rigorous testing before reaching our
+                customers. Our quality control team maintains strict oversight
+                at each stage of the manufacturing process, from raw material
+                selection to packaging.
+              </p>
+              <p className="text-gray-300">
+                This dedication to quality has earned us the trust of millions
+                of consumers who rely on Olympic products for their exceptional
+                taste, consistent quality, and innovative formulations.
+              </p>
+            </div>
+          </div>
 
-            {/* Play/Pause Indicator */}
+          {/* Right Side - Video */}
+          <div className="md:w-1/2">
             <div
-              className={`absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 transition-opacity duration-300 ${
-                isVideoHovered ? "opacity-0" : "opacity-100"
-              }`}
+              className="relative h-full rounded-lg shadow-xl border-2 border-red-600 overflow-hidden"
+              onMouseEnter={() => setIsVideoHovered(true)}
+              onMouseLeave={() => setIsVideoHovered(false)}
             >
-              <div className="bg-red-600 rounded-full p-4">
-                <svg
-                  className="w-12 h-12 text-white"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+              <video
+                ref={videoRef}
+                className="w-full h-full object-cover"
+                src={qualityData.videoUrl}
+                loop
+                muted
+                playsInline
+              />
+
+              {/* Play/Pause Indicator */}
+              <div
+                className={`absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 transition-opacity duration-300 ${
+                  isVideoHovered ? "opacity-0" : "opacity-100"
+                }`}
+              >
+                <div className="bg-red-600 rounded-full p-4">
+                  <svg
+                    className="w-12 h-12 text-white"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
               </div>
             </div>
           </div>
