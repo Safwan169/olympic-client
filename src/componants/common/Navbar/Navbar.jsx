@@ -51,12 +51,7 @@ const Navbar = () => {
     {
       id: "products",
       label: "PRODUCTS",
-      hasDropdown: true,
-      dropdownItems: [
-        { id: "domestic", label: "Domestic", to: "/products/domestic" },
-        { id: "export", label: "Export", to: "/products/export" },
-        { id: "promotions", label: "Promotions", to: "/products/promotions" },
-      ],
+      to: '/products'
     },
     { id: "export", label: "EXPORT", to: "/export", hasDropdown: false },
   ];
@@ -201,9 +196,8 @@ const Navbar = () => {
             >
               {item.label}
               <span
-                className={`transform transition-transform duration-200 ${
-                  isOpen ? "rotate-180" : ""
-                }`}
+                className={`transform transition-transform duration-200 ${isOpen ? "rotate-180" : ""
+                  }`}
               >
                 ▼
               </span>
@@ -215,10 +209,9 @@ const Navbar = () => {
                     key={dropdownItem.id}
                     to={dropdownItem.to}
                     className={({ isActive }) =>
-                      `block py-2 px-4 ${
-                        isActive
-                          ? "text-yellow-300"
-                          : "text-gray-300 hover:text-yellow-300"
+                      `block py-2 px-4 ${isActive
+                        ? "text-yellow-300"
+                        : "text-gray-300 hover:text-yellow-300"
                       }`
                     }
                     onClick={() => setIsMobileMenuOpen(false)}
@@ -233,10 +226,9 @@ const Navbar = () => {
           <NavLink
             to={item.to}
             className={({ isActive }) =>
-              `block px-4 py-2 ${
-                isActive
-                  ? "text-yellow-300 font-medium"
-                  : "text-white hover:text-yellow-300"
+              `block px-4 py-2 ${isActive
+                ? "text-yellow-300 font-medium"
+                : "text-white hover:text-yellow-300"
               }`
             }
             onClick={() => setIsMobileMenuOpen(false)}
@@ -272,11 +264,10 @@ const Navbar = () => {
                 {item.hasDropdown ? (
                   <>
                     <button
-                      className={`flex items-center font-semibold ${
-                        isParentActive(item.dropdownItems)
+                      className={`flex items-center font-semibold ${isParentActive(item.dropdownItems)
                           ? "text-yellow-300"
                           : "text-white hover:text-yellow-300"
-                      }`}
+                        }`}
                     >
                       {item.label}
                     </button>
@@ -297,10 +288,9 @@ const Navbar = () => {
                               <NavLink
                                 to={dropdownItem.to}
                                 className={({ isActive }) =>
-                                  `block px-4 py-3 text-sm hover:bg-gray-100 ${
-                                    isActive
-                                      ? "bg-gray-100 text-red-700 font-medium"
-                                      : ""
+                                  `block px-4 py-3 text-sm hover:bg-gray-100 ${isActive
+                                    ? "bg-gray-100 text-red-700 font-medium"
+                                    : ""
                                   }`
                                 }
                                 onClick={() => setDropdownState({})}
@@ -317,8 +307,7 @@ const Navbar = () => {
                   <NavLink
                     to={item.to}
                     className={({ isActive }) =>
-                      `hover:text-yellow-300 font-semibold ${
-                        isActive ? "text-yellow-300" : "text-white"
+                      `hover:text-yellow-300 font-semibold ${isActive ? "text-yellow-300" : "text-white"
                       }`
                     }
                   >
@@ -356,11 +345,10 @@ const Navbar = () => {
                 {item.hasDropdown ? (
                   <>
                     <button
-                      className={`flex items-center font-semibold ${
-                        isParentActive(item.dropdownItems)
+                      className={`flex items-center font-semibold ${isParentActive(item.dropdownItems)
                           ? "text-yellow-300"
                           : "text-white hover:text-yellow-300"
-                      }`}
+                        }`}
                     >
                       {item.label}
                     </button>
@@ -381,10 +369,9 @@ const Navbar = () => {
                               <NavLink
                                 to={dropdownItem.to}
                                 className={({ isActive }) =>
-                                  `block px-4 py-3 text-sm hover:bg-gray-100 ${
-                                    isActive
-                                      ? "bg-gray-100 text-red-700 font-medium"
-                                      : ""
+                                  `block px-4 py-3 text-sm hover:bg-gray-100 ${isActive
+                                    ? "bg-gray-100 text-red-700 font-medium"
+                                    : ""
                                   }`
                                 }
                                 onClick={() => setDropdownState({})}
@@ -401,8 +388,7 @@ const Navbar = () => {
                   <NavLink
                     to={item.to}
                     className={({ isActive }) =>
-                      `hover:text-yellow-300 font-semibold ${
-                        isActive ? "text-yellow-300" : "text-white"
+                      `hover:text-yellow-300 font-semibold ${isActive ? "text-yellow-300" : "text-white"
                       }`
                     }
                   >
@@ -418,9 +404,8 @@ const Navbar = () => {
                 ref={searchInputRef}
                 type="text"
                 placeholder="Search..."
-                className={`search-input focus:outline-none ${
-                  searchActive ? "active" : ""
-                }`}
+                className={`search-input focus:outline-none ${searchActive ? "active" : ""
+                  }`}
               />
               <button
                 onClick={toggleSearch}
