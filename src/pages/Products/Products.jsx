@@ -21,7 +21,7 @@ const DynamicProductsSection = () => {
       id: 3,
       title: "CONSUMER PROMOTIONS",
       subtitle: "Unique tastes, crafted with care",
-      backgroundImage: "/src/assets/cookieBG.jpg",
+      backgroundImage: "/cookieBG.jpg",
       linkUrl: "/products/promotions",
     },
   ];
