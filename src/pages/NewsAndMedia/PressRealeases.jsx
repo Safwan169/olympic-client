@@ -1,61 +1,69 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 
-// Sample background image - replace with your actual image
+// Background image
 import bgImage from "../../assets/news_banner.jpeg";
+
+// Press release images
+import press1 from "../../assets/press_release/press1.jpg";
+import press2 from "../../assets/press_release/press3.jpg";
+import press3 from "../../assets/press_release/press3.jpg";
+import press4 from "../../assets/press_release/press1.jpg";
+
 const goldAccent = "#FFD700";
 const brandRed = "#E30613";
 
 const newsData = [
   {
     id: 1,
-    title: "BRITANNIA COMPLETES 100 YEARS",
+    title: "Olympic Industries comes first in the chase after foreign funds in 2023",
     date: "May 15, 2024",
     category: "Milestone",
-    excerpt: "Celebrating a century of delicious baked goods and business excellence.",
-    image: "/images/news1.jpg"
+    excerpt: "A 3.87 percentage point rise in foreign investors' stake in Olympic Industries in 2023 fuels curiosity because the biscuit maker...",
+    image: press1
   },
   {
     id: 2,
-    title: "BRITANNIA PARTNERS WITH NSDC",
+    title: "Highest VAT depositor nine firms honoured",
     date: "April 28, 2024",
     category: "Partnership",
-    excerpt: "New collaboration to support skill development in the food industry.",
-    image: "/images/news2.jpg"
+    excerpt: "Three each from manufacturing, trading and services sectors The National Board of Revenue (NBR) today honoured nine companies who have...",
+    image: press2
   },
   {
     id: 3,
-    title: "BRITANNIA GOOD DAY REVEALS NEW IDENTITY",
+    title: "Olympic invests Tk360cr in six years for business diversification",
     date: "March 10, 2024",
     category: "Rebranding",
-    excerpt: "Iconic biscuit brand gets a fresh new look for modern consumers.",
-    image: "/images/news3.jpg"
+    excerpt: "Infographic: TBS Olympic Industries, the country's leading branded biscuit manufacturer, has invested around Tk360 crore over the past six years...",
+    image: press3
   },
   {
     id: 4,
-    title: "BRITANNIA LAUNCHES BRITANNIA CHEESE SNACKS",
+    title: "Olympic Industries to buy 54 plots in Purbachal",
     date: "February 22, 2024",
     category: "Product Launch",
-    excerpt: "Expanding product portfolio with new range of cheese snacks.",
-    image: "/images/news4.jpg"
+    excerpt: "The Tk 8.91 crore worth of plots are located inside Purbachal Probashi Palli project Leading local biscuit maker Olympic Industries...",
+    image: press4
   },
   {
     id: 5,
-    title: "BRITANNIA BAKES A PLAN FOR HEALTHY BUSINESS",
+    title: "Olympic Industries to set up chanachur factory with Tk23cr investment",
     date: "January 18, 2024",
     category: "Sustainability",
-    excerpt: "New initiatives to promote health and wellness through our products.",
-    image: "/images/news5.jpg"
+    excerpt: "Olympic Industries Limited — a leading biscuit manufacturer in the country — has decided to set up machineries for making...",
+    image: press1
   },
   {
     id: 6,
-    title: "BRITANNIA SUPPORTS WOMEN ENTREPRENEURS",
+    title: "Olympic Industries comes first in the chase after foreign funds in 2023",
     date: "November 10, 2023",
     category: "CSR",
-    excerpt: "Announcing new assistance program for women entrepreneurs in food business.",
-    image: "/images/news6.jpg"
+    excerpt: "A 3.87 percentage point rise in foreign investors' stake in Olympic Industries in 2023 fuels curiosity because the biscuit maker...",
+    image: press2
   },
 ];
+
 
 // Sort by latest date (newest first)
 const sortedNewsData = newsData.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -82,14 +90,16 @@ const NewsCard = ({ item }) => {
 
   return (
     <div className="bg-gray-900 rounded-lg p-6 shadow-lg border border-gray-800 hover:border-amber-500 transition-all duration-300 transform hover:-translate-y-1 group h-full flex flex-col">
-      {/* Image placeholder - would be replaced with actual image */}
-      <div className="bg-gray-800 rounded-md mb-4 h-48 flex items-center justify-center overflow-hidden">
-        <div className="text-gray-600 text-center p-4">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          <span className="text-sm">News Image</span>
-        </div>
+      {/* Replace the placeholder with actual image */}
+      <div className="bg-gray-800 rounded-md mb-4 h-48 overflow-hidden">
+        <img 
+          src={item.image} 
+          alt={item.title}
+          className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+          onError={(e) => {
+            e.target.src = 'https://via.placeholder.com/400x300?text=Image+Not+Found';
+          }}
+        />
       </div>
       
       <div className="flex justify-between items-start mb-3">
