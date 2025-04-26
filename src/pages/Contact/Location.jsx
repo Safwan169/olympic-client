@@ -104,9 +104,8 @@ const Location = () => {
         align-items: center;
         justify-content: center;
         border-radius: 50%;
-        background: radial-gradient(circle, gold 0%, red 100%);
+        background: radial-gradient(circle, #D4AF37 0%, #DC2626 100%);
         border: 2px solid #b91c1c;
-        box-shadow: 0 0 15px rgba(220, 38, 38, 0.6);
         animation: marker-pulse 1.5s infinite ease-in-out;
       }
       @keyframes marker-pulse {
@@ -114,9 +113,11 @@ const Location = () => {
         50% { transform: scale(1); opacity: 1; }
         100% { transform: scale(0.9); opacity: 0.8; }
       }
+      .leaflet-container {
+        background-color: #111827;
+      }
     `;
     document.head.appendChild(styleEl);
-
 
     return () => {
       document.head.removeChild(linkEl);
@@ -142,9 +143,8 @@ const Location = () => {
           setIsMapLoaded(true);
         }, 800);
       } else {
-         initializeMap();
+        initializeMap();
       }
-
 
       const detailsTimer = setTimeout(() => {
         setShowDetails(true);
@@ -155,9 +155,8 @@ const Location = () => {
         clearTimeout(detailsTimer);
       };
     }
-     return () => {};
-  }, [selectedLocation, window.L]);
-
+    return () => {};
+  }, [selectedLocation]);
 
   const initializeMap = () => {
     if (!mapRef.current || !window.L) return;
@@ -169,12 +168,11 @@ const Location = () => {
       13
     );
 
-     window.L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
-        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
-        subdomains: 'abcd',
-        maxZoom: 19
-      }).addTo(leafletMap.current);
-
+    window.L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(leafletMap.current);
 
     const customIcon = window.L.divIcon({
       className: "custom-map-marker",
@@ -182,7 +180,6 @@ const Location = () => {
       iconSize: [30, 30],
       iconAnchor: [15, 15]
     });
-
 
     mapMarker.current = window.L.marker(
       [selectedLocation.mapCoords.lat, selectedLocation.mapCoords.lng],
@@ -203,42 +200,46 @@ const Location = () => {
     ];
     mapMarker.current.setLatLng(newLatLng);
 
-
     leafletMap.current.panTo(newLatLng, {
-       animate: true,
-       duration: 0.5
+      animate: true,
+      duration: 0.5
     });
   };
 
   const LocationIcon = ({ icon: IconComponent }) => {
-    return <IconComponent size={24} className="text-yellow-400" />;
+    return <IconComponent size={24} className="text-red-500" />;
   };
 
   const handleViewDetails = (url) => {
     console.log(`Navigating to: ${url}`);
   };
 
+  // Using gold colors for text
+  const goldTextClass = 'text-amber-600';
+  const dimmerGoldTextClass = 'text-amber-700';
+
   return (
-    <div className="bg-transparent text-white overflow-hidden py-12">
+    <div className="bg-tranparent text-white overflow-hidden py-12">
       <div className="absolute z-0 inset-0 pointer-events-none">
+        {/* Background accents */}
         <div className="absolute -top-48 -right-24 w-96 h-96 bg-red-900 rounded-full opacity-20 blur-3xl"></div>
-        <div className="absolute top-1/2 -left-48 w-96 h-96 bg-yellow-900 rounded-full opacity-20 blur-3xl"></div>
+        <div className="absolute top-1/2 -left-48 w-96 h-96 bg-red-800 rounded-full opacity-20 blur-3xl"></div>
         <div className="absolute bottom-24 right-1/3 w-64 h-64 bg-red-900 rounded-full opacity-15 blur-3xl"></div>
       </div>
 
       <div className="relative z-10">
         <div className="text-center pt-20 pb-16">
           <h1
-            className="text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-red-500 via-yellow-400 to-red-600"
+            className="text-5xl md:text-6xl font-bold mb-6 text-amber-600"
             style={{ textShadow: "0 5px 15px rgba(220, 38, 38, 0.3)" }}
           >
             Our Locations
           </h1>
           <div className="relative h-1 w-64 mx-auto mt-4">
-            <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-yellow-500 to-red-500 rounded-full"></div>
-            <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-yellow-500 to-red-500 rounded-full animate-pulse opacity-70"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-red-700 rounded-full"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 rounded-full animate-pulse opacity-70"></div>
           </div>
-          <p className="mt-6 text-lg text-yellow-300 max-w-2xl mx-auto">
+          <p className={`mt-6 text-lg ${goldTextClass} max-w-2xl mx-auto opacity-90`}>
             Explore our offices and manufacturing facilities across Bangladesh
           </p>
         </div>
@@ -248,7 +249,7 @@ const Location = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 transform-style-3d">
               <div className="lg:col-span-1 bg-gray-900 bg-opacity-50 backdrop-blur-sm rounded-3xl overflow-hidden border border-red-800 shadow-2xl transform transition-all duration-500 hover:shadow-red-900/20">
                 <div className="p-6">
-                  <h2 className="text-2xl font-bold mb-6 flex items-center text-yellow-400">
+                  <h2 className={`text-2xl font-bold mb-6 flex items-center ${goldTextClass}`}>
                     <MapPin className="mr-2 text-red-400" />
                     <span>Select Location</span>
                   </h2>
@@ -266,16 +267,16 @@ const Location = () => {
                         <div
                           className="w-12 h-12 rounded-full flex items-center justify-center mr-4 transition-transform duration-500 group-hover:scale-110 border-2 border-red-600"
                           style={{
-                             background: `radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%)`,
+                            background: `radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%)`,
                           }}
                         >
                           <LocationIcon icon={location.icon} />
                         </div>
                         <div className="flex-1">
-                          <h3 className="font-bold text-yellow-400 group-hover:text-yellow-300 transition-colors duration-300">
+                          <h3 className={`font-bold ${goldTextClass} group-hover:${dimmerGoldTextClass} transition-colors duration-300`}>
                             {location.name}
                           </h3>
-                          <p className="text-sm text-yellow-300">
+                          <p className={`text-sm ${dimmerGoldTextClass}`}>
                             {location.subtitle}
                           </p>
                         </div>
@@ -315,7 +316,7 @@ const Location = () => {
                         <div className="w-16 h-16 relative">
                           <div className="w-16 h-16 rounded-full border-t-4 border-l-4 border-red-500 animate-spin absolute"></div>
                           <div
-                            className="w-12 h-12 rounded-full border-t-4 border-l-4 border-yellow-500 animate-spin absolute inset-2"
+                            className="w-12 h-12 rounded-full border-t-4 border-l-4 border-amber-600 animate-spin absolute inset-2"
                             style={{ animationDirection: "reverse" }}
                           ></div>
                         </div>
@@ -339,13 +340,13 @@ const Location = () => {
                       <div className="flex items-center mb-2">
                         <div
                           className="w-3 h-3 rounded-full mr-3"
-                          style={{ backgroundColor: "red" }}
+                          style={{ backgroundColor: "#dc2626" }}
                         ></div>
-                        <h3 className="text-xl font-bold text-yellow-400">
+                        <h3 className={`text-xl font-bold ${goldTextClass}`}>
                           {selectedLocation.name}
                         </h3>
                       </div>
-                      <p className="text-sm text-yellow-300 ml-6">
+                      <p className={`text-sm ${dimmerGoldTextClass} ml-6`}>
                         {selectedLocation.address}
                       </p>
                     </div>
@@ -369,43 +370,43 @@ const Location = () => {
                   >
                     <div className="flex flex-col h-full">
                       <h3
-                        className="text-2xl font-bold mb-4 text-yellow-400"
+                        className={`text-2xl font-bold mb-4 ${goldTextClass}`}
                       >
                         Location Details
                       </h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                         <div className="flex items-center p-3 bg-gray-800 bg-opacity-50 rounded-xl border border-gray-700">
-                          <Phone size={18} className="mr-3 text-yellow-400" />
+                          <Phone size={18} className={`mr-3 ${goldTextClass}`} />
                           <div>
-                            <p className="text-xs text-yellow-500">Phone</p>
-                            <p className="text-sm text-yellow-200">
+                            <p className={`text-xs ${dimmerGoldTextClass} opacity-90`}>Phone</p>
+                            <p className={`text-sm ${goldTextClass} opacity-80`}>
                               {selectedLocation.phone}
                             </p>
                           </div>
                         </div>
                         <div className="flex items-center p-3 bg-gray-800 bg-opacity-50 rounded-xl border border-gray-700">
-                          <Mail size={18} className="mr-3 text-yellow-400" />
+                          <Mail size={18} className={`mr-3 ${goldTextClass}`} />
                           <div>
-                            <p className="text-xs text-yellow-500">Email</p>
-                            <p className="text-sm text-yellow-200">
+                            <p className={`text-xs ${dimmerGoldTextClass} opacity-90`}>Email</p>
+                            <p className={`text-sm ${goldTextClass} opacity-80`}>
                               {selectedLocation.email}
                             </p>
                           </div>
                         </div>
                         <div className="flex items-center p-3 bg-gray-800 bg-opacity-50 rounded-xl md:col-span-2 border border-gray-700">
-                          <Clock size={18} className="mr-3 text-yellow-400" />
+                          <Clock size={18} className={`mr-3 ${goldTextClass}`} />
                           <div>
-                            <p className="text-xs text-yellow-500">
+                            <p className={`text-xs ${dimmerGoldTextClass} opacity-90`}>
                               Working Hours
                             </p>
-                            <p className="text-sm text-yellow-200">
+                            <p className={`text-sm ${goldTextClass} opacity-80`}>
                               {selectedLocation.hours}
                             </p>
                           </div>
                         </div>
                       </div>
                       <div className="mb-4">
-                        <h4 className="text-lg font-medium mb-3 text-yellow-400">
+                        <h4 className={`text-lg font-medium mb-3 ${goldTextClass}`}>
                           Photo Gallery
                         </h4>
                         <div className="grid grid-cols-2 gap-3">
@@ -442,12 +443,12 @@ const Location = () => {
                           }
                           className="w-full flex items-center justify-center py-3 rounded-xl transition-all duration-300 group relative overflow-hidden text-white font-medium mr-2"
                           style={{
-                            background: `linear-gradient(90deg, red, gold)`,
+                            background: `linear-gradient(90deg, #dc2626, #b91c1c)`,
                             filter:
                               "drop-shadow(0 10px 8px rgba(220, 38, 38, 0.1)) drop-shadow(0 4px 3px rgba(220, 38, 38, 0.2))",
                           }}
                         >
-                          <div className="absolute inset-0 w-full translate-x-full group-hover:animate-shine bg-gradient-to-r from-transparent via-yellow-300/30 to-transparent"></div>
+                          <div className="absolute inset-0 w-full translate-x-full group-hover:animate-shine bg-gradient-to-r from-transparent via-red-400/30 to-transparent"></div>
                           <span className="relative z-10">View Facility Details</span>
                           <ExternalLink size={16} className="ml-2 relative z-10" />
                         </button>
@@ -468,9 +469,8 @@ const Location = () => {
           align-items: center;
           justify-content: center;
           border-radius: 50%;
-          background: radial-gradient(circle, gold 0%, red 100%);
+          background: radial-gradient(circle, #D4AF37 0%, #DC2626 100%);
           border: 2px solid #b91c1c;
-          box-shadow: 0 0 15px rgba(220, 38, 38, 0.6);
           animation: marker-pulse 1.5s infinite ease-in-out;
         }
         @keyframes marker-pulse {
@@ -480,6 +480,30 @@ const Location = () => {
         }
         .leaflet-container {
           background-color: #111827;
+        }
+        @keyframes fadeSlideUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes shine {
+          from {
+            transform: translateX(-100%);
+          }
+          to {
+            transform: translateX(100%);
+          }
+        }
+        .animate-shine {
+          animation: shine 1.5s;
+        }
+        .animate-shimmer {
+          animation: shine 2s infinite;
         }
       `}</style>
     </div>
