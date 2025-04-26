@@ -28,6 +28,9 @@ import DomesticProducts from "../pages/Products/DomesticProducts";
 import ExportProducts from "../pages/Products/ExportProducts";
 import PSIMI from "../pages/Investors/PSIMI";
 import ExploreOpportunities from "../pages/Career/ExploreOpportunities";
+import ProductCategories from "../pages/Products/Products";
+import SpecificPage from "../pages/Products/SpecificCategoryPage";
+import ProductDetail from "../pages/Products/DetailsPage";
 
 const userRoutes = [
   {
@@ -78,10 +81,23 @@ const userRoutes = [
     element: <SalesAndDistribution />,
   },
 
+  {
+    path:'products',
+    element:<ProductCategories/>
+  },
+
   // PRODUCTS Section
   {
     path: "/products/domestic",
     element: <DomesticProducts />,
+  },
+  {
+    path: "/products/domestic/:name",
+    element: <SpecificPage />,
+  },
+  {
+    path: "/products/domestic/details/:category/:productId",
+    element: <ProductDetail />,
   },
   {
     path: "/products/export",
