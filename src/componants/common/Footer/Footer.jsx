@@ -84,12 +84,11 @@ const Footer = () => {
       {/* Red accent top border */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-red-600"></div>
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-6  relative z-10">
 
         {/* Top Centered Section: Main Logo */}
          {/* Placed above the main grid, centered */}
-        <div className="flex justify-center mb-16"> {/* Center horizontally, add bottom margin */}
-           {/* Replace with your actual logo that works well on dark backgrounds */}
+        <div className="flex justify-center  mb-16"> {/* Center horizontally, add bottom margin */}
            {/* Using a placeholder div/image */}
            <img src="/olympic.png" alt="Company Logo" className="h-16 w-auto" /> {/* Adjust height/width as needed */}
         </div>
@@ -100,9 +99,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-8"> {/* Adjusted gap for better fit */}
 
           {/* Column 1: Logo and social links */}
-          <div className="lg:col-span-1">
+          <div className=" justify-center  items-center mb-40 flex flex-col lg:col-span-1">
              {/* Mini Logo above social icons */}
-             <img src="/olympic.png" alt="Company Mini Logo" className="w-32 mb-6" /> {/* Smaller logo */}
+             <img src="/olympic.png" alt="Company Mini Logo" className="w-40 mb-6" /> {/* Smaller logo */}
             <div className="flex space-x-5 mt-6">
               {socialLinks.map((link, index) => (
                 <a
@@ -217,8 +216,6 @@ const Footer = () => {
            </div>
         </div>
 
-        {/* Removed Map Section */}
-        {/* Removed Investors' Relation section (details moved/omitted based on image) */}
 
         {/* Decorative divider - Red/Transparent gradient */}
         <div className="mt-16 mb-8 w-full h-px bg-gradient-to-r from-transparent via-red-600 to-transparent"></div>
