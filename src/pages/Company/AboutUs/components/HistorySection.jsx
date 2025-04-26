@@ -1,284 +1,497 @@
-import { useState, useEffect } from "react";
-import { ChevronRight, Clock, Star, Award, TrendingUp } from "lucide-react";
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
+import cadbury from "../../../../assets/history/cadbury.png";
+import been from "../../../../assets/history/cocoa-bean.png";
 
-export default function HistorySection() {
-  const [activeTab, setActiveTab] = useState("journey");
+const timelineData = [
+  {
+    year: 1824,
+    title: "THE BEGINNING",
+    description: "John Cadbury opened his grocer's shop at 93 Bull Street, Birmingham. Amongst other goods, he sold cocoa and drinking chocolate, which he prepared himself using a pestle and mortar.",
+    image: cadbury,
+    cocoaImage: been
+  },
+  {
+    year: 1866,
+    title: "THE LAUNCH OF COCOA ESSENCE",
+    description: "John's sons, George and Richard, heard about a Dutch cocoa press, able to squeeze out significantly purer cocoa butter. The brothers bought one and found they could make their drinking chocolate 100% pure. They called it 'Cocoa Essence', and advertised it as, 'Absolutely pure, therefore best'. Sales increased so much, it marked a major turning point for Cadbury.",
+    image: cadbury,
+    cocoaImage: been
+  },
+  {
+    year: 1905,
+    title: "DAIRY MILK IS BORN",
+    description: "Cadbury's Dairy Milk was launched to compete against the dominant Swiss chocolate brands. With its higher milk content, it was advertised as having 'a glass and a half of full cream milk in every half pound'. The new recipe was a huge success and Dairy Milk became the company's best selling product by 1913.",
+    image: cadbury,
+    cocoaImage: been
+  },
+  {
+    year: 1915,
+    title: "MILK TRAY INTRODUCED",
+    description: "Milk Tray was launched as an assortment of milk chocolates in a simple cardboard box, as opposed to the more elaborate presentation boxes of the time. It was designed as an affordable gift for everyday occasions.",
+    image: cadbury,
+    cocoaImage: been
+  },
+  {
+    year: 1928,
+    title: "CREATION OF CRUNCHIE",
+    description: "The Crunchie bar, with its distinctive honeycomb center covered in milk chocolate, was introduced and quickly became one of Cadbury's most iconic products.",
+    image: cadbury,
+    cocoaImage: been
+  },
+  {
+    year: 1969,
+    title: "CREME EGG DEBUT",
+    description: "Cadbury Creme Eggs were introduced. The chocolate eggs with a soft fondant filling would go on to become a seasonal favorite and an Easter tradition for many.",
+    image: cadbury,
+    cocoaImage: been
+  },
+  {
+    year: 1990,
+    title: "CARAMEL INNOVATION",
+    description: "Cadbury launched several products featuring its signature caramel, expanding its offering beyond the traditional Dairy Milk range and establishing caramel as a key flavor in the Cadbury portfolio.",
+    image: cadbury,
+    cocoaImage: been
+  }
+];
+
+const HistorySection = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    setIsVisible(true);
+  const [animationState, setAnimationState] = useState('initial');
+  const [direction, setDirection] = useState('next');
+  const timelineRef = useRef(null);
+  const introRef = useRef(null);
+  const scrollRef = useRef(null);
+  const wheelTimeoutRef = useRef(null);
+  const isScrollingRef = useRef(false);
+  
+  // Handle wheel scrolling to navigate slides with better control
+  const handleWheel = useCallback((e) => {
+    // Prevent the default scroll behavior
+    e.preventDefault();
+    
+    // If already handling a scroll event, return
+    if (isScrollingRef.current) return;
+    
+    isScrollingRef.current = true;
+    
+    // Clear any existing timeout
+    if (wheelTimeoutRef.current) {
+      clearTimeout(wheelTimeoutRef.current);
+    }
+    
+    if (e.deltaY > 0) {
+      // Scrolling down - next slide
+      setDirection('next');
+      nextSlide();
+    } else if (e.deltaY < 0) {
+      // Scrolling up - previous slide
+      setDirection('prev');
+      prevSlide();
+    }
+    
+    // Set a timeout to reset the scrolling flag
+    wheelTimeoutRef.current = setTimeout(() => {
+      isScrollingRef.current = false;
+    }, 1000); // Adjust timing based on your animation duration
   }, []);
-
-  console.log("activeTab", activeTab);
-
-  // Ensure the tab change function works properly
-  const handleTabChange = (tabId) => {
-    console.log(`Changing to tab: ${tabId}`);
-    setActiveTab(tabId);
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setAnimationState('entering');
+          setTimeout(() => {
+            setAnimationState('visible');
+          }, 100);
+        } else {
+          setAnimationState('exiting');
+          setTimeout(() => {
+            setAnimationState('initial');
+          }, 600);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    
+    if (timelineRef.current) {
+      observer.observe(timelineRef.current);
+    }
+    
+    // Add wheel event listener for scroll navigation
+    const currentScrollRef = scrollRef.current;
+    if (currentScrollRef) {
+      currentScrollRef.addEventListener('wheel', handleWheel, { passive: false });
+    }
+    
+    return () => {
+      if (timelineRef.current) {
+        observer.unobserve(timelineRef.current);
+      }
+      if (currentScrollRef) {
+        currentScrollRef.removeEventListener('wheel', handleWheel);
+      }
+      if (wheelTimeoutRef.current) {
+        clearTimeout(wheelTimeoutRef.current);
+      }
+    };
+  }, [handleWheel]);
+  
+  const nextSlide = () => {
+    setAnimationState('exiting');
+    
+    setTimeout(() => {
+      setCurrentSlide((prev) => (prev === timelineData.length - 1 ? 0 : prev + 1));
+      setAnimationState('entering');
+      
+      setTimeout(() => {
+        setAnimationState('visible');
+      }, 100);
+    }, 600); // Slightly longer than the animation duration
+  };
+  
+  const prevSlide = () => {
+    setAnimationState('exiting');
+    
+    setTimeout(() => {
+      setCurrentSlide((prev) => (prev === 0 ? timelineData.length - 1 : prev - 1));
+      setAnimationState('entering');
+      
+      setTimeout(() => {
+        setAnimationState('visible');
+      }, 100);
+    }, 600); // Slightly longer than the animation duration
   };
 
-  const tabs = [
-    { id: "journey", label: "Our Journey" },
-    { id: "milestones", label: "Key Milestones" },
-    { id: "values", label: "Core Values" },
-  ];
-
+  const startJourney = () => {
+    setCurrentSlide(0);
+    setDirection('next');
+    setAnimationState('entering');
+    
+    if (timelineRef.current) {
+      timelineRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    setTimeout(() => {
+      setAnimationState('visible');
+    }, 100);
+  };
+  
+  const goToSlide = (index) => {
+    // Set direction based on target index
+    setDirection(index > currentSlide ? 'next' : 'prev');
+    setAnimationState('exiting');
+    
+    setTimeout(() => {
+      setCurrentSlide(index);
+      setAnimationState('entering');
+      
+      setTimeout(() => {
+        setAnimationState('visible');
+      }, 100);
+    }, 600);
+  };
+  
+  // Get animation classes based on current state and direction
+  const getContentAnimation = () => {
+    if (animationState === 'initial') return 'opacity-0';
+    if (animationState === 'entering') {
+      return direction === 'next' 
+        ? 'opacity-0 translate-y-12 scale-95' 
+        : 'opacity-0 -translate-y-12 scale-95';
+    }
+    if (animationState === 'visible') return 'opacity-100 translate-y-0 scale-100';
+    if (animationState === 'exiting') {
+      return direction === 'next' 
+        ? 'opacity-0 -translate-y-12 scale-95' 
+        : 'opacity-0 translate-y-12 scale-95';
+    }
+    return '';
+  };
+  
+  // Get image animation classes based on current state and direction
+  const getImageAnimation = () => {
+    if (animationState === 'initial') return 'opacity-0';
+    if (animationState === 'entering') {
+      return direction === 'next' 
+        ? 'opacity-0 translate-x-12 rotate-6 scale-90' 
+        : 'opacity-0 -translate-x-12 -rotate-6 scale-90';
+    }
+    if (animationState === 'visible') return 'opacity-100 translate-x-0 rotate-0 scale-100';
+    if (animationState === 'exiting') {
+      return direction === 'next' 
+        ? 'opacity-0 -translate-x-12 -rotate-6 scale-90' 
+        : 'opacity-0 translate-x-12 rotate-6 scale-90';
+    }
+    return '';
+  };
+  
+  // Get decorative bean animation
+  const getBeanAnimation = (position) => {
+    if (animationState === 'initial') return 'opacity-0';
+    if (animationState === 'entering') return 'opacity-0 scale-0';
+    if (animationState === 'visible') {
+      if (position === 'top') return 'opacity-100 scale-100 animate-float-slow rotate-12';
+      if (position === 'left') return 'opacity-100 scale-100 animate-float-slow-reverse -rotate-12';
+      if (position === 'bottom') return 'opacity-100 scale-100 animate-pulse-slow rotate-6';
+    }
+    if (animationState === 'exiting') return 'opacity-0 scale-0';
+    return '';
+  };
+  
+  // Get year number animation
+  const getYearAnimation = () => {
+    if (animationState === 'initial') return 'opacity-0 blur-lg';
+    if (animationState === 'entering') return 'opacity-0 blur-lg scale-125';
+    if (animationState === 'visible') return 'opacity-100 blur-0 scale-100';
+    if (animationState === 'exiting') return 'opacity-0 blur-lg scale-75';
+    return '';
+  };
+  
   return (
-    <div className="bg-black text-white min-h-screen py-8 sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 md:pt-32">
-      <div className="max-w-6xl mx-auto">
-        {/* Responsive Animated Header */}
-        <div
-          className={`relative transition-all duration-1000 transform ${
-            isVisible ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <h2 className="text-2xl text-center xs:text-3xl sm:text-4xl md:text-5xl font-bold mb-10 sm:mb-16">
-            Our <span className="text-red-600">HISTORY</span> of
-            <span className="text-yellow-500"> Excellence</span>
-          </h2>
+    <div className="bg-gray-900 text-white overflow-hidden">
+      {/* Background pattern for the entire section */}
+      <div className="absolute inset-0 bg-pattern opacity-5 pointer-events-none" style={{ 
+        backgroundSize: '400px',
+        backgroundRepeat: 'repeat',
+      }}></div>
+      
+      {/* Introduction Section */}
+      <div ref={introRef} className="relative py-16 px-4 flex flex-col items-center justify-center min-h-screen">
+        <h1 className="text-6xl md:text-8xl font-bold text-yellow-300 mb-10 text-center animate-fade-in">
+          CADBURY TIMELINE
+        </h1>
+        <div className="max-w-3xl text-center mb-16 animate-slide-up">
+          <p className="text-xl md:text-2xl mb-4">
+            Cadbury has been part of British culture and society since 1824.
+          </p>
+          <p className="text-xl md:text-2xl">
+            These are the key moments from our history that have made Cadbury what it is today.
+          </p>
         </div>
-
-        {/* Responsive Navigation Tabs - Fixed to ensure clickability */}
-        <div
-          className={`flex flex-wrap justify-center sm:justify-start space-x-0 sm:space-x-1 mb-8 sm:mb-12 border-b border-gray-800 transition-all duration-1000 delay-300 transform ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
+        <button 
+          onClick={startJourney}
+          className="inline-flex flex-col items-center gap-2 text-yellow-300 hover:text-yellow-100 transition-colors group cursor-pointer animate-fade-in-delay"
         >
-          {tabs?.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => handleTabChange(tab.id)}
-              type="button"
-              className={`py-2 sm:py-3 px-3 sm:px-6  text-sm sm:text-base focus:outline-none transition-all duration-300 relative z-90 ${
-                activeTab === tab.id
-                  ? "text-yellow-500 border-b-2 border-red-600 font-bold"
-                  : "text-gray-400 hover:text-white"
-              }`}
+          <span className="text-2xl font-semibold">START THE JOURNEY</span>
+          <ChevronDown className="w-10 h-10 animate-bounce group-hover:animate-pulse" />
+        </button>
+      </div>
+      
+      {/* Timeline Section */}
+      <div 
+        ref={timelineRef} 
+        className="relative px-4 py-16 min-h-screen flex flex-col"
+      >
+        <div 
+          ref={scrollRef} 
+          className="container mx-auto max-w-6xl h-full flex flex-col"
+          // Special div that captures wheel events
+          style={{ touchAction: 'none' }} // Prevents touch scrolling on mobile
+        >
+          <div className="flex justify-end mb-8">
+            <button 
+              className="bg-gray-800 hover:bg-gray-700 transition-colors rounded-full p-4 flex items-center gap-2 text-white"
+              onClick={() => {
+                introRef.current?.scrollIntoView({ behavior: 'smooth' });
+              }}
             >
-              {tab.label}
+              <span>Back to top</span> 
+              <ChevronUp className="w-5 h-5" />
             </button>
-          ))}
-        </div>
-
-        {/* Content Sections */}
-        <div
-          className={`transition-all duration-700 transform ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
-        >
-          {/* Our Journey Tab */}
-          {activeTab === "journey" && (
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8">
-              <div className="lg:col-span-3 space-y-6 sm:space-y-8">
-                <div className="relative overflow-hidden group">
-                  <div className="absolute inset-0 bg-gradient-to-r from-red-600/80 to-yellow-600/80 opacity-0 group-hover:opacity-90 transition-all duration-500"></div>
-                  <div className="h-48 sm:h-64 bg-gray-800 rounded-lg flex items-center justify-center">
-                    <div className="flex flex-col items-center justify-center text-center p-4 sm:p-6 relative z-10">
-                      <p className="text-xl sm:text-3xl font-light mb-1 sm:mb-2 group-hover:text-black transition-colors duration-500">
-                        Founded in
-                      </p>
-                      <p className="text-4xl sm:text-6xl font-bold text-red-600 group-hover:text-black transition-colors duration-500">
-                        1979
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <p className="text-base sm:text-lg leading-relaxed text-gray-300">
-                  Olympic Industries Limited was founded in June 1979 as Bengal
-                  Carbide Limited, a battery manufacturer. As we gained the
-                  trust of our consumers and witnessed changes in the battery
-                  industry, we decided to diversify into products that could be
-                  a part of our consumers' daily lives.
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-12 flex-1">
+            {/* Year and Content */}
+            <div className="overflow-hidden">
+              <h2 className={`text-7xl md:text-9xl font-bold text-yellow-300 mb-8 transition-all duration-700 transform ${getYearAnimation()}`}>
+                {timelineData[currentSlide].year}
+              </h2>
+              <div className={`border-l-4 border-yellow-300 pl-6 transition-all duration-700 transform ${getContentAnimation()}`}>
+                <h3 className="text-2xl md:text-4xl font-bold mb-6">
+                  {timelineData[currentSlide].title}
+                </h3>
+                <p className="text-lg md:text-xl">
+                  {timelineData[currentSlide].description}
                 </p>
-
-                <div className="border-l-2 sm:border-l-4 border-red-600 pl-4 sm:pl-6 py-2">
-                  <p className="text-lg sm:text-2xl font-light italic text-yellow-500">
-                    "Today, we are the largest manufacturer of biscuits in
-                    Bangladesh."
-                  </p>
-                </div>
-              </div>
-
-              <div className="lg:col-span-2 space-y-6 sm:space-y-8">
-                <div className="bg-gray-900 rounded-lg p-4 sm:p-6 border-t-4 border-yellow-500 hover:shadow-yellow-500/20 hover:shadow-lg transition-all duration-300">
-                  <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 flex items-center">
-                    <Clock size={20} className="text-red-600 mr-2" />
-                    Our Timeline
-                  </h3>
-                  <ul className="space-y-3 sm:space-y-4">
-                    <li className="flex">
-                      <ChevronRight
-                        size={16}
-                        className="text-yellow-500 mt-1 mr-2 flex-shrink-0"
-                      />
-                      <div className="text-sm sm:text-base">
-                        <span className="text-red-600 font-bold">1979:</span>{" "}
-                        Founded as Bengal Carbide Limited
-                      </div>
-                    </li>
-                    <li className="flex">
-                      <ChevronRight
-                        size={16}
-                        className="text-yellow-500 mt-1 mr-2 flex-shrink-0"
-                      />
-                      <div className="text-sm sm:text-base">
-                        <span className="text-red-600 font-bold">1996:</span>{" "}
-                        Diversified into biscuit and confectionery
-                      </div>
-                    </li>
-                    <li className="flex">
-                      <ChevronRight
-                        size={16}
-                        className="text-yellow-500 mt-1 mr-2 flex-shrink-0"
-                      />
-                      <div className="text-sm sm:text-base">
-                        <span className="text-red-600 font-bold">Today:</span>{" "}
-                        Market leader with 95%+ revenue from biscuits
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="bg-gradient-to-br from-gray-900 to-black rounded-lg p-4 sm:p-6 hover:shadow-red-600/20 hover:shadow-lg transition-all duration-300">
-                  <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-yellow-500">
-                    Growth & Evolution
-                  </h3>
-                  <p className="text-sm sm:text-base text-gray-300">
-                    Over the last 30 years, Olympic has grown to be one of the
-                    largest manufacturers, distributors and marketers of fast
-                    moving consumer goods in Bangladesh.
-                  </p>
-                </div>
               </div>
             </div>
-          )}
-
-          {/* Key Milestones Tab */}
-          {activeTab === "milestones" && (
-            <div className="space-y-8 sm:space-y-12">
-              {/* First Milestone */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 items-center">
-                <div className="md:col-span-1">
-                  <div className="text-6xl sm:text-8xl font-bold text-red-600 opacity-80">
-                    01
-                  </div>
-                  <div className="mt-2 sm:mt-4 h-1 w-16 sm:w-24 bg-yellow-600"></div>
-                </div>
-                <div className="md:col-span-2">
-                  <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3 text-yellow-500">
-                    Foundation as Battery Manufacturer
-                  </h3>
-                  <p className="text-sm sm:text-base text-gray-300">
-                    Olympic Industries Limited was founded in June 1979 as
-                    Bengal Carbide Limited, a battery manufacturer. This was our
-                    first step into Bangladesh's manufacturing sector.
-                  </p>
-                </div>
-              </div>
-
-              {/* Second Milestone */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 items-center">
-                <div className="md:col-span-1">
-                  <div className="text-6xl sm:text-8xl font-bold text-red-600 opacity-80">
-                    02
-                  </div>
-                  <div className="mt-2 sm:mt-4 h-1 w-16 sm:w-24 bg-yellow-600"></div>
-                </div>
-                <div className="md:col-span-2">
-                  <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3 text-yellow-500">
-                    Strategic Diversification
-                  </h3>
-                  <p className="text-sm sm:text-base text-gray-300">
-                    In 1996, we saw significant opportunities in the biscuit and
-                    confectionery industries and imported our first production
-                    lines. This pivotal decision transformed our business
-                    trajectory.
-                  </p>
-                </div>
-              </div>
-
-              {/* Third Milestone */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 items-center">
-                <div className="md:col-span-1">
-                  <div className="text-6xl sm:text-8xl font-bold text-red-600 opacity-80">
-                    03
-                  </div>
-                  <div className="mt-2 sm:mt-4 h-1 w-16 sm:w-24 bg-yellow-600"></div>
-                </div>
-                <div className="md:col-span-2">
-                  <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3 text-yellow-500">
-                    Market Leadership
-                  </h3>
-                  <p className="text-sm sm:text-base text-gray-300">
-                    Today, we are the largest manufacturer of biscuits in
-                    Bangladesh and biscuits and confectionery products represent
-                    95%+ of our annual revenue. Our commitment to quality has
-                    established us as a trusted household name.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Core Values Tab */}
-          {activeTab === "values" && (
-            <div className="space-y-6 sm:space-y-10">
-              <p className="text-base sm:text-xl leading-relaxed text-gray-300">
-                What makes Olympic so popular is the quality of our products. We
-                understand that customers have high expectations, and that their
-                loyalty depends on it. As the market leader in the biscuits
-                industry, we have only been able to achieve what we have by
-                staying true to our core values and by focusing on the consumer.
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-                <div className="bg-gray-900 p-4 sm:p-6 rounded-lg hover:bg-gray-800 transition-all duration-300 transform hover:-translate-y-1">
-                  <Star size={24} className="text-yellow-500 mb-3 sm:mb-4" />
-                  <h3 className="text-lg sm:text-xl font-bold mb-2 text-red-600">
-                    Quality First
-                  </h3>
-                  <p className="text-sm sm:text-base text-gray-300">
-                    We maintain the highest standards in our manufacturing
-                    processes to ensure consistent product quality.
-                  </p>
-                </div>
-
-                <div className="bg-gray-900 p-4 sm:p-6 rounded-lg hover:bg-gray-800 transition-all duration-300 transform hover:-translate-y-1">
-                  <Award size={24} className="text-yellow-500 mb-3 sm:mb-4" />
-                  <h3 className="text-lg sm:text-xl font-bold mb-2 text-red-600">
-                    Consumer Focus
-                  </h3>
-                  <p className="text-sm sm:text-base text-gray-300">
-                    Our products are designed with the consumer in mind, meeting
-                    their expectations and becoming part of their daily lives.
-                  </p>
-                </div>
-
-                <div className="bg-gray-900 p-4 sm:p-6 rounded-lg hover:bg-gray-800 transition-all duration-300 transform hover:-translate-y-1">
-                  <TrendingUp
-                    size={24}
-                    className="text-yellow-500 mb-3 sm:mb-4"
+            
+            {/* Images with enhanced animations */}
+            <div className="overflow-hidden">
+              <div className="relative">
+                {/* Main image */}
+                <div className={`relative z-10 shadow-xl rounded-lg overflow-hidden transition-all duration-700 transform ${getImageAnimation()}`}>
+                  <img 
+                    src={timelineData[currentSlide].image} 
+                    alt={`Cadbury in ${timelineData[currentSlide].year}`} 
+                    className="w-full h-auto"
                   />
-                  <h3 className="text-lg sm:text-xl font-bold mb-2 text-red-600">
-                    Continuous Growth
-                  </h3>
-                  <p className="text-sm sm:text-base text-gray-300">
-                    We constantly seek opportunities to improve and expand,
-                    adapting to changes in the market and consumer preferences.
-                  </p>
+                  
+                  {/* Semi-transparent overlay that fades in */}
+                  <div className={`absolute inset-0 bg-yellow-900 bg-opacity-10 transition-opacity duration-1000 ${
+                    animationState === 'visible' ? 'opacity-100' : 'opacity-0'
+                  }`}></div>
+                </div>
+                
+                {/* Decorative elements with more interesting animations */}
+                <div className={`absolute -top-6 -right-6 w-16 h-16 z-20 transition-all duration-1000 ${getBeanAnimation('top')}`}>
+                  <img 
+                    src={been}
+                    alt="Cocoa bean" 
+                    className="w-full h-auto"
+                  />
+                </div>
+                <div className={`absolute top-1/3 -left-8 w-12 h-12 z-20 transition-all duration-1000 ${getBeanAnimation('left')}`}>
+                  <img 
+                    src={been} 
+                    alt="Cocoa bean" 
+                    className="w-full h-auto"
+                  />
+                </div>
+                
+                {/* Additional decorative element */}
+                <div className={`absolute -bottom-10 -right-10 w-32 h-32 z-0 transition-all duration-1000 ${getBeanAnimation('bottom')}`}>
+                  <img 
+                    src={been} 
+                    alt="Cocoa bean" 
+                    className="w-full h-auto"
+                  />
                 </div>
               </div>
-
-              <div className="mt-8 text-center">
-                <button className="px-6 py-2 sm:px-8 sm:py-3 bg-red-600 text-white text-sm sm:text-base font-bold rounded-full hover:bg-red-700 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-red-600/30">
-                  Learn More About Our Values
-                </button>
-              </div>
             </div>
-          )}
+          </div>
+          
+          {/* Navigation - Centered */}
+          <div className="flex flex-col items-center gap-4 mb-8">
+            <span className="text-lg font-medium">{currentSlide + 1} / {timelineData.length}</span>
+            <div className="flex gap-6">
+              <button 
+                onClick={prevSlide}
+                className="bg-gray-800 hover:bg-gray-700 rounded-full p-4 transition-colors transform hover:scale-110 active:scale-95 duration-300"
+                aria-label="Previous slide"
+              >
+                <ChevronUp className="w-6 h-6 rotate-90" />
+              </button>
+              <button 
+                onClick={nextSlide}
+                className="bg-gray-800 hover:bg-gray-700 rounded-full p-4 transition-colors transform hover:scale-110 active:scale-95 duration-300"
+                aria-label="Next slide"
+              >
+                <ChevronDown className="w-6 h-6 rotate-90" />
+              </button>
+            </div>
+            <p className="text-gray-400 mt-2 text-sm">Use mouse wheel to navigate through timeline</p>
+          </div>
+        </div>
+        
+        {/* Timeline dots navigation with enhanced animations */}
+        <div className="fixed right-8 top-1/2 transform -translate-y-1/2 h-1/2 flex flex-col justify-center items-center z-30">
+          <div className="w-1 bg-white bg-opacity-20 rounded-full h-full relative">
+            {/* Animated progress indicator */}
+            <div 
+              className="absolute w-1 rounded-full bg-yellow-300 transition-all duration-700 ease-in-out"
+              style={{ 
+                top: '0', 
+                height: `${(currentSlide / (timelineData.length - 1)) * 100}%`,
+                opacity: animationState === 'visible' ? 1 : 0,
+              }}
+            ></div>
+            
+            {timelineData.map((item, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`absolute w-4 h-4 rounded-full -left-1.5 transition-all duration-500 ${
+                  index === currentSlide 
+                    ? 'bg-yellow-300 scale-125 shadow-glow' 
+                    : 'bg-white bg-opacity-50 hover:bg-opacity-75 hover:scale-110'
+                }`}
+                style={{ 
+                  top: `${(index / (timelineData.length - 1)) * 100}%`,
+                  boxShadow: index === currentSlide ? '0 0 10px 2px rgba(252, 211, 77, 0.5)' : 'none'
+                }}
+                aria-label={`Go to ${item.year}`}
+              >
+                {/* Tooltip for year */}
+                <span className={`absolute right-6 top-0 bg-gray-800 text-white px-2 py-1 rounded text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity ${
+                  index === currentSlide ? 'opacity-100' : 'opacity-0 hover:opacity-100'
+                }`}>
+                  {item.year}
+                </span>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
+      
+      {/* Add these custom animations to your global CSS or as a style tag */}
+      <style jsx>{`
+        @keyframes float-slow {
+          0% { transform: translateY(0) rotate(12deg); }
+          50% { transform: translateY(-10px) rotate(15deg); }
+          100% { transform: translateY(0) rotate(12deg); }
+        }
+        
+        @keyframes float-slow-reverse {
+          0% { transform: translateY(0) rotate(-12deg); }
+          50% { transform: translateY(10px) rotate(-15deg); }
+          100% { transform: translateY(0) rotate(-12deg); }
+        }
+        
+        @keyframes pulse-slow {
+          0% { transform: scale(1) rotate(6deg); }
+          50% { transform: scale(1.1) rotate(8deg); }
+          100% { transform: scale(1) rotate(6deg); }
+        }
+        
+        @keyframes fade-in {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        
+        @keyframes slide-up {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fade-in-delay {
+          0% { opacity: 0; }
+          50% { opacity: 0; }
+          100% { opacity: 1; }
+        }
+        
+        .animate-float-slow {
+          animation: float-slow 6s ease-in-out infinite;
+        }
+        
+        .animate-float-slow-reverse {
+          animation: float-slow-reverse 5s ease-in-out infinite;
+        }
+        
+        .animate-pulse-slow {
+          animation: pulse-slow 4s ease-in-out infinite;
+        }
+        
+        .animate-fade-in {
+          animation: fade-in 1.5s ease-out;
+        }
+        
+        .animate-slide-up {
+          animation: slide-up 1.5s ease-out 0.5s both;
+        }
+        
+        .animate-fade-in-delay {
+          animation: fade-in-delay 2s ease-out forwards;
+        }
+        
+        .shadow-glow {
+          box-shadow: 0 0 15px 5px rgba(252, 211, 77, 0.4);
+        }
+      `}</style>
     </div>
   );
-}
+};
+
+export default HistorySection;

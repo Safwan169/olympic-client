@@ -6,7 +6,6 @@ const HistoryAndMilestone = () => {
   return (
     <div>
       <HistorySection />
-      <MilestoneSection />
     </div>
   );
 };
