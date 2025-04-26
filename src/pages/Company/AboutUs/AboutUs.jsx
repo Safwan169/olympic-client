@@ -11,7 +11,7 @@ const AboutUs = () => {
       <HistorySection />
       <MilestoneSection />
       <MissionStatementSection />
-      <ValuesSection />
+    <ValuesSection />
       <MemberShipSection />
     </div>
   );

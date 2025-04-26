@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <div className=" text-red-400 ">
       <Hero />
-      <CarouselComponent />
+      {/* <CarouselComponent /> */}
       <OlympicAtGlance />
       <DesiredBrands />
       <AwardsSection />
