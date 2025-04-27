@@ -376,7 +376,7 @@ export default function MilestoneSection() {
 
   return (
     <div
-      className="bg-gradient-to-b from-black mt-14 via-gray-900 to-black min-h-screen p-8 text-white"
+      className="hidden bg-gradient-to-b from-black mt-14 via-gray-900 to-black min-h-screen p-8 text-white"
       ref={containerRef}
     >
       {/* Floating particles background effect */}
