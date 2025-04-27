@@ -14,7 +14,9 @@ const Home = () => {
       {/* <CarouselComponent /> */}
       <OlympicAtGlance />
       <DesiredBrands />
-      <AwardsSection />
+      <div className="-mt-14">
+        <AwardsSection />
+      </div>
       <GrowthSection />
       <DelightsSection />
     </div>

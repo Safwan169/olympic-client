@@ -68,7 +68,7 @@ export default function DynamicSlider() {
             <span className="text-yellow-500">.</span>
           </h1>
           <div className="flex justify-center mt-6">
-            <button className="bg-[#003DA5] hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full">
+            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full">
               Read More
             </button>
           </div>

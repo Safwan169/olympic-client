@@ -25,16 +25,14 @@ export default function Quality() {
         title: "Innovation Process",
         description:
           "Our dedicated Research & Development team continuously explores new ingredients, flavors, and manufacturing techniques. This innovative approach has resulted in groundbreaking products that have redefined industry standards.",
-        imageUrl:
-          "https://olympicbd.com/wp-content/uploads/2016/06/Body-Image-1.jpg", // Replace with actual image URL
+        imageUrl: "https://olympicbd.com/wp-content/uploads/2016/06/2.jpg", // Replace with actual image URL
       },
       {
         id: 3,
         title: "Certifications & Standards",
         description:
           "Olympic Industries proudly maintains international certifications including ISO 9001, HACCP, and BRC Food Safety. These certifications reflect our unwavering commitment to maintaining the highest quality standards.",
-        imageUrl:
-          "https://olympicbd.com/wp-content/uploads/2016/06/Body-Image-1.jpg", // Replace with actual image URL
+        imageUrl: "https://olympicbd.com/wp-content/uploads/2016/06/3.jpg", // Replace with actual image URL
       },
     ],
   };

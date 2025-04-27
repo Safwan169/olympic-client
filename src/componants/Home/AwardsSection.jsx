@@ -1,186 +1,3 @@
-// import React, { useState, useEffect } from "react";
-// import { ChevronLeft, ChevronRight, Award } from "lucide-react";
-
-// const AwardsSection = () => {
-//   // Sample awards data - replace with actual Olympic Industries awards
-//   const awards = [
-//     {
-//       id: 1,
-//       title: "Best Food & Beverage Brand 2024",
-//       organization: "Bangladesh Brand Forum",
-//       year: "2024",
-//       description:
-//         "Recognized for excellence in brand building and market leadership in the food & beverage category.",
-//       image: "https://olympicbd.com/wp-content/uploads/2016/06/DSC2294-1.jpg",
-//     },
-//     {
-//       id: 2,
-//       title: "Export Excellence Award",
-//       organization: "Ministry of Commerce",
-//       year: "2023",
-//       description:
-//         "Honored for outstanding contribution to the national export market and global brand representation.",
-//       image: "https://olympicbd.com/wp-content/uploads/2016/06/DSC2294-1.jpg",
-//     },
-//     {
-//       id: 3,
-//       title: "Best Manufacturing Process",
-//       organization: "Bangladesh Manufacturing Excellence Awards",
-//       year: "2023",
-//       description:
-//         "Awarded for implementing industry-leading manufacturing processes and quality control systems.",
-//       image: "https://olympicbd.com/wp-content/uploads/2016/06/DSC2294-1.jpg",
-//     },
-//     {
-//       id: 4,
-//       title: "Most Loved Biscuit Brand",
-//       organization: "Consumer Choice Awards",
-//       year: "2022",
-//       description:
-//         "Voted as the most preferred biscuit brand by consumers across all demographics.",
-//       image: "https://olympicbd.com/wp-content/uploads/2016/06/DSC2294-1.jpg",
-//     },
-//     {
-//       id: 5,
-//       title: "Corporate Social Responsibility Excellence",
-//       organization: "CSR Forum Bangladesh",
-//       year: "2022",
-//       description:
-//         "Recognized for meaningful social impact initiatives and sustainable business practices.",
-//       image: "https://olympicbd.com/wp-content/uploads/2016/06/DSC2294-1.jpg",
-//     },
-//   ];
-
-//   const [currentIndex, setCurrentIndex] = useState(0);
-//   const [isAnimating, setIsAnimating] = useState(false);
-
-//   const nextSlide = () => {
-//     if (isAnimating) return;
-//     setIsAnimating(true);
-//     setCurrentIndex((prevIndex) => (prevIndex + 1) % awards.length);
-//     setTimeout(() => setIsAnimating(false), 500);
-//   };
-
-//   const prevSlide = () => {
-//     if (isAnimating) return;
-//     setIsAnimating(true);
-//     setCurrentIndex(
-//       (prevIndex) => (prevIndex - 1 + awards.length) % awards.length
-//     );
-//     setTimeout(() => setIsAnimating(false), 500);
-//   };
-
-//   // Auto-play functionality
-//   useEffect(() => {
-//     const interval = setInterval(() => {
-//       nextSlide();
-//     }, 5000);
-//     return () => clearInterval(interval);
-//   }, [currentIndex]);
-
-//   return (
-//     <section className="bg-black py-20 px-4 relative overflow-hidden">
-//       {/* Decorative background elements */}
-//       <div className="absolute top-0 left-0 w-full h-full opacity-10">
-//         <div className="absolute top-0 left-0 w-64 h-64 rounded-full bg-red-600 filter blur-3xl"></div>
-//         <div className="absolute bottom-0 right-0 w-64 h-64 rounded-full bg-yellow-500 filter blur-3xl"></div>
-//       </div>
-
-//       <div className="max-w-6xl mx-auto relative z-10">
-//         <div className="flex items-center justify-center mb-12">
-//           <Award size={48} className="text-red-600 mr-4" />
-//           <h2 className="text-4xl font-bold text-yellow-500">
-//             AWARDS & RECOGNITION
-//           </h2>
-//         </div>
-
-//         <div className="relative">
-//           {/* Navigation arrows */}
-//           <button
-//             onClick={prevSlide}
-//             className="absolute left-0 top-1/2 transform -translate-y-1/2 z-20 bg-black/50 hover:bg-red-600 p-2 rounded-full text-white transition-all duration-300"
-//             aria-label="Previous award"
-//           >
-//             <ChevronLeft size={24} />
-//           </button>
-
-//           <button
-//             onClick={nextSlide}
-//             className="absolute right-0 top-1/2 transform -translate-y-1/2 z-20 bg-black/50 hover:bg-red-600 p-2 rounded-full text-white transition-all duration-300"
-//             aria-label="Next award"
-//           >
-//             <ChevronRight size={24} />
-//           </button>
-
-//           {/* Slider container */}
-//           <div className="overflow-hidden relative rounded-lg border border-yellow-700/30">
-//             <div
-//               className="flex transition-transform duration-500 ease-in-out h-full"
-//               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-//             >
-//               {awards.map((award) => (
-//                 <div key={award.id} className="min-w-full">
-//                   <div className="flex flex-col lg:flex-row bg-gradient-to-br from-black to-gray-900">
-//                     {/* Award image */}
-//                     <div className="lg:w-1/2">
-//                       <img
-//                         src={award.image}
-//                         alt={award.title}
-//                         className="w-full h-64 lg:h-full object-cover"
-//                       />
-//                     </div>
-
-//                     {/* Award details */}
-//                     <div className="lg:w-1/2 p-8 flex flex-col justify-center">
-//                       <div className="flex items-center mb-3">
-//                         <span className="px-3 py-1 bg-red-600 text-white text-sm font-medium rounded">
-//                           {award.year}
-//                         </span>
-//                       </div>
-
-//                       <h3 className="text-2xl font-bold text-yellow-500 mb-2">
-//                         {award.title}
-//                       </h3>
-
-//                       <p className="text-lg text-gray-300 mb-4">
-//                         {award.organization}
-//                       </p>
-
-//                       <p className="text-gray-400">{award.description}</p>
-//                     </div>
-//                   </div>
-//                 </div>
-//               ))}
-//             </div>
-//           </div>
-
-//           {/* Pagination dots */}
-//           <div className="flex justify-center mt-6">
-//             {awards.map((_, index) => (
-//               <button
-//                 key={index}
-//                 onClick={() => {
-//                   setCurrentIndex(index);
-//                   setIsAnimating(true);
-//                   setTimeout(() => setIsAnimating(false), 500);
-//                 }}
-//                 className={`w-3 h-3 mx-1 rounded-full transition-all duration-300 ${
-//                   currentIndex === index
-//                     ? "bg-red-600 w-6"
-//                     : "bg-gray-600 hover:bg-gray-400"
-//                 }`}
-//                 aria-label={`Go to award ${index + 1}`}
-//               />
-//             ))}
-//           </div>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default AwardsSection;
-
 import { useState } from "react";
 import { Trophy, Users, Leaf } from "lucide-react";
 
@@ -188,18 +5,19 @@ const AwardsSection = () => {
   const [activeSection, setActiveSection] = useState("innovation");
 
   return (
-    <div className=" mx-auto p-6 font-sans bg-gray-900 text-gray-200 min-h-screen">
+    <div className="mx-auto mt-14 p-6 font-sans bg-black text-gray-200 min-h-screen">
       {/* Header */}
       <div className="text-center mb-10">
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">
+        <h1 className="text-3xl font-bold text-yellow-500 mb-4">
           Awards & Recognition
         </h1>
         <p className="text-gray-300 mb-6">
-          We're proud to be consistently recognized as a leading global company,
-          earning a variety of awards and recognitions in several key areas.
+          Olympic Industries is proud to be consistently recognized as a leading
+          biscuit and <br /> confectionery company, earning a variety of awards
+          and recognitions in several key areas.
         </p>
 
-        <p className="text-blue-300 font-medium mb-8">
+        <p className="text-red-400 font-medium mb-8">
           Click to jump to each section.
         </p>
 
@@ -211,22 +29,24 @@ const AwardsSection = () => {
               activeSection === "innovation" ? "opacity-100" : "opacity-70"
             }`}
           >
-            <div className="w-16 h-16 rounded-full bg-orange-500 flex items-center justify-center mb-2">
+            <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center mb-2">
               <Trophy size={24} color="white" />
             </div>
-            <span className="text-blue-300 font-medium">Innovation</span>
+            <span className="text-yellow-400 font-medium">Innovation</span>
           </button>
 
           <button
-            onClick={() => setActiveSection("careers")}
+            onClick={() => setActiveSection("brands")}
             className={`flex flex-col items-center transition-opacity duration-200 ${
-              activeSection === "careers" ? "opacity-100" : "opacity-70"
+              activeSection === "brands" ? "opacity-100" : "opacity-70"
             }`}
           >
-            <div className="w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center mb-2">
+            <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center mb-2">
               <Users size={24} color="white" />
             </div>
-            <span className="text-blue-300 font-medium">Best Careers</span>
+            <span className="text-yellow-400 font-medium">
+              Brand Excellence
+            </span>
           </button>
 
           <button
@@ -235,12 +55,10 @@ const AwardsSection = () => {
               activeSection === "responsibility" ? "opacity-100" : "opacity-70"
             }`}
           >
-            <div className="w-16 h-16 rounded-full bg-green-500 flex items-center justify-center mb-2">
+            <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center mb-2">
               <Leaf size={24} color="white" />
             </div>
-            <span className="text-blue-300 font-medium">
-              Social Responsibility
-            </span>
+            <span className="text-yellow-400 font-medium">Social</span>
           </button>
         </div>
       </div>
@@ -249,81 +67,170 @@ const AwardsSection = () => {
       <div className="mt-12">
         {activeSection === "innovation" && (
           <div>
-            <h2 className="text-2xl font-bold text-blue-300 text-center mb-8">
+            <h2 className="text-2xl font-bold text-red-500 text-center mb-8">
               Innovation
             </h2>
             <p className="text-gray-300 text-center mb-8">
-              A culture rooted in forward-thinking and fueled by over 5,000 R&D
-              experts.
+              A culture rooted in forward-thinking, quality manufacturing, and
+              product excellence.
             </p>
 
-            <div className="bg-gray-800 p-6 rounded shadow-lg border border-gray-700 mb-8">
-              <h3 className="text-lg font-bold text-center text-green-400 mb-4">
-                America's Most Innovative Companies
-              </h3>
-              <p className="text-center">
-                <button className="text-blue-300 hover:text-blue-200 hover:underline">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="bg-gray-900 p-6 rounded shadow-lg border border-red-800 flex flex-col items-center">
+                <div className="w-32 h-32 bg-white rounded-full mb-4 flex items-center justify-center p-2">
+                  <div className="bg-red-800 h-full w-full rounded-full flex items-center justify-center">
+                    <p className="text-white font-bold text-center text-sm">
+                      BEST
+                      <br />
+                      BISCUIT
+                      <br />
+                      MANUFACTURER
+                      <br />
+                      2024
+                    </p>
+                  </div>
+                </div>
+                <h3 className="text-lg font-bold text-yellow-400 mb-2 text-center">
+                  Best Biscuit Manufacturer of the Year
+                </h3>
+                <p className="text-gray-400 text-center mb-2">
+                  Food & Beverage Excellence Awards 2024
+                </p>
+                <button className="mt-2 text-red-400 hover:text-red-300 hover:underline">
                   Read more
                 </button>
-              </p>
-            </div>
+              </div>
 
-            <div className="bg-gray-800 p-6 rounded shadow-lg border border-gray-700">
-              <h3 className="text-lg font-medium mb-2 text-gray-200">
-                3 of the Top 25 most food product launches and 2 Rising Stars
-                2023
-              </h3>
-              <p className="text-center">
-                <button className="text-blue-300 hover:text-blue-200 hover:underline">
+              <div className="bg-gray-900 p-6 rounded shadow-lg border border-red-800 flex flex-col items-center">
+                <div className="w-32 h-32 bg-white rounded-full mb-4 flex items-center justify-center p-2">
+                  <div className="bg-red-800 h-full w-full rounded-full flex items-center justify-center">
+                    <p className="text-white font-bold text-center text-xs">
+                      MOST
+                      <br />
+                      INNOVATIVE
+                      <br />
+                      PRODUCT
+                      <br />
+                      2023
+                    </p>
+                  </div>
+                </div>
+                <h3 className="text-lg font-bold text-yellow-400 mb-2 text-center">
+                  Most Innovative Product Launch
+                </h3>
+                <p className="text-gray-400 text-center mb-2">
+                  Energy Plus Biscuits - National Food Innovation Awards 2023
+                </p>
+                <button className="mt-2 text-red-400 hover:text-red-300 hover:underline">
                   Click here to read more awards
                 </button>
-              </p>
+              </div>
             </div>
           </div>
         )}
 
-        {activeSection === "careers" && (
+        {activeSection === "brands" && (
           <div>
-            <h2 className="text-2xl font-bold text-blue-300 text-center mb-8">
-              Best Careers
+            <h2 className="text-2xl font-bold text-red-500 text-center mb-8">
+              Brand Excellence
             </h2>
             <p className="text-gray-300 text-center mb-8">
-              Recognized as a top employer with industry-leading benefits and
-              workplace culture.
+              Olympic's commitment to quality and consumer satisfaction has
+              established us as one of the most trusted brands in the industry.
             </p>
 
-            <div className="bg-gray-800 p-6 rounded shadow-lg border border-gray-700 mb-8">
-              <h3 className="text-lg font-bold text-center text-gray-200 mb-4">
-                Top 100 Places to Work
-              </h3>
-              <p className="text-center">
-                <button className="text-blue-300 hover:text-blue-200 hover:underline">
-                  Learn more
-                </button>
-              </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="bg-gray-900 p-6 rounded shadow-lg border border-red-800 flex flex-col items-center">
+                <div className="w-32 h-32 bg-white rounded-full mb-4 flex items-center justify-center">
+                  <p className="text-black font-bold text-sm text-center">
+                    CONSUMER CHOICE AWARD 2024
+                  </p>
+                </div>
+                <h3 className="text-lg font-bold text-yellow-400 mb-2">
+                  Most Loved Biscuit Brand
+                </h3>
+                <p className="text-gray-400 text-center">
+                  Consumer Choice Awards 2024
+                </p>
+              </div>
+
+              <div className="bg-gray-900 p-6 rounded shadow-lg border border-red-800 flex flex-col items-center">
+                <div className="w-32 h-32 bg-white rounded-full mb-4 flex items-center justify-center">
+                  <p className="text-black font-bold text-center">Top FMCG</p>
+                  <p className="text-black text-xs">Brand Excellence</p>
+                  <p className="text-black text-xs">2023 Winner</p>
+                </div>
+                <h3 className="text-lg font-bold text-yellow-400 mb-2">
+                  Top FMCG Brand
+                </h3>
+                <p className="text-gray-400 text-center">
+                  Brand Excellence Awards
+                </p>
+              </div>
+
+              <div className="bg-gray-900 p-6 rounded shadow-lg border border-red-800 flex flex-col items-center">
+                <div className="w-32 h-32 bg-white rounded-full mb-4 flex items-center justify-center">
+                  <p className="text-black font-bold text-sm text-center">
+                    BEST EXPORT BRAND 2023
+                  </p>
+                </div>
+                <h3 className="text-lg font-bold text-yellow-400 mb-2">
+                  Excellence in Export
+                </h3>
+                <p className="text-gray-400 text-center">
+                  National Export Trophy
+                </p>
+              </div>
             </div>
           </div>
         )}
 
         {activeSection === "responsibility" && (
           <div>
-            <h2 className="text-2xl font-bold text-blue-300 text-center mb-8">
-              Social Responsibility
+            <h2 className="text-2xl font-bold text-red-500 text-center mb-8">
+              Corporate Social Responsibility
             </h2>
             <p className="text-gray-300 text-center mb-8">
-              Committed to sustainability and making a positive impact in
-              communities worldwide.
+              Leading the way in corporate citizenship by making sustainability
+              and social impact a top priority.
             </p>
 
-            <div className="bg-gray-800 p-6 rounded shadow-lg border border-gray-700 mb-8">
-              <h3 className="text-lg font-bold text-center text-gray-200 mb-4">
-                Environmental Leadership Award 2023
-              </h3>
-              <p className="text-center">
-                <button className="text-blue-300 hover:text-blue-200 hover:underline">
-                  Discover our initiatives
-                </button>
-              </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="bg-gray-900 p-6 rounded shadow-lg border border-red-800 flex flex-col items-center">
+                <div className="w-32 h-32 bg-white rounded-full mb-4 flex items-center justify-center p-2">
+                  <div className="bg-red-800 h-full w-full rounded-full flex items-center justify-center">
+                    <p className="text-white text-xs font-bold text-center">
+                      SUSTAINABILITY
+                      <br />
+                      CHAMPION
+                      <br />
+                      AWARD
+                      <br />
+                      2023
+                    </p>
+                  </div>
+                </div>
+                <h3 className="text-lg font-bold text-yellow-400 mb-2">
+                  Sustainability Champion
+                </h3>
+                <p className="text-gray-400 text-center">
+                  Green Business Awards
+                </p>
+              </div>
+
+              <div className="bg-gray-900 p-6 rounded shadow-lg border border-red-800 flex flex-col items-center">
+                <div className="w-32 h-32 bg-white rounded-full mb-4 flex items-center justify-center">
+                  <div className="rounded-full border-4 border-red-800 h-24 w-24 flex items-center justify-center">
+                    <p className="text-red-800 font-bold text-center">CSR</p>
+                  </div>
+                </div>
+                <h3 className="text-lg font-bold text-yellow-400 mb-2">
+                  CSR Excellence Award
+                </h3>
+                <p className="text-gray-400 text-center">
+                  Corporate Social Responsibility Forum
+                </p>
+              </div>
             </div>
           </div>
         )}
