@@ -8,10 +8,11 @@ import {
   Calendar,
   Eye,
   X,
-  ExternalLink
+  ExternalLink,
 } from "lucide-react";
 import bgImage from "../../assets/cookieBG4.jpg";
 import ArticleSection from "./ArticleSection";
+import { motion, useAnimation } from "framer-motion";
 
 const videoData = [
   {
@@ -140,17 +141,20 @@ const goldAccent = "#FFD700";
 const brandRed = "#E30613";
 
 const ITEMS_PER_PAGE = 6;
-const categories = ["All", ...new Set(videoData.map((video) => video.category))];
+const categories = [
+  "All",
+  ...new Set(videoData.map((video) => video.category)),
+];
 
 // Category to color mapping
 const categoryColors = {
   "About Us": "bg-amber-900 text-amber-200",
-  "Event": "bg-blue-900 text-blue-200",
-  "Testimonial": "bg-purple-900 text-purple-200",
+  Event: "bg-blue-900 text-blue-200",
+  Testimonial: "bg-purple-900 text-purple-200",
   "Customer Stories": "bg-green-900 text-green-200",
   "Behind the Scenes": "bg-teal-900 text-teal-200",
   "Tech Talk": "bg-cyan-900 text-cyan-200",
-  "Leadership": "bg-red-900 text-red-200",
+  Leadership: "bg-red-900 text-red-200",
 };
 
 const VideoCard = ({ video, onPlay }) => {
@@ -161,9 +165,10 @@ const VideoCard = ({ video, onPlay }) => {
   };
 
   const getYoutubeId = (url) => {
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const regExp =
+      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     const match = url.match(regExp);
-    return (match && match[2].length === 11) ? match[2] : null;
+    return match && match[2].length === 11 ? match[2] : null;
   };
 
   const videoId = getYoutubeId(video.url);
@@ -177,14 +182,18 @@ const VideoCard = ({ video, onPlay }) => {
           alt={video.title}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           onError={(e) => {
-            e.target.src = '/api/placeholder/400/225';
+            e.target.src = "/api/placeholder/400/225";
           }}
         />
         <div className="absolute bottom-2 right-2 bg-black/70 px-2 py-1 rounded text-xs font-medium">
           {video.duration}
         </div>
         <div className="absolute top-2 left-2">
-          <span className={`text-xs font-semibold px-2 py-1 rounded ${categoryColors[video.category] || "bg-gray-700 text-gray-200"}`}>
+          <span
+            className={`text-xs font-semibold px-2 py-1 rounded ${
+              categoryColors[video.category] || "bg-gray-700 text-gray-200"
+            }`}
+          >
             {video.category}
           </span>
         </div>
@@ -199,8 +208,12 @@ const VideoCard = ({ video, onPlay }) => {
       </div>
 
       <div className="p-4 flex flex-col flex-grow">
-        <h2 className="text-xl font-semibold text-gray-100 mb-2">{video.title}</h2>
-        <p className="text-gray-400 text-sm mb-4 flex-grow">{video.description}</p>
+        <h2 className="text-xl font-semibold text-gray-100 mb-2">
+          {video.title}
+        </h2>
+        <p className="text-gray-400 text-sm mb-4 flex-grow">
+          {video.description}
+        </p>
 
         <div className="flex justify-between items-center text-gray-500 text-sm mt-auto">
           <div className="flex items-center gap-1">
@@ -222,12 +235,13 @@ const PaginationButton = ({ children, active, disabled, onClick }) => {
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`flex items-center justify-center w-10 h-10 rounded-md transition-colors duration-200 ${active
-          ? 'bg-amber-600 text-white'
+      className={`flex items-center justify-center w-10 h-10 rounded-md transition-colors duration-200 ${
+        active
+          ? "bg-amber-600 text-white"
           : disabled
-            ? 'bg-gray-800 text-gray-600 cursor-not-allowed'
-            : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-        }`}
+          ? "bg-gray-800 text-gray-600 cursor-not-allowed"
+          : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+      }`}
     >
       {children}
     </button>
@@ -236,7 +250,7 @@ const PaginationButton = ({ children, active, disabled, onClick }) => {
 
 const VideoModal = ({ video, onClose }) => {
   const getEmbedUrl = (url) => {
-    const videoId = url.split('v=')[1];
+    const videoId = url.split("v=")[1];
     return `https://www.youtube.com/embed/${videoId}?autoplay=1`;
   };
 
@@ -276,7 +290,11 @@ const VideoModal = ({ video, onClose }) => {
         <div className="p-4">
           <div className="flex items-center justify-between mb-2">
             <h2 className="text-xl font-bold text-white">{video.title}</h2>
-            <span className={`text-xs font-semibold px-2 py-1 rounded ${categoryColors[video.category] || "bg-gray-700 text-gray-200"}`}>
+            <span
+              className={`text-xs font-semibold px-2 py-1 rounded ${
+                categoryColors[video.category] || "bg-gray-700 text-gray-200"
+              }`}
+            >
               {video.category}
             </span>
           </div>
@@ -299,11 +317,24 @@ const VideoModal = ({ video, onClose }) => {
 
 const NoResultsFound = () => (
   <div className="py-12 text-center col-span-1 sm:col-span-2 lg:col-span-3">
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-16 w-16 mx-auto text-gray-600"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
     </svg>
     <h3 className="mt-4 text-xl font-medium text-gray-400">No videos found</h3>
-    <p className="mt-2 text-gray-500">Try adjusting your search or filter criteria</p>
+    <p className="mt-2 text-gray-500">
+      Try adjusting your search or filter criteria
+    </p>
   </div>
 );
 
@@ -316,14 +347,17 @@ export default function VideoGallery() {
   const [playingVideo, setPlayingVideo] = useState(null);
 
   // Sort videos by upload date (newest first)
-  const sortedVideos = [...videoData].sort((a, b) =>
-    new Date(b.uploaded) - new Date(a.uploaded)
+  const sortedVideos = [...videoData].sort(
+    (a, b) => new Date(b.uploaded) - new Date(a.uploaded)
   );
 
   // Filter and Search
   const filteredVideos = sortedVideos
-    .filter((video) => video.title.toLowerCase().includes(search.toLowerCase()) ||
-      video.description.toLowerCase().includes(search.toLowerCase()))
+    .filter(
+      (video) =>
+        video.title.toLowerCase().includes(search.toLowerCase()) ||
+        video.description.toLowerCase().includes(search.toLowerCase())
+    )
     .filter((video) => (filter === "All" ? true : video.category === filter));
 
   // Pagination
@@ -353,12 +387,12 @@ export default function VideoGallery() {
 
   const handlePlayVideo = (video) => {
     setPlayingVideo(video);
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
   };
 
   const handleCloseVideo = () => {
     setPlayingVideo(null);
-    document.body.style.overflow = 'auto';
+    document.body.style.overflow = "auto";
   };
 
   useEffect(() => {
@@ -368,42 +402,75 @@ export default function VideoGallery() {
 
   return (
     <div
-      className={`bg-[#0a0a0a] text-white min-h-screen transition-opacity duration-700 ${fadeIn ? "opacity-100" : "opacity-0"
-        }`}
+      className={`bg-[#0a0a0a] text-white min-h-screen transition-opacity duration-700 ${
+        fadeIn ? "opacity-100" : "opacity-0"
+      }`}
     >
       {/* Hero Header Section */}
-      <div className="relative w-full h-[600px] overflow-hidden"> {/* taller height */}
-        <div
+      <div className="relative w-full h-[600px] overflow-hidden">
+        <motion.div
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage: `url(${bgImage})`,
             backgroundPosition: "center 30%",
           }}
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
         />
+
         <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/80 flex flex-col items-center justify-center px-4">
-          <div className="h-0.5 w-24 bg-gradient-to-r from-transparent via-amber-500 to-transparent mb-6" />
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-wider mb-4 text-center">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: 96 }}
+            transition={{ duration: 1.2, ease: "easeInOut" }}
+            className="h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent mb-6"
+          />
+
+          <motion.h1
+            className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-wider mb-4 text-center"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.3 }}
+          >
             CREATIVE <span style={{ color: goldAccent }}>STORIES</span>
-          </h1>
-          <p className="text-lg text-gray-300 max-w-2xl text-center mb-8">
-            Discover our collection of visual stories, interviews, and behind-the-scenes content
-          </p>
-          <div
-            className="h-0.5 w-16 mb-4"
+          </motion.h1>
+
+          <motion.p
+            className="text-lg text-gray-300 max-w-2xl text-center mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.6 }}
+          >
+            Discover our collection of visual stories, interviews, and
+            behind-the-scenes content
+          </motion.p>
+
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: 64 }}
+            transition={{ duration: 1.2, delay: 0.9, ease: "easeInOut" }}
+            className="h-0.5 mb-4"
             style={{
               background: `linear-gradient(to right, transparent, ${brandRed}, transparent)`,
             }}
           />
 
           {/* Animated scroll indicator */}
-          <div className="absolute bottom-8">
+          <motion.div
+            className="absolute bottom-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.5, duration: 0.8 }}
+          >
             <div className="animate-bounce flex flex-col items-center">
               <p className="text-xs mb-2">Scroll to explore</p>
               <div className="w-4 h-4 border-r-2 border-b-2 border-amber-500 transform rotate-45"></div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
+
       <ArticleSection />
 
       {/* Main Content */}
@@ -436,8 +503,9 @@ export default function VideoGallery() {
                   {filter}
                 </span>
                 <ChevronDown
-                  className={`text-gray-400 transition-transform duration-300 ${showFilter ? "rotate-180" : ""
-                    }`}
+                  className={`text-gray-400 transition-transform duration-300 ${
+                    showFilter ? "rotate-180" : ""
+                  }`}
                   size={18}
                 />
               </div>
@@ -447,13 +515,15 @@ export default function VideoGallery() {
                   {categories.map((category) => (
                     <div
                       key={category}
-                      className={`px-4 py-2 hover:bg-gray-800 cursor-pointer transition-colors duration-200 flex items-center gap-2 ${filter === category ? "bg-gray-800" : ""
-                        }`}
+                      className={`px-4 py-2 hover:bg-gray-800 cursor-pointer transition-colors duration-200 flex items-center gap-2 ${
+                        filter === category ? "bg-gray-800" : ""
+                      }`}
                       onClick={() => handleFilterChange(category)}
                     >
                       <span
-                        className={`h-2 w-2 rounded-full ${filter === category ? "bg-amber-500" : "bg-gray-600"
-                          }`}
+                        className={`h-2 w-2 rounded-full ${
+                          filter === category ? "bg-amber-500" : "bg-gray-600"
+                        }`}
                       ></span>
                       {category}
                     </div>
@@ -467,12 +537,19 @@ export default function VideoGallery() {
         {/* Stats */}
         <div className="flex justify-between items-center mb-8 text-sm text-gray-400">
           <div>
-            Showing <span className="text-white font-medium">{currentVideos.length}</span>{" "}
-            of <span className="text-white font-medium">{filteredVideos.length}</span>{" "}
+            Showing{" "}
+            <span className="text-white font-medium">
+              {currentVideos.length}
+            </span>{" "}
+            of{" "}
+            <span className="text-white font-medium">
+              {filteredVideos.length}
+            </span>{" "}
             videos
           </div>
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-amber-500"></span> Recently updated
+            <span className="w-2 h-2 rounded-full bg-amber-500"></span> Recently
+            updated
           </div>
         </div>
 
@@ -566,7 +643,9 @@ export default function VideoGallery() {
       </div>
 
       {/* Video Modal */}
-      {playingVideo && <VideoModal video={playingVideo} onClose={handleCloseVideo} />}
+      {playingVideo && (
+        <VideoModal video={playingVideo} onClose={handleCloseVideo} />
+      )}
     </div>
   );
 }

@@ -1,19 +1,71 @@
 import bgImage from "../../assets/cookieBG.jpg";
-
+import { motion, useAnimation } from "framer-motion";
+const brandRed = "#cc0000";
+const goldAccent = "#d4af37";
+const darkBg = "#0a0a0a";
 const StrategyAndInnovation = () => {
   return (
     <div className="bg-[#121212] text-white min-h-screen px-6 py-12">
       {/* Header Section */}
-      <div
-        className="relative w-full h-72 bg-cover bg-center"
-        style={{
-          backgroundImage: `url(${bgImage})`,
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40 flex items-center justify-center">
-          <h1 className="text-4xl font-bold tracking-wide animate-fade-in">
-            Strategy & Innovation
-          </h1>
+      <div className="relative w-full h-screen max-h-[32rem] overflow-hidden">
+        <motion.div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${bgImage})`,
+            backgroundPosition: "center 30%",
+          }}
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+        />
+
+        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/80 flex flex-col items-center justify-center px-4">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: 120 }}
+            transition={{ duration: 1.2, ease: "easeInOut" }}
+            className="h-0.5 bg-gradient-to-r from-transparent via-goldAccent to-transparent mb-6"
+            style={{ backgroundColor: goldAccent }}
+          />
+          <motion.h1
+            className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-wider mb-4 text-center"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.3 }}
+          >
+            Strategy <span style={{ color: goldAccent }}>& Innovation</span>
+          </motion.h1>
+          <motion.p
+            className="text-lg text-gray-300 max-w-2xl text-center mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.6 }}
+          >
+            Driving transformation through visionary leadership and cutting-edge
+            solutions
+          </motion.p>
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: 80 }}
+            transition={{ duration: 1.2, delay: 0.9, ease: "easeInOut" }}
+            className="h-0.5 mb-4"
+            style={{
+              background: `linear-gradient(to right, transparent, ${brandRed}, transparent)`,
+            }}
+          />
+
+          {/* Animated scroll indicator */}
+          <motion.div
+            className="absolute bottom-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.5, duration: 0.8 }}
+          >
+            <div className="animate-bounce flex flex-col items-center">
+              <p className="text-xs mb-2">Scroll to explore</p>
+              <div className="w-4 h-4 border-r-2 border-b-2 border-goldAccent transform rotate-45"></div>
+            </div>
+          </motion.div>
         </div>
       </div>
 
