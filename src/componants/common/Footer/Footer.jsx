@@ -76,13 +76,13 @@ const Footer = () => {
 
   return (
     // Black background, text color adjusted to golden/gray
-    <footer className="bg-black text-gray-300 pt-20 pb-8 relative overflow-hidden">
+    <footer className="bg-black text-gray-300 pb-5 relative overflow-hidden">
       {/* Background subtle pattern (optional, based on your assets) */}
       {/* Removed the subtle-pattern.png url as it wasn't visible in the ref image */}
       <div className="absolute inset-0 opacity-50 pointer-events-none"></div> {/* Opacity adjusted */}
 
       {/* Red accent top border */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-red-600"></div>
+      <div className="mt-16 mb-8 w-full h-px bg-gradient-to-r from-transparent via-red-600 to-transparent"></div>
 
       <div className="container mx-auto px-6  relative z-10">
 

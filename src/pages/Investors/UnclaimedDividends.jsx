@@ -1,6 +1,12 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { FaFilePdf, FaCalendarAlt } from "react-icons/fa";
+import bgImage from "../../assets/Investors-banner-2.jpg";
+
+const brandRed = "#cc0000";
+const goldAccent = "#d4af37";
+
 const PDFReader = ({ pdfUrl }) => {
   return (
     <div className="bg-gray-900 p-4 rounded-lg">
@@ -112,15 +118,72 @@ const UnclaimedDividends = () => {
   };
 
   return (
-    <div className="bg-black min-h-screen text-gray-100 p-6 pt-20">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 pb-2 border-b border-red-600 relative">
-          <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
-            UNCLAIMED DIVIDENDS
-          </span>
-          <span className="absolute bottom-0 left-0 w-24 h-1 bg-yellow-600 transform translate-y-0.5"></span>
-        </h1>
+    <div className="bg-[#0a0a0a] text-white min-h-screen">
+      {/* Hero Header Section - Fixed height */}
+      <div className="relative w-full h-screen max-h-[32rem] overflow-hidden">
+        <motion.div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${bgImage})`,
+            backgroundPosition: "center 30%",
+          }}
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+        />
 
+        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/80 flex flex-col items-center justify-center px-4">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: 120 }}
+            transition={{ duration: 1.2, ease: "easeInOut" }}
+            className="h-0.5 bg-gradient-to-r from-transparent via-goldAccent to-transparent mb-6"
+            style={{ backgroundColor: goldAccent }}
+          />
+          <motion.h1
+            className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-wider mb-4 text-center"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.3 }}
+          >
+            Unclaimed{" "}
+            <span style={{ color: goldAccent }}>Dividends</span>
+          </motion.h1>
+          <motion.p
+            className="text-lg text-gray-300 max-w-2xl text-center mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.6 }}
+          >
+            Find information about unclaimed dividends and distribution policies
+          </motion.p>
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: 80 }}
+            transition={{ duration: 1.2, delay: 0.9, ease: "easeInOut" }}
+            className="h-0.5 mb-4"
+            style={{
+              background: `linear-gradient(to right, transparent, ${brandRed}, transparent)`,
+            }}
+          />
+
+          {/* Animated scroll indicator */}
+          <motion.div
+            className="absolute bottom-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.5, duration: 0.8 }}
+          >
+            <div className="animate-bounce flex flex-col items-center">
+              <p className="text-xs mb-2">Scroll to explore</p>
+              <div className="w-4 h-4 border-r-2 border-b-2 border-goldAccent transform rotate-45"></div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Main Content Section */}
+      <div className="max-w-6xl mx-auto ">
         <div className="mb-6 text-gray-300">
           <p className="text-lg mb-4">Investor Relation Department</p>
           <div className="flex flex-col md:flex-row gap-4 md:gap-8">
