@@ -494,7 +494,9 @@
 // export default LeadershipPage;
 
 import { useState } from "react";
-
+import { motion, useAnimation } from "framer-motion";
+import bgImage from "../../../assets/Investors-banner-2.jpg";
+import chairman from "../../../assets/chairman.jpg";
 export default function LeadershipComponent() {
   const [activeTab, setActiveTab] = useState("BOARD OF DIRECTORS");
   const [selectedLeader, setSelectedLeader] = useState(null);
@@ -573,7 +575,8 @@ export default function LeadershipComponent() {
       category: "MANAGEMENT COMMITTEE",
     },
   ];
-
+  const brandRed = "#cc0000";
+  const goldAccent = "#d4af37";
   const filteredLeaders = leaders.filter(
     (leader) => leader.category === activeTab
   );
@@ -585,92 +588,177 @@ export default function LeadershipComponent() {
   ];
 
   return (
-    <div className="bg-black text-white min-h-screen p-6">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-5xl font-bold text-center my-10">LEADERSHIP</h1>
+    <div className="bg-[#0a0a0a] text-white min-h-screen">
+      <div className="relative w-full h-screen max-h-[32rem] overflow-hidden">
+        {/* Hero Header Section */}
+        <motion.div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${bgImage})`,
+            backgroundPosition: "center 30%",
+          }}
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+        />
+        {/* Dark gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/80 flex flex-col items-center justify-center px-4">
+          {/* Top Gradient Line */}
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: 120 }}
+            transition={{ duration: 1.2, ease: "easeInOut" }}
+            className="h-0.5 bg-gradient-to-r from-transparent via-goldAccent to-transparent mb-6"
+            style={{ backgroundColor: goldAccent }}
+          />
 
-        {/* Tabs */}
-        <div className="flex justify-center mb-12 border-b border-gray-700">
-          {tabs.map((tab) => (
-            <button
-              key={tab}
-              className={`px-6 py-4 text-lg font-medium ${
-                activeTab === tab
-                  ? "text-red-500 border-b-2 border-red-500"
-                  : "text-gray-300 hover:text-white"
-              }`}
-              onClick={() => setActiveTab(tab)}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
+          {/* Heading */}
+          <motion.h1
+            className="text-4xl md:text-5xl font-bold tracking-wider text-center mb-4"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.3 }}
+          >
+            LEADERSHIP
+          </motion.h1>
 
-        {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
-          {filteredLeaders.map((leader) => (
-            <div
-              key={leader.id}
-              className="bg-black border border-gray-800 rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-all duration-300"
-              onClick={() => setSelectedLeader(leader)}
-            >
-              <div className="aspect-square overflow-hidden">
-                <img
-                  src={leader.image}
-                  alt={leader.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-4 text-center">
-                <h3 className="text-lg font-bold mb-1">{leader.name}</h3>
-                <p className="text-red-500 text-sm uppercase">{leader.title}</p>
-              </div>
+          {/* Bottom Gradient Line */}
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: 80 }}
+            transition={{ duration: 1.2, delay: 0.6, ease: "easeInOut" }}
+            className="h-0.5 mb-4"
+            style={{
+              background: `linear-gradient(to right, transparent, ${brandRed}, transparent)`,
+            }}
+          />
+
+          {/* Animated scroll indicator */}
+          <motion.div
+            className="absolute bottom-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.5, duration: 0.8 }}
+          >
+            <div className="animate-bounce flex flex-col items-center">
+              <p className="text-xs mb-2">Scroll to explore</p>
+              <div className="w-4 h-4 border-r-2 border-b-2 border-goldAccent transform rotate-45"></div>
             </div>
-          ))}
+          </motion.div>
         </div>
+      </div>
+
+      {/* Visionary Founder Section */}
+      <div className="flex justify-center items-center min-h-screen px-4">
+        <div className="flex flex-col md:flex-row items-center gap-10 p-8 rounded-3xl border border-gray-700 bg-black/30 backdrop-blur-md shadow-lg transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:border-red-500">
+          {/* Founder Image */}
+          <div className="flex-shrink-0 w-64 h-64 rounded-full overflow-hidden border-4 border-gray-700 transition-all duration-500 hover:border-red-500 hover:shadow-lg">
+            <img
+              src={chairman} // Replace with correct image path
+              alt="Founder"
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Founder Text */}
+          <div className="text-center md:text-left max-w-xl">
+            <p className="text-red-500 font-semibold tracking-widest text-sm uppercase mb-2">
+              Our Visionary Founder
+            </p>
+            <h2 className="text-2xl md:text-4xl font-bold text-white mb-4 transition-all duration-500 hover:text-red-500">
+              Late Baijnath Choudhary
+            </h2>
+            <p className="text-gray-300 mb-4">
+              At the heart of Anmol’s success is its founder, the late Mr.
+              Baijnath Choudhary. From humble beginnings, he built Anmol into a
+              biscuit industry leader with a keen understanding of consumer
+              preferences.
+            </p>
+            <p className="text-gray-300">
+              A visionary, he ensured top-quality products and strong business
+              ethics, while also championing social causes. His leadership and
+              values continue to inspire Team Anmol to stay at the industry’s
+              forefront.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div className="flex justify-center mb-12 border-b border-gray-700">
+        {tabs.map((tab) => (
+          <button
+            key={tab}
+            className={`px-6 py-4 text-lg font-medium ${
+              activeTab === tab
+                ? "text-red-500 border-b-2 border-red-500"
+                : "text-gray-300 hover:text-white"
+            }`}
+            onClick={() => setActiveTab(tab)}
+          >
+            {tab}
+          </button>
+        ))}
+      </div>
+
+      {/* Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        {filteredLeaders.map((leader) => (
+          <div
+            key={leader.id}
+            className="bg-black border border-gray-800 rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-all duration-300"
+            onClick={() => setSelectedLeader(leader)}
+          >
+            <div className="aspect-square overflow-hidden">
+              <img
+                src={leader.image}
+                alt={leader.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="p-4 text-center">
+              <h3 className="text-lg font-bold mb-1">{leader.name}</h3>
+              <p className="text-red-500 text-sm uppercase">{leader.title}</p>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Modal */}
       {selectedLeader && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-900 rounded-lg max-w-3xl w-full relative">
-            <button
-              className="absolute top-4 right-4 bg-red-600 text-white px-4 py-2 rounded-lg"
-              onClick={() => setSelectedLeader(null)}
-            >
-              CLOSE
-            </button>
-
-            <div className="flex flex-col md:flex-row p-8">
-              <div className="md:w-1/3 mb-6 md:mb-0">
+          <div className="border-4 border-red-600 bg-gray-900 rounded-lg max-w-3xl w-full relative">
+            {" "}
+            {/* Main section border */}
+            <div className="flex flex-col md:flex-row p-8 items-center">
+              {/* Image container with red border */}
+              <div className="absolute -left-24 top-1/2 transform -translate-y-1/2 border-4 border-red-600 rounded-[5px]">
+                {" "}
+                {/* Image border */}
                 <img
                   src={selectedLeader.image}
                   alt={selectedLeader.name}
-                  className="w-48 h-48 object-cover rounded-md mx-auto"
+                  className="w-48 h-48 object-cover rounded-md"
                 />
               </div>
 
-              <div className="md:w-2/3 md:pl-8">
+              {/* Content area */}
+              <div className="md:w-full md:ml-24 relative pb-10">
                 <h2 className="text-2xl font-bold mb-1">
                   {selectedLeader.name}
                 </h2>
-                <p className="text-red-500 mb-4">{selectedLeader.title}</p>
-                <p className="text-gray-300 mb-4">{selectedLeader.bio}</p>
-
-                {selectedLeader.directorships && (
-                  <div>
-                    <h4 className="text-green-500 mb-2">
-                      List of Other Directorships
-                    </h4>
-                    <ul className="list-disc pl-5 text-gray-300">
-                      {selectedLeader.directorships.map(
-                        (directorship, index) => (
-                          <li key={index}>{directorship}</li>
-                        )
-                      )}
-                    </ul>
-                  </div>
-                )}
+                <p className="text-red-600 mb-4">{selectedLeader.title}</p>{" "}
+                {/* Changed to red-600 */}
+                <p className="text-gray-300">{selectedLeader.bio}</p>
+                {/* Button at bottom right */}
+                <div className="absolute bottom-0 right-0">
+                  <button
+                    className="bg-red-600 text-white px-4 py-2 rounded-lg"
+                    onClick={() => setSelectedLeader(null)}
+                  >
+                    CLOSE
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -678,4 +766,13 @@ export default function LeadershipComponent() {
       )}
     </div>
   );
+}
+
+{
+  /* <button
+              className="absolute top-4 right-4 bg-red-600 text-white px-4 py-2 rounded-lg"
+              onClick={() => setSelectedLeader(null)}
+            >
+              CLOSE
+            </button> */
 }
