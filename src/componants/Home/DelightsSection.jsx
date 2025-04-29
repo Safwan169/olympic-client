@@ -8,51 +8,56 @@ export default function PGBrandsCarousel() {
     {
       id: 1,
       name: "BISCUITS",
-      logo: "https://i.ibb.co.com/234W31RJ/Energy-Plus-New-removebg-preview.png",
-      color: "bg-gray-800",
+      logo: "https://res.cloudinary.com/dntd4xawh/image/upload/v1745902187/Energy-Plus-New-removebg-preview_ofshhm.png",
+      color: "bg-white",
     },
     {
       id: 2,
       name: "COOKIES",
-      logo: "https://i.ibb.co.com/Pvn6rLBX/Untitled.png",
-      color: "bg-gray-800",
+      logo: "https://res.cloudinary.com/dntd4xawh/image/upload/v1745902187/01-Milk-Lozenge-Candy-removebg-preview_pzinur.png",
+      color: "bg-white",
     },
     {
       id: 3,
       name: "SNACKS",
-      logo: "https://i.ibb.co.com/0RBFL206/9dee1fdc-d53f-4301-8d19-f38ab56a9579.png",
-      color: "bg-gray-800",
+      logo: "https://res.cloudinary.com/dntd4xawh/image/upload/v1745902187/Premium-Toast-removebg-preview_lsl9ch.png",
+      color: "bg-white",
     },
     {
       id: 4,
       name: "CONFECTIONARY",
-      logo: "https://i.ibb.co.com/MyZ2FpcF/92c40963-b6b2-4282-b8d6-18a380f38e59.png",
-      color: "bg-gray-800",
+      logo: "https://res.cloudinary.com/dntd4xawh/image/upload/v1745902187/Foodie-Noodles-Masala-removebg-preview_i64bfj.png",
+      color: "bg-white",
     },
     {
       id: 5,
       name: "POWDER DRINK",
-      logo: "https://i.ibb.co.com/1tJWDxLP/f6db3f16-5f3f-411f-a8c8-492179b6c6d0.png",
-      color: "bg-gray-800",
+      logo: "https://res.cloudinary.com/dntd4xawh/image/upload/v1745902187/18-removebg-preview_lrfxse.png",
+      color: "bg-white",
+    },
+    {
+      id: 6,
+      name: "BATTERIES",
+      logo: "https://res.cloudinary.com/dntd4xawh/image/upload/v1745902187/Olympic-Gold1.5-V--removebg-preview_tznh1i.png",
+      color: "bg-white",
     },
   ];
 
   return (
-    <div className="max-w-7xl mx-auto bg-black text-white">
+    <div className="mx-auto bg-black text-black">
       {/* Main content */}
-      <div className="pt-24 pb-12 px-8">
+      <div className="pb-12 px-8">
         <div className="text-center mb-12">
-          <h2 className="uppercase text-blue-400 font-bold">OUR BRANDS</h2>
-          <h1 className="text-4xl font-bold text-white mt-4">
+          <h2 className="uppercase text-red-600 font-bold">OUR BRANDS</h2>
+          <h1 className="text-4xl font-bold text-yellow-400 mt-4">
             Products that make life a little easier
-            <span className="text-yellow-400">.</span>
           </h1>
         </div>
 
         {/* Brands carousel */}
         <div className="flex justify-center items-center mb-12">
-          <div className="grid grid-cols-5 gap-6 w-full max-w-5xl">
-            {brands.map((brand) => (
+          <div className="grid grid-cols-6 gap-4 w-full max-w-6xl">
+            {brands?.map((brand) => (
               <div
                 key={brand.id}
                 className="relative"
@@ -61,31 +66,31 @@ export default function PGBrandsCarousel() {
               >
                 <div
                   className={`
-                  w-40 h-40 rounded-full flex items-center justify-center cursor-pointer
+                  w-32 h-32 rounded-full flex items-center justify-center cursor-pointer
                   transition-transform duration-300 overflow-hidden
                   ${
                     hoveredBrand === brand.id
-                      ? "transform scale-110 shadow-lg"
-                      : ""
+                      ? "transform scale-110 shadow-xl"
+                      : "shadow-md"
                   }
-                  ${brand.color}
+                  $ bg-gray-300 bg-shadow border border-gray-100
                 `}
                 >
                   <img
                     src={brand.logo}
                     alt={brand.name}
-                    className={`w-24 h-24 object-contain ${
+                    className={`w-56 h-56 object-contain ${
                       hoveredBrand === brand.id ? "opacity-20" : ""
                     }`}
                   />
 
-                  {/* Show hover content for all brands */}
+                  {/* Show hover content */}
                   {hoveredBrand === brand.id && (
                     <div className="absolute inset-0 flex items-center justify-center flex-col gap-2">
-                      <h1 className="text-white text-center px-2">
+                      <h1 className="text-black text-center text-sm px-2 font-semibold">
                         {brand.name}
                       </h1>
-                      <button className="bg-blue-500 text-white py-2 px-4 rounded font-medium text-sm hover:bg-blue-600">
+                      <button className="bg-red-600 text-white py-1 px-3 rounded text-xs font-medium hover:bg-red-700 transition-colors duration-200">
                         Visit Site
                       </button>
                     </div>
@@ -97,17 +102,17 @@ export default function PGBrandsCarousel() {
         </div>
 
         {/* Navigation buttons */}
-        <div className="flex justify-center mb-16">
-          <button className="border border-blue-400 text-blue-400 py-2 px-6 rounded-full hover:bg-gray-800">
+        <div className="flex justify-center mb-5">
+          <button className="border border-red-600 text-red-600 py-2 px-6 rounded-full hover:bg-red-200 transition-colors duration-200 font-semibold shadow-md">
             See our iconic brands
           </button>
         </div>
 
         <div className="flex justify-center space-x-8">
-          <button className="text-blue-400 hover:text-blue-300">
+          <button className="text-red-600 hover:text-red-700 bg-white rounded-full shadow-md p-2 transition-all duration-200 hover:shadow-lg">
             <ChevronLeft size={24} />
           </button>
-          <button className="text-blue-400 hover:text-blue-300">
+          <button className="text-red-600 hover:text-red-700 bg-white rounded-full shadow-md p-2 transition-all duration-200 hover:shadow-lg">
             <ChevronRight size={24} />
           </button>
         </div>
