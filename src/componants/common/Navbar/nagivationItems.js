@@ -1,5 +1,7 @@
-// navigationData.js - Separate file for navigation items data
-export const navigationItems = [
+// navigationItems.js - Contains all navigation structure for the Olympic Industries website
+
+// Left navigation items (displayed on the left side of the navbar)
+export const leftNavigationItems = [
   { id: "home", label: "HOME", to: "/", hasDropdown: false },
   {
     id: "about-us",
@@ -35,14 +37,14 @@ export const navigationItems = [
   {
     id: "products",
     label: "PRODUCTS",
-    hasDropdown: true,
-    dropdownItems: [
-      { id: "domestic", label: "Domestic", to: "/products/domestic" },
-      { id: "export", label: "Export", to: "/products/export" },
-      { id: "promotions", label: "Promotions", to: "/products/promotions" },
-    ],
+    to: "/products",
+    hasDropdown: false,
   },
   { id: "export", label: "EXPORT", to: "/export", hasDropdown: false },
+];
+
+// Right navigation items (displayed on the right side of the navbar)
+export const rightNavigationItems = [
   {
     id: "investors",
     label: "INVESTORS",
@@ -90,27 +92,14 @@ export const navigationItems = [
   { id: "contact", label: "CONTACT", to: "/contact", hasDropdown: false },
 ];
 
-// Export additional utility functions if needed
-export const getActiveParent = (pathname) => {
-  for (const item of navigationItems) {
-    if (item.hasDropdown) {
-      for (const dropdownItem of item.dropdownItems) {
-        if (pathname.startsWith(dropdownItem.to)) {
-          return item.id;
-        }
-      }
-    } else if (pathname === item.to) {
-      return item.id;
-    }
-  }
-  return null;
+// Helper function to get all navigation items (useful for mobile menu)
+export const getAllNavigationItems = () => {
+  return [...leftNavigationItems, ...rightNavigationItems];
 };
 
-// Helper function to get dropdown items by parent ID
-export const getDropdownItems = (parentId) => {
-  const parent = navigationItems.find((item) => item.id === parentId);
-  return parent?.hasDropdown ? parent.dropdownItems : [];
+// Export default as object with all navigation item arrays
+export default {
+  leftNavigationItems,
+  rightNavigationItems,
+  getAllNavigationItems,
 };
-
-// Export default for easier imports
-export default navigationItems;

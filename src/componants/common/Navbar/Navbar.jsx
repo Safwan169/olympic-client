@@ -10,99 +10,33 @@ import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import "./Navbar.css";
+import {
+  leftNavigationItems,
+  rightNavigationItems,
+  getAllNavigationItems,
+} from "./nagivationItems";
 
 const Navbar = () => {
   const location = useLocation();
+  const [scrolled, setScrolled] = useState(false);
 
-  // Updated navigation items based on SRS document
-  const leftNavigationItems = [
-    { id: "home", label: "HOME", to: "/", hasDropdown: false },
-    {
-      id: "about-us",
-      label: "ABOUT US",
-      hasDropdown: true,
-      dropdownItems: [
-        {
-          id: "history",
-          label: "History & Milestone",
-          to: "/about-us/history",
-        },
-        {
-          id: "mission-vision",
-          label: "Mission/Vision/Values",
-          to: "/about-us/mission-vision",
-        },
-        { id: "leadership", label: "Leadership", to: "/about-us/leadership" },
-        { id: "awards", label: "Awards", to: "/about-us/awards" },
-        { id: "factories", label: "Factories", to: "/about-us/factories" },
-        {
-          id: "quality",
-          label: "Quality & Innovation",
-          to: "/about-us/quality",
-        },
-        { id: "csr", label: "CSR & Sustainability", to: "/about-us/csr" },
-        {
-          id: "sales-distribution",
-          label: "Sales & Distribution",
-          to: "/about-us/sales-distribution",
-        },
-      ],
-    },
-    {
-      id: "products",
-      label: "PRODUCTS",
-      to: '/products'
-    },
-    { id: "export", label: "EXPORT", to: "/export", hasDropdown: false },
-  ];
+  // Add scroll event listener to detect when page is scrolled
+  useEffect(() => {
+    const handleScroll = () => {
+      // Set scrolled to true when page is scrolled beyond 50px
+      const isScrolled = window.scrollY > 50;
+      if (isScrolled !== scrolled) {
+        setScrolled(isScrolled);
+      }
+    };
 
-  const rightNavigationItems = [
-    {
-      id: "investors",
-      label: "INVESTORS",
-      hasDropdown: true,
-      dropdownItems: [
-        {
-          id: "corporate-governance",
-          label: "Corporate Governance",
-          to: "/investors/corporate-governance",
-        },
-        {
-          id: "strategy",
-          label: "Strategy & Innovation",
-          to: "/investors/strategy",
-        },
-        { id: "share", label: "Share Structure", to: "/investors/share" },
-        {
-          id: "financials",
-          label: "Financials & Annual Reports",
-          to: "/investors/financials",
-        },
-        {
-          id: "unclaimed-dividends",
-          label: "List of Unclaimed Dividends",
-          to: "/investors/unclaimed-dividends",
-        },
-        { id: "psi-mi", label: "PSI/MI", to: "/investors/psi-mi" },
-      ],
-    },
-    {
-      id: "media",
-      label: "MEDIA",
-      hasDropdown: true,
-      dropdownItems: [
-        {
-          id: "press-release",
-          label: "Press Release",
-          to: "/media/press-release",
-        },
-        { id: "tvc", label: "TVC/OVC/Creatives", to: "/media/creatives" },
-        { id: "articles", label: "Articles/Blogs", to: "/media/articles" },
-      ],
-    },
-    { id: "career", label: "CAREER", to: "/career", hasDropdown: false },
-    { id: "contact", label: "CONTACT", to: "/contact", hasDropdown: false },
-  ];
+    window.addEventListener("scroll", handleScroll);
+
+    // Clean up event listener on component unmount
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [scrolled]);
 
   const isParentActive = (dropdownItems) => {
     return dropdownItems?.some((item) => location.pathname.startsWith(item.to));
@@ -196,8 +130,9 @@ const Navbar = () => {
             >
               {item.label}
               <span
-                className={`transform transition-transform duration-200 ${isOpen ? "rotate-180" : ""
-                  }`}
+                className={`transform transition-transform duration-200 ${
+                  isOpen ? "rotate-180" : ""
+                }`}
               >
                 ▼
               </span>
@@ -209,9 +144,10 @@ const Navbar = () => {
                     key={dropdownItem.id}
                     to={dropdownItem.to}
                     className={({ isActive }) =>
-                      `block py-2 px-4 ${isActive
-                        ? "text-yellow-300"
-                        : "text-gray-300 hover:text-yellow-300"
+                      `block py-2 px-4 ${
+                        isActive
+                          ? "text-yellow-300"
+                          : "text-gray-300 hover:text-yellow-300"
                       }`
                     }
                     onClick={() => setIsMobileMenuOpen(false)}
@@ -226,9 +162,10 @@ const Navbar = () => {
           <NavLink
             to={item.to}
             className={({ isActive }) =>
-              `block px-4 py-2 ${isActive
-                ? "text-yellow-300 font-medium"
-                : "text-white hover:text-yellow-300"
+              `block px-4 py-2 ${
+                isActive
+                  ? "text-yellow-300 font-medium"
+                  : "text-white hover:text-yellow-300"
               }`
             }
             onClick={() => setIsMobileMenuOpen(false)}
@@ -240,14 +177,19 @@ const Navbar = () => {
     );
   };
 
-  // Collect all navigation items for mobile view
-  const allNavItems = [...leftNavigationItems, ...rightNavigationItems];
+  // Get all navigation items for mobile view
+  const allNavItems = getAllNavigationItems();
 
   return (
     <div>
       {/* Single Consistent Desktop Navigation */}
-      <nav className="navbar bg-black text-white" ref={menuRef}>
-        <div className="container mx-auto hidden lg:flex items-center justify-between px-4 py-3">
+      <nav
+        className={`navbar text-white transition-all duration-300 ${
+          scrolled ? "bg-red-700 shadow-lg" : "bg-transparent"
+        }`}
+        ref={menuRef}
+      >
+        <div className="container mx-auto hidden lg:flex items-center justify-between px-4 py-3 relative">
           {/* Left Menu Items */}
           <div className="flex items-center space-x-8">
             {leftNavigationItems.map((item) => (
@@ -264,10 +206,11 @@ const Navbar = () => {
                 {item.hasDropdown ? (
                   <>
                     <button
-                      className={`flex items-center font-semibold ${isParentActive(item.dropdownItems)
+                      className={`flex items-center font-semibold ${
+                        isParentActive(item.dropdownItems)
                           ? "text-yellow-300"
                           : "text-white hover:text-yellow-300"
-                        }`}
+                      }`}
                     >
                       {item.label}
                     </button>
@@ -288,9 +231,10 @@ const Navbar = () => {
                               <NavLink
                                 to={dropdownItem.to}
                                 className={({ isActive }) =>
-                                  `block px-4 py-3 text-sm hover:bg-gray-100 ${isActive
-                                    ? "bg-gray-100 text-red-700 font-medium"
-                                    : ""
+                                  `block px-4 py-3 text-sm hover:bg-gray-100 ${
+                                    isActive
+                                      ? "bg-gray-100 text-red-700 font-medium"
+                                      : ""
                                   }`
                                 }
                                 onClick={() => setDropdownState({})}
@@ -307,7 +251,8 @@ const Navbar = () => {
                   <NavLink
                     to={item.to}
                     className={({ isActive }) =>
-                      `hover:text-yellow-300 font-semibold ${isActive ? "text-yellow-300" : "text-white"
+                      `hover:text-yellow-300 font-semibold ${
+                        isActive ? "text-yellow-300" : "text-white"
                       }`
                     }
                   >
@@ -318,8 +263,12 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Logo - Center */}
-          <div className="flex items-center">
+          {/* Logo - Center - Modified to change margin based on scroll state */}
+          <div
+            className={`flex items-center justify-center absolute left-1/2 transform -translate-x-1/2 transition-all duration-300 ${
+              scrolled ? "mt-0" : "mt-12"
+            }`}
+          >
             <NavLink to="/">
               <img
                 src="/olympic-logo.png"
@@ -345,10 +294,11 @@ const Navbar = () => {
                 {item.hasDropdown ? (
                   <>
                     <button
-                      className={`flex items-center font-semibold ${isParentActive(item.dropdownItems)
+                      className={`flex items-center font-semibold ${
+                        isParentActive(item.dropdownItems)
                           ? "text-yellow-300"
                           : "text-white hover:text-yellow-300"
-                        }`}
+                      }`}
                     >
                       {item.label}
                     </button>
@@ -369,9 +319,10 @@ const Navbar = () => {
                               <NavLink
                                 to={dropdownItem.to}
                                 className={({ isActive }) =>
-                                  `block px-4 py-3 text-sm hover:bg-gray-100 ${isActive
-                                    ? "bg-gray-100 text-red-700 font-medium"
-                                    : ""
+                                  `block px-4 py-3 text-sm hover:bg-gray-100 ${
+                                    isActive
+                                      ? "bg-gray-100 text-red-700 font-medium"
+                                      : ""
                                   }`
                                 }
                                 onClick={() => setDropdownState({})}
@@ -388,7 +339,8 @@ const Navbar = () => {
                   <NavLink
                     to={item.to}
                     className={({ isActive }) =>
-                      `hover:text-yellow-300 font-semibold ${isActive ? "text-yellow-300" : "text-white"
+                      `hover:text-yellow-300 font-semibold ${
+                        isActive ? "text-yellow-300" : "text-white"
                       }`
                     }
                   >
@@ -404,8 +356,9 @@ const Navbar = () => {
                 ref={searchInputRef}
                 type="text"
                 placeholder="Search..."
-                className={`search-input focus:outline-none ${searchActive ? "active" : ""
-                  }`}
+                className={`search-input focus:outline-none ${
+                  searchActive ? "active" : ""
+                }`}
               />
               <button
                 onClick={toggleSearch}
@@ -418,8 +371,12 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Navigation */}
-        <div className="flex justify-between items-center px-4 py-3 lg:hidden">
-          <div className="flex items-center">
+        <div
+          className={`flex justify-between items-center px-4 py-3 lg:hidden relative ${
+            scrolled ? "bg-red-700" : "bg-transparent"
+          }`}
+        >
+          <div className="flex items-center justify-center">
             <NavLink to="/">
               <img
                 src="/olympic-logo.png"
@@ -446,7 +403,7 @@ const Navbar = () => {
             >
               <FontAwesomeIcon
                 icon={faBars}
-                className="bg-red-700 px-2 py-1"
+                className={`${scrolled ? "" : "bg-red-700"} px-2 py-1`}
                 size="lg"
               />
             </button>
