@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import bgImage from "../../assets/Investors-banner-2.jpg";
+import { motion, useAnimation } from "framer-motion";
+
 import {
   ChevronDown,
   ChevronUp,
@@ -6,7 +9,9 @@ import {
   Download,
   ExternalLink,
 } from "lucide-react";
-
+const brandRed = "#cc0000";
+const goldAccent = "#d4af37";
+const darkBg = "#0a0a0a";
 const PSIMIPage = () => {
   const [expandedYear, setExpandedYear] = useState(null);
   const [activeDocument, setActiveDocument] = useState(null);
@@ -121,8 +126,73 @@ const PSIMIPage = () => {
   };
 
   return (
-    <div className="bg-black min-h-screen pt-20 text-white py-12 px-4 md:px-8">
-      <div className="max-w-6xl mx-auto">
+    <div className="bg-[#0a0a0a] text-white min-h-screen">
+      {/* Hero Header Section */}
+<div className="relative w-full h-screen max-h-[32rem] overflow-hidden">
+  <motion.div
+    className="absolute inset-0 bg-cover bg-center"
+    style={{
+      backgroundImage: `url(${bgImage})`,
+      backgroundPosition: "center 30%",
+    }}
+    initial={{ scale: 1.1 }}
+    animate={{ scale: 1 }}
+    transition={{ duration: 1.5, ease: "easeOut" }}
+  />
+
+  <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/80 flex flex-col items-center justify-center px-4">
+    <motion.div
+      initial={{ width: 0 }}
+      animate={{ width: 120 }}
+      transition={{ duration: 1.2, ease: "easeInOut" }}
+      className="h-0.5 bg-gradient-to-r from-transparent via-yellow-500 to-transparent mb-6"
+    />
+
+    <motion.h1
+      className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-wider mb-4 text-center"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1, delay: 0.3 }}
+    >
+      Price Sensitive <span className="text-yellow-500">Information</span>
+    </motion.h1>
+
+    <motion.p
+      className="text-lg text-gray-300 max-w-2xl text-center mb-8"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1, delay: 0.6 }}
+    >
+      Timely disclosure of material information for transparent corporate governance
+    </motion.p>
+
+    <motion.div
+      initial={{ width: 0 }}
+      animate={{ width: 80 }}
+      transition={{ duration: 1.2, delay: 0.9, ease: "easeInOut" }}
+      className="h-0.5 mb-4"
+      style={{
+        background: "linear-gradient(to right, transparent, #dc2626, transparent)",
+      }}
+    />
+
+    {/* Animated scroll indicator */}
+    <motion.div
+      className="absolute bottom-8"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1.5, duration: 0.8 }}
+    >
+      <div className="animate-bounce flex flex-col items-center">
+        <p className="text-xs mb-2">Scroll to explore</p>
+        <div className="w-4 h-4 border-r-2 border-b-2 border-yellow-500 transform rotate-45"></div>
+      </div>
+    </motion.div>
+  </div>
+</div>
+
+
+      <div className="max-w-6xl mx-auto py-12 px-4 md:px-8">
         <h1 className="text-4xl font-bold text-yellow-500 mb-8">
           Price Sensitive Information / Material Information
         </h1>
@@ -268,7 +338,7 @@ const PSIMIPage = () => {
       )}
 
       {/* Statistical Overview Section */}
-      <div className="max-w-6xl mx-auto mt-16">
+      <div className="max-w-6xl mx-auto mt-16 mb-16 px-4 md:px-8">
         <h2 className="text-2xl font-bold text-yellow-500 mb-6">
           Statistical Overview
         </h2>
