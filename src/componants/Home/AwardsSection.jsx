@@ -135,7 +135,7 @@ const AwardsSection = () => {
   };
 
   return (
-    <div className="mx-auto p-6 font-sans bg-black text-gray-200 min-h-screen">
+    <div className="mx-auto p-6 pt-24 font-sans bg-black text-gray-200 min-h-screen">
       {/* Header */}
       <div className="text-center mb-10">
         <h1 className="text-3xl md:text-4xl font-bold text-yellow-500 mb-4">

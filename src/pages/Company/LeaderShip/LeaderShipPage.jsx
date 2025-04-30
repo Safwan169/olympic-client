@@ -585,7 +585,7 @@ export default function LeadershipComponent() {
   ];
 
   return (
-    <div className="bg-black text-white min-h-screen p-6">
+    <div className="bg-black text-white min-h-screen p-6 pt-16">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-5xl font-bold text-center my-10">LEADERSHIP</h1>
 
