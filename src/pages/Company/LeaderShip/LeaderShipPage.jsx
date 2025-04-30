@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { motion, useAnimation } from "framer-motion";
-import bgImage from "../../../assets/Investors-banner-2.jpg";
+import bgImage from "../../../assets/leadership.jpg";
 import chairman from "../../../assets/chairman.jpg";
 export default function LeadershipComponent() {
   const [activeTab, setActiveTab] = useState("BOARD OF DIRECTORS");

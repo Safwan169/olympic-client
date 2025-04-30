@@ -1,11 +1,11 @@
-import bgImage from "../../assets/cookieBG.jpg";
+import bgImage from "../../assets/Quality & Innovation.png";
 import { motion, useAnimation } from "framer-motion";
 const brandRed = "#cc0000";
 const goldAccent = "#d4af37";
 const darkBg = "#0a0a0a";
 const StrategyAndInnovation = () => {
   return (
-    <div className="bg-[#121212] text-white min-h-screen px-6 py-12">
+    <div className="bg-[#0a0a0a] text-white min-h-screen">
       {/* Header Section */}
       <div className="relative w-full h-screen max-h-[32rem] overflow-hidden">
         <motion.div

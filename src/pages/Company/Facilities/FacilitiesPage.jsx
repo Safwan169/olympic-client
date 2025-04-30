@@ -355,7 +355,7 @@
 
 /* eslint-disable no-unused-vars */
 import React, { useState, useRef, useEffect } from "react";
-import bgImage from "../../../assets/Investors-banner-2.jpg";
+import bgImage from "../../../assets/factories.jpg";
 import { motion, useAnimation } from "framer-motion";
 
 const FactoriesSection = () => {

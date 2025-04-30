@@ -10,7 +10,7 @@ import {
   X,
   ExternalLink,
 } from "lucide-react";
-import bgImage from "../../assets/cookieBG4.jpg";
+import bgImage from "../../assets/CREATIVE STORIES.jpg";
 import ArticleSection from "./ArticleSection";
 import { motion, useAnimation } from "framer-motion";
 

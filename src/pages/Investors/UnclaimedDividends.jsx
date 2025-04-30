@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaFilePdf, FaCalendarAlt } from "react-icons/fa";
-import bgImage from "../../assets/Investors-banner-2.jpg";
+import bgImage from "../../assets/Unclaimed Dividends.jpg";
 
 const brandRed = "#cc0000";
 const goldAccent = "#d4af37";
