@@ -19,7 +19,6 @@ import Articles from "../pages/NewsAndMedia/Articles";
 import Careers from "../pages/NewsAndMedia/Careers";
 import ContactPage from "../pages/Contact/Contact";
 import MissionVision from "../pages/Company/MissionVision/MissionVision";
-import Awards from "../pages/Company/Awards/Awards";
 import Quality from "../pages/Company/Quality/Quality";
 import CSR from "../pages/Company/CSR/CSR";
 import DomesticProducts from "../pages/Products/DomesticProducts";
@@ -30,6 +29,7 @@ import ProductCategories from "../pages/Products/Products";
 import SpecificPage from "../pages/Products/SpecificCategoryPage";
 import ProductDetail from "../pages/Products/DetailsPage";
 import HistoryAndMilestone from "../pages/Company/AboutUs/HistoryAndMilestone";
+import AwardsPage from "../pages/Company/AboutUs/components/AwardsPage";
 
 const userRoutes = [
   {
@@ -61,7 +61,7 @@ const userRoutes = [
   },
   {
     path: "/about-us/awards",
-    element: <Awards />,
+    element: <AwardsPage />,
   },
   {
     path: "/about-us/factories",
@@ -81,8 +81,8 @@ const userRoutes = [
   },
 
   {
-    path:'products',
-    element:<ProductCategories/>
+    path: "products",
+    element: <ProductCategories />,
   },
 
   // PRODUCTS Section

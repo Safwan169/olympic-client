@@ -3,17 +3,14 @@ import DelightsSection from "../../componants/Home/DelightsSection";
 import Hero from "../../componants/Home/hero/Hero";
 import OlympicAtGlance from "../../componants/Home/OlympicAtGlance";
 import GrowthSection from "../../componants/Home/GrowthSection";
-import AwardsSection from "../../componants/Home/AwardsSection";
-import GlobalPresence from "../Exports/GlobalPresence";
+import AwardSection from "../../componants/Home/AwardSection";
 
 const Home = () => {
   return (
     <div className=" text-red-400 ">
       <Hero />
       <OlympicAtGlance />
-      <div className="-mt-20">
-        <AwardsSection />
-      </div>
+      <AwardSection />
       <GrowthSection />
       <DelightsSection />
     </div>
