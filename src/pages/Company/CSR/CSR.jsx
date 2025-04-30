@@ -12,6 +12,7 @@ import {
   Pie,
   Cell,
 } from "recharts";
+import GlobalHeroSection from "../../../componants/GlobalHeroSection";
 
 export default function CSRSustainability() {
   const [activeTab, setActiveTab] = useState("overview");
@@ -83,11 +84,6 @@ export default function CSRSustainability() {
           description:
             "Organized 120+ medical camps serving over 50,000 individuals in rural communities.",
         },
-        {
-          title: "Skills Development",
-          description:
-            "Trained 3,500+ youth in various vocational skills enhancing their employability.",
-        },
       ],
       chartData: [
         { name: "Education", value: 45 },
@@ -111,11 +107,6 @@ export default function CSRSustainability() {
           title: "Packaging Innovation",
           description:
             "Reduced plastic usage by 35% through innovative eco-friendly packaging solutions.",
-        },
-        {
-          title: "Energy Efficiency",
-          description:
-            "Energy-efficient equipment and processes have reduced energy consumption by 30%.",
         },
       ],
       chartData: [
@@ -162,18 +153,12 @@ export default function CSRSustainability() {
 
   return (
     <div className="bg-black text-white py-16">
+      <GlobalHeroSection
+        firstHeading={"CSR &"}
+        secondHeading={"Sustainability"}
+        desc={"At Olympic Industries, our CSR & Sustainability"}
+      />
       <div className="container mx-auto px-4">
-        {/* Section Header */}
-        <div className="mb-12 text-center">
-          <h2 className="text-4xl font-bold mb-6 text-amber-400">
-            {cmsData.title}
-          </h2>
-          <div className="w-24 h-1 bg-red-600 mx-auto mb-6"></div>
-          <p className="text-lg max-w-3xl mx-auto">
-            {cmsData.overview.description}
-          </p>
-        </div>
-
         {/* Key Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
           <div className="bg-gray-900 rounded-lg p-6 text-center shadow-md border-t-2 border-red-600 transform transition-transform duration-300 hover:scale-105">
@@ -321,13 +306,6 @@ export default function CSRSustainability() {
                     environmental impact year over year.
                   </p>
                 </div>
-                <div className="rounded-lg overflow-hidden shadow-md">
-                  <img
-                    // src={cmsData.environmentalInitiatives.imageUrl}
-                    alt="Environmental Initiatives"
-                    className="w-full h-auto object-cover"
-                  />
-                </div>
               </div>
             </div>
           )}
@@ -399,13 +377,6 @@ export default function CSRSustainability() {
                     </ResponsiveContainer>
                   </div>
                 </div>
-                <div className="rounded-lg overflow-hidden shadow-md">
-                  <img
-                    src={cmsData.communityEngagement.imageUrl}
-                    alt="Community Engagement"
-                    className="w-full h-auto object-cover"
-                  />
-                </div>
               </div>
             </div>
           )}
@@ -466,13 +437,6 @@ export default function CSRSustainability() {
                   <p className="text-sm text-gray-400 mt-4">
                     We aim to reach 100% sustainable product portfolio by 2030.
                   </p>
-                </div>
-                <div className="rounded-lg overflow-hidden shadow-md">
-                  <img
-                    src={cmsData.sustainablePractices.imageUrl}
-                    alt="Sustainable Practices"
-                    className="w-full h-auto object-cover"
-                  />
                 </div>
               </div>
             </div>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import badgeImg from "../../../assets/hero/download.png"; // Adjust path as needed
@@ -14,8 +15,9 @@ export default function DynamicSlider() {
     "https://olympicbd.com/wp-content/uploads/2016/06/DSC1105-long2.jpg",
   ];
 
-  // Handle zoom and image transition
+  // Faster zoom and image transition
   useEffect(() => {
+    const zoomStep = 0.003; // Increased zoom step for faster transition
     const interval = setInterval(() => {
       setZoomLevel((prevZoom) => {
         if (zoomingIn) {
@@ -23,7 +25,7 @@ export default function DynamicSlider() {
             setZoomingIn(false);
             return prevZoom;
           }
-          return prevZoom + 0.001;
+          return prevZoom + zoomStep;
         } else {
           if (prevZoom <= 1) {
             setZoomingIn(true);
@@ -32,10 +34,10 @@ export default function DynamicSlider() {
             );
             return prevZoom;
           }
-          return prevZoom - 0.001;
+          return prevZoom - zoomStep;
         }
       });
-    }, 50);
+    }, 30); // Reduced interval from 50ms to 30ms for faster updates
 
     return () => clearInterval(interval);
   }, [zoomingIn, backgroundImages.length]);

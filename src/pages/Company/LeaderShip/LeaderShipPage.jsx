@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import { motion, useScroll, useTransform } from "framer-motion";
 import { useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 import bgImage from "../../../assets/Investors-banner-2.jpg";
@@ -7,10 +6,6 @@ import chairman from "../../../assets/chairman.jpg";
 export default function LeadershipComponent() {
   const [activeTab, setActiveTab] = useState("BOARD OF DIRECTORS");
   const [selectedLeader, setSelectedLeader] = useState(null);
-
-  // Brand colors
-  const brandRed = "#cc0000";
-  const goldAccent = "#d4af37";
 
   const leaders = [
     {
@@ -98,89 +93,102 @@ export default function LeadershipComponent() {
     "MANAGEMENT COMMITTEE",
   ];
 
-  const { scrollY } = useScroll();
-  const parallaxY = useTransform(scrollY, [0, 500], [0, 100]);
-
   return (
-    <div className="bg-black text-white min-h-screen p-6 pt-16">
-      {/* Hero Section */}
+    <div className="bg-[#0a0a0a] text-white min-h-screen">
       <div className="relative w-full h-screen max-h-[32rem] overflow-hidden">
+        {/* Hero Header Section */}
         <motion.div
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage: `url(${bgImage})`,
             backgroundPosition: "center 30%",
-            y: parallaxY,
           }}
-          initial={{ scale: 1.2 }}
+          initial={{ scale: 1.1 }}
           animate={{ scale: 1 }}
-          transition={{ duration: 2, ease: "easeOut" }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
         />
-
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/90 via-black/70 to-black/90 flex flex-col items-center justify-center px-4">
+        {/* Dark gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/80 flex flex-col items-center justify-center px-4">
+          {/* Top Gradient Line */}
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: 120 }}
-            transition={{ duration: 1.2 }}
-            className="h-0.5 mb-6"
+            transition={{ duration: 1.2, ease: "easeInOut" }}
+            className="h-0.5 bg-gradient-to-r from-transparent via-goldAccent to-transparent mb-6"
             style={{ backgroundColor: goldAccent }}
           />
 
-          {/* Title */}
+          {/* Heading */}
           <motion.h1
-            className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-center mb-4 tracking-widest"
+            className="text-4xl md:text-5xl font-bold tracking-wider text-center mb-4"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-          >
-            Our{" "}
-            <span
-              style={{ color: goldAccent }}
-              className="drop-shadow-lg text-yellow-400"
-            >
-              Leadership
-            </span>
-          </motion.h1>
-
-          {/* Subheading */}
-          <motion.p
-            className="text-lg text-gray-300 max-w-2xl text-center mb-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.3 }}
           >
-            Our mission for ethical growth
-          </motion.p>
+            LEADERSHIP
+          </motion.h1>
 
-          {/* Red underline */}
+          {/* Bottom Gradient Line */}
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: 80 }}
-            transition={{ duration: 1.2, delay: 0.6 }}
-            className="h-0.5"
+            transition={{ duration: 1.2, delay: 0.6, ease: "easeInOut" }}
+            className="h-0.5 mb-4"
             style={{
               background: `linear-gradient(to right, transparent, ${brandRed}, transparent)`,
             }}
           />
 
-          {/* Scroll down indicator */}
+          {/* Animated scroll indicator */}
           <motion.div
             className="absolute bottom-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.5 }}
+            transition={{ delay: 1.5, duration: 0.8 }}
           >
             <div className="animate-bounce flex flex-col items-center">
-              <p className="text-xs mb-2 text-gray-300">Scroll to explore</p>
-              <div className="w-4 h-4 border-r-2 border-b-2 border-yellow-400 transform rotate-45"></div>
+              <p className="text-xs mb-2">Scroll to explore</p>
+              <div className="w-4 h-4 border-r-2 border-b-2 border-goldAccent transform rotate-45"></div>
             </div>
           </motion.div>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-5xl font-bold text-center my-10">LEADERSHIP</h1>
+      {/* Visionary Founder Section */}
+      <div className="flex justify-center items-center min-h-screen px-4">
+        <div className="flex flex-col md:flex-row items-center gap-10 p-8 rounded-3xl border border-gray-700 bg-black/30 backdrop-blur-md shadow-lg transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:border-red-500">
+          {/* Founder Image */}
+          <div className="flex-shrink-0 w-64 h-64 rounded-full overflow-hidden border-4 border-gray-700 transition-all duration-500 hover:border-red-500 hover:shadow-lg">
+            <img
+              src={chairman} // Replace with correct image path
+              alt="Founder"
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Founder Text */}
+          <div className="text-center md:text-left max-w-xl">
+            <p className="text-red-500 font-semibold tracking-widest text-sm uppercase mb-2">
+              Our Visionary Founder
+            </p>
+            <h2 className="text-2xl md:text-4xl font-bold text-white mb-4 transition-all duration-500 hover:text-red-500">
+              Late Baijnath Choudhary
+            </h2>
+            <p className="text-gray-300 mb-4">
+              At the heart of Anmol’s success is its founder, the late Mr.
+              Baijnath Choudhary. From humble beginnings, he built Anmol into a
+              biscuit industry leader with a keen understanding of consumer
+              preferences.
+            </p>
+            <p className="text-gray-300">
+              A visionary, he ensured top-quality products and strong business
+              ethics, while also championing social causes. His leadership and
+              values continue to inspire Team Anmol to stay at the industry’s
+              forefront.
+            </p>
+          </div>
+        </div>
+      </div>
 
       {/* Tabs */}
       <div className="flex justify-center mb-12 border-b border-gray-700">
@@ -264,13 +272,4 @@ export default function LeadershipComponent() {
       )}
     </div>
   );
-}
-
-{
-  /* <button
-              className="absolute top-4 right-4 bg-red-600 text-white px-4 py-2 rounded-lg"
-              onClick={() => setSelectedLeader(null)}
-            >
-              CLOSE
-            </button> */
 }
