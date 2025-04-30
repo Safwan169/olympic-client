@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Trophy, Users, Leaf } from "lucide-react";
-import GlobalHeroSection from "../GlobalHeroSection";
+import GlobalHeroSection from "../../../../componants/GlobalHeroSection";
 
-const AwardsSection = () => {
+const AwardsPage = () => {
   const [activeSection, setActiveSection] = useState("innovation");
 
   // Award data with image support
@@ -136,7 +136,7 @@ const AwardsSection = () => {
   };
 
   return (
-    <div className="mx-auto p-6 pt-24 font-sans bg-black text-gray-200 min-h-screen">
+    <div className="mx-auto  font-sans bg-black text-gray-200 min-h-screen">
       <GlobalHeroSection
         firstHeading={" Awards & "}
         secondHeading={"Recognition"}
@@ -234,4 +234,4 @@ const AwardsSection = () => {
   );
 };
 
-export default AwardsSection;
+export default AwardsPage;
