@@ -11,7 +11,7 @@ const Home = () => {
     <div className=" text-red-400 ">
       <Hero />
       <OlympicAtGlance />
-      <div className="-mt-14">
+      <div className="-mt-20">
         <AwardsSection />
       </div>
       <GrowthSection />
