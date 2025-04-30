@@ -6,7 +6,8 @@ import {
   Marker
 } from "react-simple-maps";
 
-const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
+import { VectorMap } from "@react-jvectormap/core";
+import { worldMill } from "@react-jvectormap/world";
 
 export default function GlobalPresence() {
   const [hoveredCountry, setHoveredCountry] = useState(null);
@@ -17,6 +18,7 @@ export default function GlobalPresence() {
     { number: 0 },
     { number: 0 }
   ]);
+
 
   const exportCountries = [
     { id: "CN", name: "China" },
@@ -100,31 +102,31 @@ export default function GlobalPresence() {
       stats.forEach((stat, index) => {
         const startTime = Date.now();
         const duration = stat.duration || 2000;
-        
+
         const animate = () => {
           const elapsed = Date.now() - startTime;
           const progress = Math.min(elapsed / duration, 1);
           const easedProgress = easeOutQuad(progress);
           const current = Math.round(easedProgress * stat.target);
-          
+
           setCountedStats(prevStats => {
             const newStats = [...prevStats];
             newStats[index] = { ...newStats[index], number: current };
             return newStats;
           });
-          
+
           if (progress < 1) {
             requestAnimationFrame(animate);
           }
         };
-        
+
         requestAnimationFrame(animate);
       });
     };
-    
+
     // Start animation when component mounts
     const timer = setTimeout(animateCount, 500);
-    
+
     return () => clearTimeout(timer);
   }, []);
 
@@ -146,88 +148,70 @@ export default function GlobalPresence() {
         </div>
         <h2 className="text-4xl font-bold text-white mb-2">Our Global Presence</h2>
         <h3 className="text-5xl font-bold text-red-500 mb-8">34 Countries</h3>
-        
+
         <div className="max-w-5xl mx-auto relative">
-          <div className="world-map-container relative">
-            <ComposableMap
-              projection="geoMercator"
-              projectionConfig={{
-                scale: 150,
-                center: [20, 20]
+          <div className="world-map-container relative border-2 border-gray-700 rounded-lg shadow-xl overflow-hidden p-4 bg-gray-800 hover:border-red-500 transition-all duration-300">
+            <VectorMap
+              map={worldMill}
+              style={{
+                width: "100%",
+                height: "500px",
               }}
-              height={500}
-              width={1000}
-            >
-              <Geographies geography={geoUrl}>
-                {({ geographies }) =>
-                  geographies.map((geo) => {
-                    const isHighlighted = isExportCountry(geo);
-                    return (
-                      <Geography
-                        key={geo.rsmKey}
-                        geography={geo}
-                        fill={isHighlighted ? "#ff3a4e" : "#374151"}
-                        stroke="#1F2937"
-                        strokeWidth={0.5}
-                        style={{
-                          default: { outline: "none" },
-                          hover: { 
-                            fill: isHighlighted ? "#ff6b79" : "#4B5563",
-                            outline: "none" 
-                          },
-                          pressed: { outline: "none" },
-                        }}
-                        onMouseEnter={() => {
-                          if (isHighlighted) {
-                            const country = exportCountries.find(
-                              c => c.id === geo.properties.ISO_A2
-                            );
-                            setHoveredCountry(country);
-                          }
-                        }}
-                        onMouseLeave={() => {
-                          setHoveredCountry(null);
-                        }}
-                      />
-                    );
-                  })
+              backgroundColor="transparent"
+              onRegionOver={(event, code) => {
+                const country = exportCountries.find(c => c.id === code);
+                if (country) setHoveredCountry(country);
+              }}
+              onRegionOut={() => setHoveredCountry(null)}
+              regionStyle={{
+                initial: {
+                  fill: "#374151",
+                  stroke: "#1F2937",
+                  "stroke-width": 0.5,
+                  "stroke-opacity": 0.8,
+                },
+                hover: {
+                  fill: "#4B5563",
+                  "stroke-width": 2,
+                  stroke: "#ffffff",
+                  cursor: "pointer",
+                  transition: "all 0.3s",
                 }
-              </Geographies>
-              
-              {hoveredCountry && (
-                <Marker coordinates={[0, -60]}>
-                  <rect
-                    x={-60}
-                    y={-15}
-                    width={120}
-                    height={30}
-                    rx={5}
-                    fill="#111827"
-                    stroke="#ff3a4e"
-                    strokeWidth={1}
-                    opacity="0.9"
-                  />
-                  <text
-                    textAnchor="middle"
-                    fill="#FFF"
-                    style={{ fontFamily: "system-ui", fontSize: 12 }}
-                  >
-                    {hoveredCountry.name}
-                  </text>
-                </Marker>
-              )}
-            </ComposableMap>
+              }}
+              series={{
+                regions: [{
+                  attribute: 'fill',
+                  scale: {
+                    export: '#ff3a4e',
+                    default: '#374151'
+                  },
+                  values: Object.fromEntries(
+                    exportCountries.map(c => [c.id, 'export'])
+                  )
+                }]
+              }}
+            />
+
+
+            {hoveredCountry && (
+              <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-900 px-4 py-2 rounded-lg border-2 border-red-500 shadow-lg animate-pulse">
+                <span className="text-white text-sm font-semibold">
+                  {hoveredCountry.name}
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </div>
-      
+
+
       {/* Stats Section */}
       <div className="w-full bg-gray-800">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-5 divide-x divide-gray-700">
             {stats.map((stat, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="py-12 px-4 text-center group hover:bg-gray-700 transition-colors duration-300"
               >
                 <div className="flex justify-center mb-3">
@@ -251,19 +235,19 @@ export default function GlobalPresence() {
           </div>
         </div>
       </div>
-      
+
       <style jsx>{`
         .world-map-container {
           aspect-ratio: 2 / 1;
+          transition: all 0.3s ease;
         }
         
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
+        .jvectormap-container {
+          background-color: transparent !important;
         }
-        
-        .animate-fadeIn {
-          animation: fadeIn 0.5s ease-out forwards;
+
+        .jvectormap-region {
+          transition: all 0.3s ease !important;
         }
       `}</style>
     </div>

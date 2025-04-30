@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars */
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useState } from "react";
+import { motion, useAnimation } from "framer-motion";
 import bgImage from "../../../assets/Investors-banner-2.jpg";
-
+import chairman from "../../../assets/chairman.jpg";
 export default function LeadershipComponent() {
   const [activeTab, setActiveTab] = useState("BOARD OF DIRECTORS");
   const [selectedLeader, setSelectedLeader] = useState(null);
@@ -85,7 +86,8 @@ export default function LeadershipComponent() {
       category: "MANAGEMENT COMMITTEE",
     },
   ];
-
+  const brandRed = "#cc0000";
+  const goldAccent = "#d4af37";
   const filteredLeaders = leaders.filter(
     (leader) => leader.category === activeTab
   );
@@ -180,88 +182,81 @@ export default function LeadershipComponent() {
       <div className="max-w-6xl mx-auto">
         <h1 className="text-5xl font-bold text-center my-10">LEADERSHIP</h1>
 
-        {/* Tabs */}
-        <div className="flex justify-center mb-12 border-b border-gray-700">
-          {tabs.map((tab) => (
-            <button
-              key={tab}
-              className={`px-6 py-4 text-lg font-medium ${
-                activeTab === tab
-                  ? "text-red-500 border-b-2 border-red-500"
-                  : "text-gray-300 hover:text-white"
-              }`}
-              onClick={() => setActiveTab(tab)}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
+      {/* Tabs */}
+      <div className="flex justify-center mb-12 border-b border-gray-700">
+        {tabs.map((tab) => (
+          <button
+            key={tab}
+            className={`px-6 py-4 text-lg font-medium ${
+              activeTab === tab
+                ? "text-red-500 border-b-2 border-red-500"
+                : "text-gray-300 hover:text-white"
+            }`}
+            onClick={() => setActiveTab(tab)}
+          >
+            {tab}
+          </button>
+        ))}
+      </div>
 
-        {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
-          {filteredLeaders.map((leader) => (
-            <div
-              key={leader.id}
-              className="bg-black border border-gray-800 rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-all duration-300"
-              onClick={() => setSelectedLeader(leader)}
-            >
-              <div className="aspect-square overflow-hidden">
-                <img
-                  src={leader.image}
-                  alt={leader.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-4 text-center">
-                <h3 className="text-lg font-bold mb-1">{leader.name}</h3>
-                <p className="text-red-500 text-sm uppercase">{leader.title}</p>
-              </div>
+      {/* Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        {filteredLeaders.map((leader) => (
+          <div
+            key={leader.id}
+            className="bg-black border border-gray-800 rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-all duration-300"
+            onClick={() => setSelectedLeader(leader)}
+          >
+            <div className="aspect-square overflow-hidden">
+              <img
+                src={leader.image}
+                alt={leader.name}
+                className="w-full h-full object-cover"
+              />
             </div>
-          ))}
-        </div>
+            <div className="p-4 text-center">
+              <h3 className="text-lg font-bold mb-1">{leader.name}</h3>
+              <p className="text-red-500 text-sm uppercase">{leader.title}</p>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Modal */}
       {selectedLeader && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-900 rounded-lg max-w-3xl w-full relative">
-            <button
-              className="absolute top-4 right-4 bg-red-600 text-white px-4 py-2 rounded-lg"
-              onClick={() => setSelectedLeader(null)}
-            >
-              CLOSE
-            </button>
-
-            <div className="flex flex-col md:flex-row p-8">
-              <div className="md:w-1/3 mb-6 md:mb-0">
+          <div className="border-4 border-red-600 bg-gray-900 rounded-lg max-w-3xl w-full relative">
+            {" "}
+            {/* Main section border */}
+            <div className="flex flex-col md:flex-row p-8 items-center">
+              {/* Image container with red border */}
+              <div className="absolute -left-24 top-1/2 transform -translate-y-1/2 border-4 border-red-600 rounded-[5px]">
+                {" "}
+                {/* Image border */}
                 <img
                   src={selectedLeader.image}
                   alt={selectedLeader.name}
-                  className="w-48 h-48 object-cover rounded-md mx-auto"
+                  className="w-48 h-48 object-cover rounded-md"
                 />
               </div>
 
-              <div className="md:w-2/3 md:pl-8">
+              {/* Content area */}
+              <div className="md:w-full md:ml-24 relative pb-10">
                 <h2 className="text-2xl font-bold mb-1">
                   {selectedLeader.name}
                 </h2>
-                <p className="text-red-500 mb-4">{selectedLeader.title}</p>
-                <p className="text-gray-300 mb-4">{selectedLeader.bio}</p>
-
-                {selectedLeader.directorships && (
-                  <div>
-                    <h4 className="text-green-500 mb-2">
-                      List of Other Directorships
-                    </h4>
-                    <ul className="list-disc pl-5 text-gray-300">
-                      {selectedLeader.directorships.map(
-                        (directorship, index) => (
-                          <li key={index}>{directorship}</li>
-                        )
-                      )}
-                    </ul>
-                  </div>
-                )}
+                <p className="text-red-600 mb-4">{selectedLeader.title}</p>{" "}
+                {/* Changed to red-600 */}
+                <p className="text-gray-300">{selectedLeader.bio}</p>
+                {/* Button at bottom right */}
+                <div className="absolute bottom-0 right-0">
+                  <button
+                    className="bg-red-600 text-white px-4 py-2 rounded-lg"
+                    onClick={() => setSelectedLeader(null)}
+                  >
+                    CLOSE
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -269,4 +264,13 @@ export default function LeadershipComponent() {
       )}
     </div>
   );
+}
+
+{
+  /* <button
+              className="absolute top-4 right-4 bg-red-600 text-white px-4 py-2 rounded-lg"
+              onClick={() => setSelectedLeader(null)}
+            >
+              CLOSE
+            </button> */
 }
