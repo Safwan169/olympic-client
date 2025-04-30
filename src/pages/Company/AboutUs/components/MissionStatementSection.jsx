@@ -24,18 +24,44 @@ export default function MissionStatementSection() {
     "Be stewards of social responsibility in Bangladesh through our initiatives.",
   ];
 
-  // Product gallery data
-  const productImages = [
+  // Section data with alternating layout
+  const sections = [
     {
-      src: "https://olympicbd.com/wp-content/uploads/2016/06/About-us_Mission-Statament.jpg",
-      title: "Premium Quality Biscuits",
-      subtitle: "Crafted with care in Bangladesh",
+      id: "mission",
+      title: "MISSION STATEMENT",
+      titleHighlight: "STATEMENT",
+      content:
+        "At Olympic, we believe that being a good business means contributing to the well-being of our workers, our customers, our community, and our planet. We aim to add value by creating nourishing products, generating employment, and strengthening Bangladesh's economy.",
+      image:
+        "https://olympicbd.com/wp-content/uploads/2016/06/About-us_Mission-Statament.jpg",
+      imageTitle: "Premium Quality Biscuits",
+      imageSubtitle: "Crafted with care in Bangladesh",
+      contentPosition: "left", // Content on left, image on right
     },
-
     {
-      src: "https://olympicbd.com/wp-content/uploads/2016/06/Orange-Biscuits-for-Home-Page.jpg",
-      title: "Citrus Sensations",
-      subtitle: "Refreshing orange-flavored treats",
+      id: "aspire",
+      title: "WE ASPIRE TO",
+      titleHighlight: "ASPIRE TO",
+      content: missionPoints,
+      isList: true,
+      image:
+        "https://olympicbd.com/wp-content/uploads/2016/06/sustainability-1-1.jpg",
+      imageTitle: "Sustainable Practices",
+      imageSubtitle: "Growing through responsible business",
+      contentPosition: "right", // Content on right, image on left
+    },
+    {
+      id: "values",
+      title: "OUR CORE VALUES",
+      titleHighlight: "CORE VALUES",
+      content:
+        "We believe that quality and integrity are the core ingredients of our success. Staying true to our values and innovating thoughtfully is how we've become the leader in the biscuit industry.",
+      isQuote: true,
+      image:
+        "https://olympicbd.com/wp-content/uploads/2016/06/Orange-Biscuits-for-Home-Page.jpg",
+      imageTitle: "Citrus Sensations",
+      imageSubtitle: "Refreshing orange-flavored treats",
+      contentPosition: "left", // Content on left, image on right
     },
   ];
 
@@ -138,118 +164,187 @@ export default function MissionStatementSection() {
         </div>
       </div>
 
-      {/* Content Section */}
+      {/* Content Sections with Alternating Layout */}
       <div className="max-w-6xl mx-auto py-20 px-4">
-        <main className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          {/* Mission Text */}
-          <div className="space-y-12">
-            {/* Title Block */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
-              transition={{ duration: 1 }}
+        {sections.map((section, index) => (
+          <motion.section
+            key={section.id}
+            className={`py-16 ${
+              index !== sections.length - 1 ? "border-b border-gray-800" : ""
+            }`}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+          >
+            <div
+              className={`grid grid-cols-1 ${
+                section.contentPosition === "left"
+                  ? "lg:grid-cols-[3fr,2fr]"
+                  : "lg:grid-cols-[2fr,3fr]"
+              } gap-8 lg:gap-12 items-center`}
             >
-              <h2 className="text-3xl font-bold mb-6">
-                MISSION <span className="text-red-600">STATEMENT</span>
-              </h2>
-              <p className="text-gray-300 leading-relaxed">
-                At Olympic, we believe that being a good business means
-                contributing to the well-being of our workers, our customers,
-                our community, and our planet. We aim to add value by creating
-                nourishing products, generating employment, and strengthening
-                Bangladesh's economy.
-              </p>
-            </motion.div>
+              {/* Conditionally renders content left or image left based on contentPosition */}
+              {section.contentPosition === "left" ? (
+                <>
+                  {/* Content Side */}
+                  <div className="space-y-6">
+                    <h2 className="text-3xl font-bold mb-6">
+                      {section.title.replace(section.titleHighlight, "")}
+                      <span className="text-red-600">
+                        {section.titleHighlight}
+                      </span>
+                    </h2>
 
-            {/* We Aspire To */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
-              transition={{ duration: 1, delay: 0.3 }}
-            >
-              <h3 className="text-2xl font-semibold mb-6">We aspire to</h3>
-              <ul className="space-y-5">
-                {missionPoints.map((item, idx) => (
-                  <li
-                    key={idx}
-                    className="flex items-start gap-2 group transition-all duration-300 transform hover:translate-x-2"
-                  >
-                    <span className="text-red-500 group-hover:text-yellow-400 mt-1 transition-colors duration-300">
-                      ▷
-                    </span>
-                    <span className="text-gray-300 group-hover:text-white transition duration-300">
-                      {item}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-
-            {/* Closing Statement */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
-              transition={{ duration: 1, delay: 0.6 }}
-            >
-              <p className="italic text-gray-300 border-l-4 pl-4 border-red-600">
-                We believe that quality and integrity are the core ingredients
-                of our success. Staying true to our values and innovating
-                thoughtfully is how we've become the leader in the biscuit
-                industry.
-              </p>
-            </motion.div>
-          </div>
-
-          {/* Mission Image Gallery */}
-          <div className="flex flex-col gap-4">
-            {productImages.map((image, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{
-                  opacity: isVisible ? 1 : 0,
-                  scale: isVisible ? 1 : 0.95,
-                }}
-                transition={{ duration: 1, delay: 0.3 + idx * 0.2 }}
-                className="relative rounded-xl overflow-hidden shadow-lg group cursor-pointer"
-                onClick={() => openFullscreen(image)}
-              >
-                <div className="aspect-w-16 aspect-h-9">
-                  <img
-                    src={image.src}
-                    alt={image.title}
-                    className="object-cover w-full h-full rounded-xl transition-transform duration-700 group-hover:scale-110"
-                  />
-                </div>
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition duration-300" />
-                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
-                  <h4 className="text-yellow-400 font-bold">{image.title}</h4>
-                  <p className="text-sm text-gray-200">{image.subtitle}</p>
-                </div>
-
-                {/* Fullscreen icon */}
-                <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="bg-black/60 p-2 rounded-full">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-white"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5"
-                      />
-                    </svg>
+                    {section.isList ? (
+                      <ul className="space-y-5">
+                        {section.content.map((item, idx) => (
+                          <li
+                            key={idx}
+                            className="flex items-start gap-2 group transition-all duration-300 transform hover:translate-x-2"
+                          >
+                            <span className="text-red-500 group-hover:text-yellow-400 mt-1 transition-colors duration-300">
+                              ▷
+                            </span>
+                            <span className="text-gray-300 group-hover:text-white transition duration-300">
+                              {item}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : section.isQuote ? (
+                      <p className="italic text-gray-300 border-l-4 pl-4 border-red-600">
+                        {section.content}
+                      </p>
+                    ) : (
+                      <p className="text-gray-300 leading-relaxed">
+                        {section.content}
+                      </p>
+                    )}
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </main>
+
+                  {/* Image Side */}
+                  <div className="relative rounded-xl overflow-hidden shadow-lg group cursor-pointer h-full">
+                    <div className="aspect-w-16 aspect-h-9 h-full">
+                      <img
+                        src={section.image}
+                        alt={section.imageTitle}
+                        className="object-cover w-full h-full rounded-xl transition-transform duration-700 group-hover:scale-110"
+                        onClick={() => openFullscreen(section)}
+                      />
+                    </div>
+                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition duration-300" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
+                      <h4 className="text-yellow-400 font-bold">
+                        {section.imageTitle}
+                      </h4>
+                      <p className="text-sm text-gray-200">
+                        {section.imageSubtitle}
+                      </p>
+                    </div>
+                    {/* Fullscreen icon */}
+                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="bg-black/60 p-2 rounded-full">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5 text-white"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* Image Side */}
+                  <div className="relative rounded-xl overflow-hidden shadow-lg group cursor-pointer h-full">
+                    <div className="aspect-w-16 aspect-h-9 h-full">
+                      <img
+                        src={section.image}
+                        alt={section.imageTitle}
+                        className="object-cover w-full h-full rounded-xl transition-transform duration-700 group-hover:scale-110"
+                        onClick={() => openFullscreen(section)}
+                      />
+                    </div>
+                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition duration-300" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
+                      <h4 className="text-yellow-400 font-bold">
+                        {section.imageTitle}
+                      </h4>
+                      <p className="text-sm text-gray-200">
+                        {section.imageSubtitle}
+                      </p>
+                    </div>
+                    {/* Fullscreen icon */}
+                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="bg-black/60 p-2 rounded-full">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5 text-white"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Content Side */}
+                  <div className="space-y-6">
+                    <h2 className="text-3xl font-bold mb-6">
+                      {section.title.replace(section.titleHighlight, "")}
+                      <span className="text-red-600">
+                        {section.titleHighlight}
+                      </span>
+                    </h2>
+
+                    {section.isList ? (
+                      <ul className="space-y-5">
+                        {section.content.map((item, idx) => (
+                          <li
+                            key={idx}
+                            className="flex items-start gap-2 group transition-all duration-300 transform hover:translate-x-2"
+                          >
+                            <span className="text-red-500 group-hover:text-yellow-400 mt-1 transition-colors duration-300">
+                              ▷
+                            </span>
+                            <span className="text-gray-300 group-hover:text-white transition duration-300">
+                              {item}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : section.isQuote ? (
+                      <p className="italic text-gray-300 border-l-4 pl-4 border-red-600">
+                        {section.content}
+                      </p>
+                    ) : (
+                      <p className="text-gray-300 leading-relaxed">
+                        {section.content}
+                      </p>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
+          </motion.section>
+        ))}
       </div>
 
       {/* Fullscreen Image Modal */}
@@ -260,7 +355,7 @@ export default function MissionStatementSection() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-50 flex items-center justify-center  bg-black/90 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
             onClick={closeFullscreen}
           >
             <motion.div
@@ -272,8 +367,8 @@ export default function MissionStatementSection() {
               onClick={(e) => e.stopPropagation()}
             >
               <img
-                src={selectedImage.src}
-                alt={selectedImage.title}
+                src={selectedImage.image}
+                alt={selectedImage.imageTitle}
                 className="object-contain max-w-full max-h-[90vh]"
               />
               <button
@@ -297,9 +392,9 @@ export default function MissionStatementSection() {
               </button>
               <div className="absolute bottom-4 left-4 right-4 text-center bg-black/60 p-2 rounded">
                 <h3 className="text-yellow-400 font-bold text-lg">
-                  {selectedImage.title}
+                  {selectedImage.imageTitle}
                 </h3>
-                <p className="text-gray-200">{selectedImage.subtitle}</p>
+                <p className="text-gray-200">{selectedImage.imageSubtitle}</p>
               </div>
             </motion.div>
           </motion.div>
