@@ -99,7 +99,7 @@ const userRoutes = [
     element: <ProductDetail />,
   },
   {
-    path: "/products/export",
+    path: "/products/exports",
     element: <ExportProducts />,
   },
   {
