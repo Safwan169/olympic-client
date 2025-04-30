@@ -6,7 +6,7 @@ import {
   useTransform,
   AnimatePresence,
 } from "framer-motion";
-import bgImage from "../../../../assets/Investors-banner-2.jpg";
+import bgImage from "../../../../assets/mission.png";
 
 export default function MissionStatementSection() {
   const [isVisible, setIsVisible] = useState(false);
