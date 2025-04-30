@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import GlobalHeroSection from "../../../componants/GlobalHeroSection";
 
 export default function Quality() {
   const [isVideoHovered, setIsVideoHovered] = useState(false);
@@ -49,17 +50,15 @@ export default function Quality() {
   }, [isVideoHovered]);
 
   return (
-    <div className="bg-black text-white py-16">
+    <div className="bg-black text-white">
       <div className="container mx-auto px-4">
-        {/* Section Header */}
-        <div className="mb-12 text-center">
-          <h2 className="text-4xl font-bold mb-6 text-amber-400">
-            {qualityData.title}
-          </h2>
-          <p className="text-lg max-w-3xl mx-auto">
-            {qualityData.mainDescription}
-          </p>
-        </div>
+        <GlobalHeroSection
+          firstHeading={"Quality &"}
+          secondHeading={"Innovation"}
+          desc={
+            "At Olympic Industries, our commitment to quality and innovation"
+          }
+        />
 
         {/* Main Content - Video and Text Side by Side */}
         <div className="flex flex-col md:flex-row gap-8 mb-16">

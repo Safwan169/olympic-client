@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Trophy, Users, Leaf } from "lucide-react";
+import GlobalHeroSection from "../GlobalHeroSection";
 
 const AwardsSection = () => {
   const [activeSection, setActiveSection] = useState("innovation");
@@ -135,20 +136,19 @@ const AwardsSection = () => {
   };
 
   return (
-    <div className="mx-auto p-6 font-sans bg-black text-gray-200 min-h-screen">
+    <div className="mx-auto p-6 pt-24 font-sans bg-black text-gray-200 min-h-screen">
+      <GlobalHeroSection
+        firstHeading={" Awards & "}
+        secondHeading={"Recognition"}
+        desc={
+          " Olympic Industries is proud to be consistently recognized as a leading biscuit and confectionery company"
+        }
+      />
+
       {/* Header */}
       <div className="text-center mb-10">
-        <h1 className="text-3xl md:text-4xl font-bold text-yellow-500 mb-4">
-          Awards & Recognition
-        </h1>
-        <p className="text-gray-300 mb-6">
-          Olympic Industries is proud to be consistently recognized as a leading
-          biscuit and confectionery company, <br /> earning a variety of awards
-          and recognitions in several key areas.
-        </p>
-
         {/* Navigation Icons */}
-        <div className="flex justify-center space-x-12 mb-12">
+        <div className="flex justify-center space-x-12 mb-12 mt-10">
           <button
             onClick={() => setActiveSection("innovation")}
             className={`flex flex-col items-center transition-opacity duration-200 ${
