@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 // Mock images - replace with your actual imports
-import bgImage from "../../assets/cookieBG3.jpg";
+import bgImage from "../../assets/Articles and Vlogs.jpg";
 // Press release images
 import press1 from "../../assets/press_release/press1.jpg";
 import press2 from "../../assets/press_release/press3.jpg";
@@ -248,7 +248,7 @@ const Article = () => {
             animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : -20 }}
             transition={{ duration: 1, delay: 0.3 }}
           >
-            CREATIVE <span style={{ color: goldAccent }}>STORIES</span>
+            Articles and <span style={{ color: goldAccent }}>Vlogs</span>
           </motion.h1>
           <motion.p
             className="text-lg text-gray-300 max-w-2xl text-center mb-8"
@@ -256,7 +256,7 @@ const Article = () => {
             animate={{ opacity: isLoaded ? 1 : 0 }}
             transition={{ duration: 1, delay: 0.6 }}
           >
-            Discover our collection of visual stories, interviews, and behind-the-scenes content
+            Discover our articles of visual stories, interviews, and behind-the-scenes content
           </motion.p>
           <motion.div
             initial={{ width: 0 }}
