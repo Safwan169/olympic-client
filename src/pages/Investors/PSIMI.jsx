@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import bgImage from "../../assets/Investors-banner-2.jpg";
+import bgImage from "../../assets/Unclaimed Dividends.jpg";
 import { motion, useAnimation } from "framer-motion";
 
 import {

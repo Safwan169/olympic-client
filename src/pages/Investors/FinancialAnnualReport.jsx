@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import bgImage from "../../assets/Investors-banner-2.jpg";
+import bgImage from "../../assets/Financials & Annual Reports.png";
 
 const brandRed = "#cc0000";
 const goldAccent = "#d4af37";
